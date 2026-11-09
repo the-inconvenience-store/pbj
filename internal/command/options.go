@@ -56,6 +56,8 @@ type options struct {
 	listTypes singleBool
 }
 
+const generalBoard = "general"
+
 func newRoot(opts *options) *cobra.Command {
 	root := &cobra.Command{
 		Use:   "pbjc",
@@ -79,7 +81,7 @@ func newRoot(opts *options) *cobra.Command {
 	flags.StringArrayVarP(&opts.types, "type", "t", nil, "Publish input under this pasteboard type (repeatable)")
 	flags.StringArrayVarP(&opts.files, "file", "f", nil, "Copy a file reference (repeatable; does not read stdin)")
 	flags.VarP(&opts.plain, "plain", "p", "Additional plain-text fallback")
-	opts.board.value = "general"
+	opts.board.value = generalBoard
 	flags.Var(&opts.board, "pboard", "Select general, ruler, find, or font pasteboard (native -pboard spelling accepted)")
 	flags.VarP(&opts.help, "help", "h", "Show help")
 	flags.VarP(&opts.version, "version", "v", "Show version")
@@ -98,7 +100,7 @@ func (opts options) validate(root *cobra.Command) error {
 		return err
 	}
 	switch opts.board.value {
-	case "general", "ruler", "find", "font":
+	case generalBoard, "ruler", "find", "font":
 	default:
 		return fmt.Errorf("unknown pasteboard %q; choose general, ruler, find, or font", opts.board.value)
 	}
@@ -130,8 +132,8 @@ func (opts options) validateModes() error {
 	return nil
 }
 
-// nativeArguments adapts pbcopy's single-dash long options without altering
-// option values, including values that themselves look like flags.
+// nativeArguments adapts pbcopy/pbpaste single-dash long options without
+// altering option values, including values that themselves look like flags.
 func nativeArguments(args []string) []string {
 	normalized := append([]string(nil), args...)
 	for index := 0; index < len(normalized); index++ {
@@ -139,13 +141,16 @@ func nativeArguments(args []string) []string {
 		if arg == "--" {
 			break
 		}
-		if arg == "-help" {
+		switch {
+		case arg == "-help":
 			normalized[index] = "--help"
-		} else if arg == "-pboard" || strings.HasPrefix(arg, "-pboard=") {
+		case arg == "-pboard" || strings.HasPrefix(arg, "-pboard="):
 			normalized[index] = "-" + arg
+		case arg == "-Prefer" || strings.HasPrefix(arg, "-Prefer="):
+			normalized[index] = "--prefer" + strings.TrimPrefix(arg, "-Prefer")
 		}
 		switch arg {
-		case "-t", "--type", "-p", "--plain", "-f", "--file", "-pboard", "--pboard":
+		case "-t", "--type", "-p", "--plain", "-f", "--file", "-pboard", "--pboard", "-Prefer", "--prefer", "--item":
 			index++
 		}
 	}

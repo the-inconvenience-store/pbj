@@ -11,9 +11,9 @@ import (
 
 func TestRejectsAmbiguousInvocations(t *testing.T) {
 	cases := [][]string{
-		{"--help", "-t", typeHTML},
-		{"--help", "-help"},
-		{"--version", "--list-types"},
+		{optionHelp, "-t", typeHTML},
+		{optionHelp, "-help"},
+		{optionVersion, optionListTypes},
 		{optionBoard, "find", optionBoard, "general"},
 		{optionPlain, "first", "-p", "second"},
 		{optionFile, "some-file", optionType, typeHTML},

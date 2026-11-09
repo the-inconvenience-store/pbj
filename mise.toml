@@ -37,7 +37,7 @@ description = "Run Go tests with the race detector"
 run = "sh scripts/go-check.sh test"
 
 [tasks.build]
-description = "Compile Go packages"
+description = "Build pbjc and pbjp executables"
 run = "sh scripts/go-check.sh build"
 
 [tasks.audit]

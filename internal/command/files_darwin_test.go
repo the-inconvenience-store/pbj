@@ -44,7 +44,7 @@ func TestFileReferencesPreserveSelectionAndOrder(t *testing.T) {
 	for index, path := range expected {
 		var actual string
 		for _, rep := range items[index].Representations {
-			if rep.Type == "public.file-url" {
+			if rep.Type == typeFileURL {
 				location, err := url.Parse(string(rep.Data))
 				if err != nil {
 					t.Fatal(err)

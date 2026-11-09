@@ -19,9 +19,10 @@ import (
 // Data fails if another writer changes the board. Close releases the capture,
 // never the clipboard contents. Do not copy a Snapshot.
 type Snapshot struct {
-	mu     sync.Mutex
-	handle *C.pbj_snapshot
-	types  [][]string
+	mu      sync.Mutex
+	boardMu *sync.Mutex // Serialize native access with the originating Board.
+	handle  *C.pbj_snapshot
+	types   [][]string
 }
 
 // Capture inspects the current items and types without reading their payloads.
@@ -37,7 +38,7 @@ func (b *Board) Capture() (*Snapshot, error) {
 	if handle == nil {
 		return nil, nativeFailure(nativeError, "inspect pasteboard")
 	}
-	snapshot := &Snapshot{handle: handle}
+	snapshot := &Snapshot{handle: handle, boardMu: &b.mu}
 	items := unsafe.Slice(handle.items, int(handle.count))
 	snapshot.types = make([][]string, len(items))
 	for i, item := range items {
@@ -54,6 +55,10 @@ func (b *Board) Capture() (*Snapshot, error) {
 // metadata as read-only. It remains available after Close.
 func (s *Snapshot) Types() [][]string { return s.types }
 
+// ErrRepresentationUnavailable means an advertised flavor could not supply data,
+// for example a promised conversion whose owner has already exited.
+var ErrRepresentationUnavailable = errors.New("selected representation is unavailable")
+
 // Data copies only the exact advertised representation into Go ownership.
 // Item indexes are zero-based. No fallback or format conversion is performed.
 func (s *Snapshot) Data(item int, typeName string) ([]byte, error) {
@@ -69,11 +74,17 @@ func (s *Snapshot) Data(item int, typeName string) ([]byte, error) {
 	if index < 0 {
 		return nil, fmt.Errorf("pasteboard item %d has no representation %q", item, typeName)
 	}
+	s.boardMu.Lock()
+	defer s.boardMu.Unlock()
 	var data unsafe.Pointer
 	var length C.size_t
 	var nativeError *C.char
-	owner := C.pbj_snapshot_data(s.handle, C.size_t(item), C.size_t(index), &data, &length, &nativeError)
+	var unavailable C.int
+	owner := C.pbj_snapshot_data(s.handle, C.size_t(item), C.size_t(index), &data, &length, &unavailable, &nativeError)
 	if owner == nil {
+		if unavailable != 0 {
+			return nil, fmt.Errorf("item %d representation %q: %w", item, typeName, ErrRepresentationUnavailable)
+		}
 		return nil, nativeFailure(nativeError, "extract pasteboard representation")
 	}
 	defer C.pbj_release(owner)
@@ -85,6 +96,8 @@ func (s *Snapshot) Close() {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	if s.handle != nil {
+		s.boardMu.Lock()
+		defer s.boardMu.Unlock()
 		C.pbj_snapshot_free(s.handle)
 		s.handle = nil
 	}

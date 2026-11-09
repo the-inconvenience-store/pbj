@@ -4,7 +4,7 @@ Go-based enriched macOS clipboard tools, inspired by
 https://github.com/waynehoover/pbrich.
 
 - `pbjc`: copy to the clipboard.
-- `pbjp`: planned paste command; not part of the initial implementation.
+- `pbjp`: paste from the clipboard.
 
 ## Agent skills
 

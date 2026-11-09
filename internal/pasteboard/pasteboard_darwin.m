@@ -271,7 +271,7 @@ pbj_snapshot *pbj_board_capture(void *board, char **error) {
 }
 
 void *pbj_snapshot_data(pbj_snapshot *snapshot, size_t item_index, size_t type_index,
-                        const void **bytes, size_t *length, char **error) {
+                        const void **bytes, size_t *length, int *unavailable, char **error) {
     @autoreleasepool {
         @try {
             NSPasteboard *board = (__bridge NSPasteboard *)snapshot->board;
@@ -287,7 +287,7 @@ void *pbj_snapshot_data(pbj_snapshot *snapshot, size_t item_index, size_t type_i
                 return NULL;
             }
             if (data == nil) {
-                pbj_error(error, @"selected representation is unavailable");
+                *unavailable = 1;
                 return NULL;
             }
             *bytes = data.bytes;

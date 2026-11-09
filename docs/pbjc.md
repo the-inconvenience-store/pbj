@@ -1,8 +1,8 @@
 # pbjc command reference
 
 `pbjc` publishes stdin bytes or file references to a macOS pasteboard. It is
-inspired by [pbrich](https://github.com/waynehoover/pbrich). `pbjp`, the companion
-paste command, is planned; it is not included.
+inspired by [pbrich](https://github.com/waynehoover/pbrich).
+[`pbjp`](pbjp.md) is the companion paste command.
 
 ## Examples
 

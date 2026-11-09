@@ -21,6 +21,6 @@ case "$operation" in
     exit "$status"
     ;;
   test) exec go test -race ./... ;;
-  build) exec go build -trimpath -o bin/pbjc ./cmd/pbjc ;;
+  build) exec go build -trimpath -o bin/ ./cmd/... ;;
   audit) exec govulncheck ./... ;;
 esac

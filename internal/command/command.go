@@ -1,4 +1,4 @@
-// Package command implements the pbjc command-line interface.
+// Package command implements the pbjc and pbjp command-line interfaces.
 package command
 
 import (

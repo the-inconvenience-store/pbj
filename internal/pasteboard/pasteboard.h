@@ -37,7 +37,7 @@ int pbj_files_add(void *files, const void *path, size_t length,
 int pbj_files_write(void *board, void *files, char **error);
 pbj_snapshot *pbj_board_capture(void *board, char **error);
 void *pbj_snapshot_data(pbj_snapshot *snapshot, size_t item, size_t representation,
-                        const void **data, size_t *length, char **error);
+                        const void **data, size_t *length, int *unavailable, char **error);
 void pbj_snapshot_free(pbj_snapshot *snapshot);
 int pbj_board_close(void *board, int unique, char **error);
 void pbj_release(void *object);

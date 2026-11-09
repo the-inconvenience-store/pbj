@@ -5,7 +5,7 @@ Peanut butter and jelly for the macOS clipboard: enriched `pbcopy` and
 [pbrich](https://github.com/waynehoover/pbrich).
 
 `pbjc` copies text, rich bytes, or file references to a macOS pasteboard.
-`pbjp`, the companion paste command, is planned.
+`pbjp` reads representations or file-reference paths from a pasteboard.
 
 ## Build and install
 
@@ -18,11 +18,12 @@ mise install
 mise run bootstrap
 mise run build
 printf 'Hello, clipboard!\n' | bin/pbjc
+bin/pbjp
 ```
 
-The build produces `bin/pbjc`. Copy that executable to a directory on `PATH`
-to install it. Runtime requires macOS 13 or newer, with no Go installation,
-compiler, helper executable, or daemon. Supported targets are `darwin/arm64`
+The build produces `bin/pbjc` and `bin/pbjp`. Copy those executables to a
+directory on `PATH` to install them. Runtime requires macOS 13 or newer, with
+no Go installation, compiler, helper executable, or daemon. Supported targets are `darwin/arm64`
 and `darwin/amd64`; this is not a claim that both have been exercised.
 
 ```sh
@@ -30,11 +31,17 @@ bin/pbjc < image.png
 printf '<strong>Hello</strong>' | bin/pbjc --type public.html --plain 'Hello'
 bin/pbjc --file ./report.pdf --file ./images
 bin/pbjc --help
+bin/pbjp --list-types
+bin/pbjp --type public.html > clipboard.html
+bin/pbjp --files --null
+bin/pbjp --help
 ```
 
-Copying is silent on success. See the [command reference](docs/pbjc.md) for
-all flags, type detection, locale handling, file references, and failure
-semantics. These examples replace the general pasteboard's contents.
+Copying is silent on success; pasting writes the requested data to stdout.
+See the [copy command reference](docs/pbjc.md) and
+[paste command reference](docs/pbjp.md) for all flags, locale handling, file
+references, and failure semantics. The copy examples replace the general
+pasteboard's contents; paste operations leave it unchanged.
 
 ## Development
 
@@ -48,7 +55,7 @@ mise run check       # Complete local checks, including module verification
 mise run fmt         # Apply formatting and import cleanup
 mise run fmt-check   # Read-only formatting check
 mise run lint        # Validate lint config and analyze Go packages
-mise run build       # Build bin/pbjc
+mise run build       # Build bin/pbjc and bin/pbjp
 mise run test        # Race-enabled tests
 mise run audit       # Vulnerability scan; requires network access
 ```

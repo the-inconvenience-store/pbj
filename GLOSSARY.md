@@ -7,6 +7,9 @@ Vocabulary for enriched copying and pasting on macOS.
 **Clipboard**:
 The macOS pasteboard holding content for transfer between applications.
 
+**Clipboard item**:
+One copied object offered in one or more alternative representations. A clipboard may contain several items, such as several file references.
+
 **Representation**:
 One format in which copied content is offered to a receiving application, identified by a pasteboard type.
 _Avoid_: Conversion, when only the advertised type changes
