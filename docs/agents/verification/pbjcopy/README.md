@@ -1,9 +1,9 @@
 # pbjcopy verification
 
-Rename status: **NOT RUN** for the renamed executable. Fresh source-install/name
-proof is reserved at `../evidence/rename-2026-11-09/report.json`, pending the
-parent's actual run. TextEdit, Preview, and Finder paste outcomes are
-**UNEXERCISED AFTER RENAME**; no historical GUI result is claimed as fresh.
+**Rename/information VERIFIED:** [information and usage checks](../evidence/rename-2026-11-09/pbjcopy-information/report.json)
+and [source installation](../evidence/rename-2026-11-09/report.json).
+TextEdit, Preview, Finder, and clipboard-payload outcomes remain **UNEXERCISED AFTER RENAME**;
+no historical GUI result is claimed as fresh.
 
 ## Surface
 

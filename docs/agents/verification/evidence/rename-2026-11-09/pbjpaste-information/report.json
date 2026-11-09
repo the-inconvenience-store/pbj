@@ -1,0 +1,78 @@
+{
+  "host": {
+    "system": "macOS",
+    "macOS": "26.5.1",
+    "architecture": "arm64",
+    "binaries": {
+      "pbjcopy": "pbjcopy dev",
+      "pbjpaste": "pbjpaste dev"
+    }
+  },
+  "feature": "information",
+  "verdict": "VERIFIED",
+  "actions": [
+    {
+      "action": "pbjpaste --help",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 1184,
+          "sha256": "c89bf0994ea44b9e21d977f46043eb9e6f8f8c367dc920e64ddcee2816115f67"
+        },
+        "clipboard_read": false
+      }
+    },
+    {
+      "action": "pbjpaste -h",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 1184,
+          "sha256": "c89bf0994ea44b9e21d977f46043eb9e6f8f8c367dc920e64ddcee2816115f67"
+        },
+        "clipboard_read": false
+      }
+    },
+    {
+      "action": "pbjpaste -help",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 1184,
+          "sha256": "c89bf0994ea44b9e21d977f46043eb9e6f8f8c367dc920e64ddcee2816115f67"
+        },
+        "clipboard_read": false
+      }
+    },
+    {
+      "action": "pbjpaste --version",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 13,
+          "sha256": "96412db1f7af508ea3b914a2b2bcfa0ebbd184ef5f2d0e9e14c11b5bc4c78f39"
+        },
+        "clipboard_read": false
+      }
+    },
+    {
+      "action": "pbjpaste -v",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 13,
+          "sha256": "96412db1f7af508ea3b914a2b2bcfa0ebbd184ef5f2d0e9e14c11b5bc4c78f39"
+        },
+        "clipboard_read": false
+      }
+    }
+  ],
+  "unexercised": [
+    "find, ruler, and font pasteboards: general-only clipboard consent"
+  ],
+  "clipboard_reset": true,
+  "clipboard_reset_boards": [],
+  "clipboard_untouched": true,
+  "scratch_removed": true,
+  "errors": []
+}

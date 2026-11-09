@@ -36,14 +36,17 @@ suite is supporting evidence, not a substitute for driving the compiled command.
 
 The [release feature map](release/features/README.md) separates local installation
 proof from release-note/version/asset inspection and authenticated publication.
-The renamed commands' source installation and name checks are **NOT RUN** pending
-fresh proof. Authenticated GitHub release/tap publication has not been run; a
-configured secret is not proof of its write authorization.
+The renamed commands' source installation, executable identities, and information
+paths are **VERIFIED**. Authenticated GitHub release/tap publication has not run;
+a configured secret is not proof of its write authorization.
 
 ## Evidence
 
-- Fresh rename/source-install proof is **NOT RUN**. Its reserved report path is
-  `evidence/rename-2026-11-09/report.json`; it is not an observed result yet.
+- [Fresh rename/source-install proof](evidence/rename-2026-11-09/report.json), **VERIFIED**.
+- [Archive identities and both architecture runs](evidence/rename-2026-11-09/archives.json), **VERIFIED**.
+- [Copy information](evidence/rename-2026-11-09/pbjcopy-information/report.json) and
+  [paste information](evidence/rename-2026-11-09/pbjpaste-information/report.json), **VERIFIED**.
+- [Rename evidence and limits](evidence/rename-2026-11-09/README.md).
 - Obsolete command and release captures were retired rather than rewritten to
   imply that the renamed commands ran.
 - Actual TextEdit, Preview, and Finder paste proof is **UNEXERCISED AFTER RENAME**.

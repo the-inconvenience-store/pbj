@@ -1,8 +1,8 @@
 # pbjpaste feature map
 
-Rename status: **NOT RUN** pending fresh source-install/name proof at
-`../../evidence/rename-2026-11-09/report.json`. Clipboard outcomes are
-**UNEXERCISED AFTER RENAME**. No retired report is claimed as a new run.
+**Information VERIFIED:** [fresh read-only proof](../../evidence/rename-2026-11-09/pbjpaste-information/report.json).
+[Source installation/name proof](../../evidence/rename-2026-11-09/report.json) is also
+VERIFIED. Clipboard outcomes remain **UNEXERCISED AFTER RENAME**.
 Use [surface instructions](../README.md) for Launch, Doctor, Evidence, Cleanup,
 and Isolation.
 

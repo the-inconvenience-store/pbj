@@ -1,0 +1,144 @@
+{
+  "verdict": "VERIFIED",
+  "scope": "real local GoReleaser snapshot; no publication or clipboard access",
+  "metadata": {
+    "project_name": "pbj",
+    "tag": "v0.0.0",
+    "previous_tag": "",
+    "version": "0.0.0",
+    "commit": "e0883a4e41aa32c041469d21da8d88062b1d900c",
+    "date": "2026-11-09T18:44:25.932912+10:00",
+    "runtime": {
+      "goos": "darwin",
+      "goarch": "arm64"
+    }
+  },
+  "archives": [
+    {
+      "name": "pbj_0.0.0_darwin_amd64.tar.gz",
+      "sha256": "70dfcf27e52a5003f870ea5bee3651983c368031e06819dc9e43b0102dfa93a6",
+      "matches_manifest": true
+    },
+    {
+      "name": "pbj_0.0.0_darwin_arm64.tar.gz",
+      "sha256": "1d9fc0a4c6ef02ef96842697e750354ab3c7263864e9e614e61884129e6b6c9e",
+      "matches_manifest": true
+    },
+    {
+      "name": "pbj_0.0.0_source.tar.gz",
+      "sha256": "d987ba27c44ed6153448c0c0b9804b28c4779d4a4490b3e68bcf56d51e6cf621",
+      "matches_manifest": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "pbjcopy",
+      "architecture": "arm64",
+      "file": "Mach-O 64-bit executable arm64",
+      "execution": "native arm64",
+      "results": [
+        {
+          "flag": "--version",
+          "exit": 0,
+          "stdout": "pbjcopy 0.0.0\n",
+          "stderr": ""
+        },
+        {
+          "flag": "--help",
+          "exit": 0,
+          "stdout": "[Cobra help verified: correct usage name and reference path]",
+          "stderr": ""
+        },
+        {
+          "flag": "--rename-invalid-option",
+          "exit": 2,
+          "stdout": "",
+          "stderr": "pbjcopy: unknown flag: --rename-invalid-option\n"
+        }
+      ]
+    },
+    {
+      "command": "pbjpaste",
+      "architecture": "arm64",
+      "file": "Mach-O 64-bit executable arm64",
+      "execution": "native arm64",
+      "results": [
+        {
+          "flag": "--version",
+          "exit": 0,
+          "stdout": "pbjpaste 0.0.0\n",
+          "stderr": ""
+        },
+        {
+          "flag": "--help",
+          "exit": 0,
+          "stdout": "[Cobra help verified: correct usage name and reference path]",
+          "stderr": ""
+        },
+        {
+          "flag": "--rename-invalid-option",
+          "exit": 2,
+          "stdout": "",
+          "stderr": "pbjpaste: unknown flag: --rename-invalid-option\n"
+        }
+      ]
+    },
+    {
+      "command": "pbjcopy",
+      "architecture": "amd64",
+      "file": "Mach-O 64-bit executable x86_64",
+      "execution": "x86_64 through Rosetta",
+      "results": [
+        {
+          "flag": "--version",
+          "exit": 0,
+          "stdout": "pbjcopy 0.0.0\n",
+          "stderr": ""
+        },
+        {
+          "flag": "--help",
+          "exit": 0,
+          "stdout": "[Cobra help verified: correct usage name and reference path]",
+          "stderr": ""
+        },
+        {
+          "flag": "--rename-invalid-option",
+          "exit": 2,
+          "stdout": "",
+          "stderr": "pbjcopy: unknown flag: --rename-invalid-option\n"
+        }
+      ]
+    },
+    {
+      "command": "pbjpaste",
+      "architecture": "amd64",
+      "file": "Mach-O 64-bit executable x86_64",
+      "execution": "x86_64 through Rosetta",
+      "results": [
+        {
+          "flag": "--version",
+          "exit": 0,
+          "stdout": "pbjpaste 0.0.0\n",
+          "stderr": ""
+        },
+        {
+          "flag": "--help",
+          "exit": 0,
+          "stdout": "[Cobra help verified: correct usage name and reference path]",
+          "stderr": ""
+        },
+        {
+          "flag": "--rename-invalid-option",
+          "exit": 2,
+          "stdout": "",
+          "stderr": "pbjpaste: unknown flag: --rename-invalid-option\n"
+        }
+      ]
+    }
+  ],
+  "source_entrypoints": [
+    "cmd/pbjcopy/main.go",
+    "cmd/pbjpaste/main.go"
+  ],
+  "owned_extraction_removed": true
+}

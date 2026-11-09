@@ -52,10 +52,10 @@ version proof.
 
 ## Gotchas
 
-**NOT RUN after rename:** fresh installed-command version proof is reserved at
-`../../evidence/rename-2026-11-09/report.json`. Obsolete local Cog/helper and
-installation captures were retired rather than rewritten. A stable published
-version has not been exercised. A Cog bump in the live
+**Installed snapshot versions VERIFIED:** [source install](../../evidence/rename-2026-11-09/report.json)
+and [archive execution](../../evidence/rename-2026-11-09/archives.json) report
+`pbjcopy 0.0.0` and `pbjpaste 0.0.0`. Cog bump and stable publication were not
+rerun for this name-only change. A Cog bump in the live
 checkout is a release action, not a harmless check. Do not move or recreate tags,
 create a snapshot release, or create tags from a GitHub-token workflow to chain
 another workflow. The intentional real bump/push remains release-operator owned.

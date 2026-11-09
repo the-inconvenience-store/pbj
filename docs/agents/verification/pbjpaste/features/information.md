@@ -30,6 +30,8 @@ binary versions and the host OS/architecture. This group performs no native
 clipboard calls and publishes no fixture. Its report records hashes of expected
 information output and `clipboard_untouched: true`.
 
+**VERIFIED after rename:** [current information run](../../evidence/rename-2026-11-09/pbjpaste-information/report.json).
+
 ## Gotchas
 
 Information options are standalone, not a way to suppress an invalid invocation.

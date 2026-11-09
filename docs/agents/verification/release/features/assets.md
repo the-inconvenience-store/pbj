@@ -45,9 +45,9 @@ published release asset list/checksums before claiming remote delivery.
 
 ## Gotchas
 
-**NOT RUN after rename:** fresh snapshot/source-install evidence is reserved at
-`../../evidence/rename-2026-11-09/report.json`. Retired archive/executable captures
-are not renamed as new results. Record each architecture's actual execution
+**VERIFIED after rename:** [real archive execution and checksum proof](../../evidence/rename-2026-11-09/archives.json).
+Each archive contains exactly `pbjcopy` and `pbjpaste` as executable members.
+All four binaries passed version/help/error identity checks. Record execution
 separately; native arm64 or Rosetta execution is not Intel-hardware or macOS 13
 runtime proof. Published downloads have not run. The binaries have no
 Developer ID signature (Go's arm64 linker uses ad-hoc signing); never bypass

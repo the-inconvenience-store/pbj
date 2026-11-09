@@ -1,0 +1,69 @@
+{
+  "host": {
+    "version": "pbjcopy dev",
+    "architecture": "arm64",
+    "macOS": "26.5.1"
+  },
+  "feature": "metadata",
+  "verdict": "VERIFIED",
+  "actions": [
+    {
+      "action": "pbjcopy --help",
+      "observed": {
+        "exit": 0
+      }
+    },
+    {
+      "action": "pbjcopy -help",
+      "observed": {
+        "exit": 0
+      }
+    },
+    {
+      "action": "pbjcopy --version",
+      "observed": {
+        "exit": 0
+      }
+    },
+    {
+      "action": "pbjcopy --list-types",
+      "observed": {
+        "exit": 0
+      }
+    },
+    {
+      "action": "reject ambiguous invocation",
+      "observed": {
+        "arguments": [
+          "--help",
+          "-t",
+          "public.html"
+        ],
+        "exit": 2
+      }
+    },
+    {
+      "action": "reject ambiguous invocation",
+      "observed": {
+        "arguments": [
+          "-pboard",
+          "unknown"
+        ],
+        "exit": 2
+      }
+    },
+    {
+      "action": "reject ambiguous invocation",
+      "observed": {
+        "arguments": [
+          "-f",
+          "missing",
+          "--plain",
+          "text"
+        ],
+        "exit": 2
+      }
+    }
+  ],
+  "scratch_removed": true
+}

@@ -1,8 +1,8 @@
 # pbjcopy feature map
 
-Rename status: **NOT RUN** pending fresh proof at
-`../../evidence/rename-2026-11-09/report.json`. Application paste, including Finder,
-is **UNEXERCISED AFTER RENAME**; source-install/name checks cannot cover it.
+**Command information VERIFIED:** [fresh information proof](../../evidence/rename-2026-11-09/pbjcopy-information/report.json).
+[Source installation/name proof](../../evidence/rename-2026-11-09/report.json) is also
+VERIFIED. Other clipboard/application-paste outcomes remain **UNEXERCISED AFTER RENAME**.
 
 | Feature | User outcome | Driver feature |
 | --- | --- | --- |

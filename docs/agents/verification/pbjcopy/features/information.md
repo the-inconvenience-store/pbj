@@ -23,6 +23,8 @@ The real binary's `--help` and native `-help` expose registered Cobra options;
 version and type listing exit 0. Mixed help/copy options, an invalid board, and
 mixed file/fallback modes exit 2 without stdout output.
 
+**VERIFIED after rename:** [current metadata/usage run](../../evidence/rename-2026-11-09/pbjcopy-information/report.json).
+
 ## Gotchas
 
 The type list is not an allowlist. Do not pin exact help wording or formatting.

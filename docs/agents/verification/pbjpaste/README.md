@@ -1,9 +1,9 @@
 # pbjpaste verification
 
-Rename status: **NOT RUN**. Fresh source-install/name proof is reserved at
-`../evidence/rename-2026-11-09/report.json`, pending the parent's actual run.
-Clipboard extraction and preservation are **UNEXERCISED AFTER RENAME**; retired
-captures are not renamed or claimed as a new live run.
+**Rename/information VERIFIED:** [read-only information checks](../evidence/rename-2026-11-09/pbjpaste-information/report.json)
+and [source installation](../evidence/rename-2026-11-09/report.json).
+Clipboard extraction and preservation remain **UNEXERCISED AFTER RENAME**;
+retired captures are not claimed as a new live run.
 
 ## Surface
 

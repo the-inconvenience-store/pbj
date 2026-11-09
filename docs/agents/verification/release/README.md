@@ -9,9 +9,9 @@ source-built `the-inconvenience-store/tap/pbj` formula. `.goreleaser.yaml`,
 Developer ID/signing/notarization route. Existing clipboard runtime behavior is
 covered by the separate CLI surfaces.
 
-**Rename outcome: NOT RUN.** Fresh source-install/name proof is reserved at
-`../evidence/rename-2026-11-09/report.json`, pending the parent's actual run.
-Obsolete command/release captures were retired, not relabelled as current proof.
+**Rename outcome: VERIFIED.** [Source installation](../evidence/rename-2026-11-09/report.json)
+and [actual archive execution](../evidence/rename-2026-11-09/archives.json) confirm
+the renamed commands. Obsolete captures were retired, not relabelled as fresh proof.
 GitHub publication has not run. `HOMEBREW_TAP_TOKEN` is present in pbj secrets;
 its write authorization remains unexercised. The local driver never publishes.
 
