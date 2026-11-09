@@ -1,53 +1,33 @@
 # Verification
 
-## Status
+## Surfaces
 
-**INCONCLUSIVE — no product surface exists yet.** The approved scope is
-repository setup only. Neither `pbjc` nor `pbjp` is implemented; there are
-no Go packages, CLI flags, clipboard writes, or behavioral tests to drive.
-Do not treat passing development checks as proof of clipboard behavior.
-
-## Surface inventory
-
-| Intended surface | Current state | Verification route |
+| Surface | Choose it for | Route |
 | --- | --- | --- |
-| `pbjc` copy CLI | Not implemented | No launch command or feature map exists yet |
-| `pbjp` paste CLI | Explicitly deferred | No launch command or feature map exists yet |
+| pbjc CLI | Copying stdin, rich representations, file references, and CLI errors | [Launch, Doctor, Drive, Evidence, Cleanup, Isolation](pbjc/README.md) |
 
-No surface directories or executable feature recipes are defined because
-there is no application interface to describe. Do not invent a command,
-flag, build path, or supported pasteboard type from the reference project.
+`pbjp` remains deferred; it has no executable or feature map.
 
-## Read-only repository doctor
+## Consent and evidence
 
-From the repository root after `mise trust` and `mise install`:
+The general clipboard is shared mutable state. Obtain explicit permission before
+running a copy proof. Run serially; do not change the clipboard or interact with
+the test windows concurrently. The driver does not save existing clipboard data
+and leaves `pbjc verification complete` afterward. It closes only its generated
+documents/windows, not the applications or any pre-existing user documents.
 
-```sh
-mise exec -- go list ./...
-mise run check
-```
+All reads follow generated fixture writes. Unexpected clipboard bytes are never
+included in failure reports. Window captures target only generated TextEdit and
+Preview windows, never the desktop. Keep evidence outside cleanup-owned scratch.
 
-At initial setup, `go list` emits `matched no packages`. The check validates
-the analyzer configuration and module checksums, while package operations
-explicitly report `skipped: no Go packages`. That is the expected setup-only
-state, not a verified application feature.
+The [feature map](pbjc/features/README.md) owns coverage. A passing build or test
+suite is supporting evidence, not a substitute for driving the compiled command.
 
-## Establish the first real route
+## Evidence
 
-After a real command is implemented, invoke verification with **Maintain**.
-Inspect its actual entry point, supported behavior, macOS requirements,
-and launch command. Add one surface directory with Launch, Doctor, Drive,
-Evidence, Cleanup, Isolation, and a feature map; follow it end to end before
-marking any feature VERIFIED or adding the verified Agent skills pointer.
+- [Current pbjc live run](evidence/pbjc-2026-11-09/report.json).
+- [Implementation and verification notes](evidence/pbjc-2026-11-09/README.md).
+- [Historical bootstrap evidence](evidence/bootstrap.md), before commands existed.
 
-The macOS pasteboard is shared mutable state. Future clipboard proofs must
-run serially, obtain permission before replacing existing clipboard
-content, avoid recording private clipboard data, and define preservation
-and restoration before driving a copy operation. Do not claim that
-`pbpaste` proves arbitrary rich pasteboard types.
-
-## Setup evidence
-
-See [bootstrap evidence](evidence/bootstrap.md) for exercised guardrails
-and their boundaries. These checks are development-tool evidence, not
-product-surface verification.
+Invoke verification with **Maintain** when flags, launch commands, native
+publication, supported targets, application drivers, or feature outcomes change.

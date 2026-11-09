@@ -1,0 +1,253 @@
+{
+  "host": {
+    "version": "pbjc dev",
+    "architecture": "arm64",
+    "macOS": "26.5.1"
+  },
+  "feature": "all",
+  "verdict": "VERIFIED",
+  "actions": [
+    {
+      "action": "pbjc --help",
+      "observed": {
+        "exit": 0
+      }
+    },
+    {
+      "action": "pbjc -help",
+      "observed": {
+        "exit": 0
+      }
+    },
+    {
+      "action": "pbjc --version",
+      "observed": {
+        "exit": 0
+      }
+    },
+    {
+      "action": "pbjc --list-types",
+      "observed": {
+        "exit": 0
+      }
+    },
+    {
+      "action": "reject ambiguous invocation",
+      "observed": {
+        "arguments": [
+          "--help",
+          "-t",
+          "public.html"
+        ],
+        "exit": 2
+      }
+    },
+    {
+      "action": "reject ambiguous invocation",
+      "observed": {
+        "arguments": [
+          "-pboard",
+          "unknown"
+        ],
+        "exit": 2
+      }
+    },
+    {
+      "action": "reject ambiguous invocation",
+      "observed": {
+        "arguments": [
+          "-f",
+          "missing",
+          "--plain",
+          "text"
+        ],
+        "exit": 2
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 14,
+        "sha256": "344a2dc0a15dd80f51c7132f3a7fb7c17c25f7ab75642f503072814ce4b3ae64"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 21,
+        "sha256": "14ec47262d2278a091e2dec7b930cf16372ce1d3973c59b139e3bcd96c5a58ef"
+      }
+    },
+    {
+      "action": "read public.html after pbjc exited",
+      "observed": {
+        "bytes": 16,
+        "sha256": "914df53f2061a184e5aa4f5ea7e27c16cd7a86fb2ddb59eee04cac214628f20f"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 9,
+        "sha256": "891655104675a24567f6d64cb535b9093d8792948bf40192fa6584deda7f9695"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "action": "read com.example.raw after pbjc exited",
+      "observed": {
+        "bytes": 3,
+        "sha256": "36ef98b33b9466c6d1e56326f9df94a7e723676d2ad03e8ff2b632e58234f9ca"
+      }
+    },
+    {
+      "action": "read com.example.alternate after pbjc exited",
+      "observed": {
+        "bytes": 3,
+        "sha256": "36ef98b33b9466c6d1e56326f9df94a7e723676d2ad03e8ff2b632e58234f9ca"
+      }
+    },
+    {
+      "action": "read public.png after pbjc exited",
+      "observed": {
+        "bytes": 1291,
+        "sha256": "c9437d54b9d2e340394e26815848e040e77f87170521bb344083ce040cae1924"
+      }
+    },
+    {
+      "action": "read public.jpeg after pbjc exited",
+      "observed": {
+        "bytes": 3,
+        "sha256": "6e568e1f67fba258184c78181539e5e8fdee447e49bb706fc0ea34fbf12336a5"
+      }
+    },
+    {
+      "action": "read public.tiff after pbjc exited",
+      "observed": {
+        "bytes": 4,
+        "sha256": "75a2a13326b2a4a0b2265dbc2d0a91bfc7b540f0b10b5b9abd2a3fc9d7b83016"
+      }
+    },
+    {
+      "action": "read public.tiff after pbjc exited",
+      "observed": {
+        "bytes": 4,
+        "sha256": "ea50985d8479da131a150350cb5fc7a94f80a33df6ee4fd53e368624fdff64dd"
+      }
+    },
+    {
+      "action": "read com.adobe.pdf after pbjc exited",
+      "observed": {
+        "bytes": 9,
+        "sha256": "0716f9264c9fe19f5d7455276107f3ddcc1d3497f63d60689a73558ae8a1bf5e"
+      }
+    },
+    {
+      "action": "read public.rtf after pbjc exited",
+      "observed": {
+        "bytes": 13,
+        "sha256": "c93c5ccafde9729f5315509fe05a6fa6f7e2cb3f2cc9a59496fa20f8798b878b"
+      }
+    },
+    {
+      "action": "read com.adobe.encapsulated-postscript after pbjc exited",
+      "observed": {
+        "bytes": 24,
+        "sha256": "8d388b2e89fb96aebfa9df966ffb6d7b97e3fb13c368544e507a81d52ab03035"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 5,
+        "sha256": "850f7dc43910ff890f8879c0ed26fe697c93a067ad93a7d50f466a7028a9bf4e"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 32,
+        "sha256": "06a2f8408a9baea9c42725fba113f5c4c8f15d0294fce40103d447f5ce6c8c04"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 32,
+        "sha256": "06a2f8408a9baea9c42725fba113f5c4c8f15d0294fce40103d447f5ce6c8c04"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 32,
+        "sha256": "06a2f8408a9baea9c42725fba113f5c4c8f15d0294fce40103d447f5ce6c8c04"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 32,
+        "sha256": "06a2f8408a9baea9c42725fba113f5c4c8f15d0294fce40103d447f5ce6c8c04"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjc exited",
+      "observed": {
+        "bytes": 32,
+        "sha256": "06a2f8408a9baea9c42725fba113f5c4c8f15d0294fce40103d447f5ce6c8c04"
+      }
+    },
+    {
+      "action": "pre-publication failures",
+      "observed": "existing generated clipboard payload preserved"
+    },
+    {
+      "action": "pbjc -f FIRST -f SECOND -f FIRST with unreadable stdin",
+      "observed": "two deduplicated ordered file URLs persisted after process exit"
+    },
+    {
+      "action": "Finder Edit \u2192 Paste",
+      "observed": "both files created with exact generated contents; window closed"
+    },
+    {
+      "action": "TextEdit Cmd+V",
+      "observed": "exact plain text saved; generated document closed"
+    },
+    {
+      "action": "TextEdit rich Cmd+V",
+      "observed": {
+        "text": "pbjc bold",
+        "font": "Times-Bold",
+        "saved": "RTF",
+        "closed": true
+      }
+    },
+    {
+      "action": "read public.png after pbjc exited",
+      "observed": {
+        "bytes": 1291,
+        "sha256": "c9437d54b9d2e340394e26815848e040e77f87170521bb344083ce040cae1924"
+      }
+    },
+    {
+      "action": "Preview File \u2192 New from Clipboard",
+      "observed": "generated 256\u00d7256 four-color image rendered; both generated windows closed"
+    }
+  ],
+  "clipboard_reset": true,
+  "scratch_removed": true
+}
