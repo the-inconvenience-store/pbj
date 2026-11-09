@@ -1,0 +1,5 @@
+[changelog]
+template = "remote"
+remote = "github.com"
+owner = "the-inconvenience-store"
+repository = "pbj"

@@ -1,0 +1,6 @@
+/bin/
+/.scratch/
+/mise.local.toml
+/lefthook-local.yml
+/coverage.out
+*.test

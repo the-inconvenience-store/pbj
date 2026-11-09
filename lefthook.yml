@@ -1,0 +1,11 @@
+pre-commit:
+  parallel: false
+  commands:
+    go-checks:
+      glob: "{*.go,**/*.go,go.mod,go.sum,.golangci.yml,mise.toml,scripts/go-check.sh,lefthook.yml}"
+      run: mise run fmt-check && mise run lint
+
+commit-msg:
+  commands:
+    conventional-commit:
+      run: mise exec -- cog verify --file "{1}"
