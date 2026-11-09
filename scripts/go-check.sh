@@ -7,14 +7,6 @@ case "$operation" in
   *) printf 'Unknown Go check: %s\n' "$operation" >&2; exit 2 ;;
 esac
 
-# An initialized module has no packages until implementation starts.
-# go list must succeed: compilation and module errors are not empty projects.
-packages=$(go list ./...)
-if [ -z "$packages" ]; then
-  printf '%s: skipped: no Go packages\n' "$operation"
-  exit 0
-fi
-
 case "$operation" in
   lint) exec golangci-lint run ./... ;;
   fmt) exec golangci-lint fmt ./... ;;
@@ -29,6 +21,6 @@ case "$operation" in
     exit "$status"
     ;;
   test) exec go test -race ./... ;;
-  build) exec go build ./... ;;
+  build) exec go build -trimpath -o bin/pbjc ./cmd/pbjc ;;
   audit) exec govulncheck ./... ;;
 esac
