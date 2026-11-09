@@ -27,7 +27,7 @@ func (cmd Command) information(opts options) error {
 		if version == "" {
 			version = "dev"
 		}
-		_, err := fmt.Fprintf(cmd.Stdout, "pbjc %s\n", version)
+		_, err := fmt.Fprintf(cmd.Stdout, "pbjcopy %s\n", version)
 		return err
 	}
 	_, err := io.WriteString(cmd.Stdout, commonTypes)

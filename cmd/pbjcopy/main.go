@@ -1,4 +1,4 @@
-// Command pbjc copies enriched content to the macOS clipboard.
+// Command pbjcopy copies enriched content to the macOS clipboard.
 package main
 
 import (

@@ -3,9 +3,9 @@ version: 2
 project_name: pbj
 
 builds:
-  - id: pbjc
-    main: ./cmd/pbjc
-    binary: pbjc
+  - id: pbjcopy
+    main: ./cmd/pbjcopy
+    binary: pbjcopy
     goos: [darwin]
     goarch: [arm64, amd64]
     env:
@@ -15,9 +15,9 @@ builds:
     flags: [-trimpath, -mod=readonly]
     ldflags:
       - -s -w -X main.version={{ .Version }}
-  - id: pbjp
-    main: ./cmd/pbjp
-    binary: pbjp
+  - id: pbjpaste
+    main: ./cmd/pbjpaste
+    binary: pbjpaste
     goos: [darwin]
     goarch: [arm64, amd64]
     env:
@@ -30,14 +30,14 @@ builds:
 
 archives:
   - id: macos
-    ids: [pbjc, pbjp]
+    ids: [pbjcopy, pbjpaste]
     formats: [tar.gz]
     name_template: "pbj_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     files:
       - README.md
       - CHANGELOG*
-      - docs/pbjc.md
-      - docs/pbjp.md
+      - docs/pbjcopy.md
+      - docs/pbjpaste.md
 
 source:
   enabled: true

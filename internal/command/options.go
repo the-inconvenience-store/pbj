@@ -60,17 +60,17 @@ const generalBoard = "general"
 
 func newRoot(opts *options) *cobra.Command {
 	root := &cobra.Command{
-		Use:   "pbjc",
+		Use:   "pbjcopy",
 		Short: "Copy stdin or file references to the macOS clipboard",
 		Long: "Copy stdin or file references to the macOS clipboard.\n\n" +
 			"Automatically recognizes PNG, JPEG, TIFF, PDF, RTF, and EPS; other input\n" +
 			"is plain text decoded using LC_ALL, LC_CTYPE, LANG, or the C locale.\n" +
 			"Explicit types label unchanged bytes; they do not convert formats.\n" +
 			"Native pbcopy spellings -help and -pboard are also accepted.\n" +
-			"Informational options must be requested alone. See docs/pbjc.md.",
-		Example: "  printf hello | pbjc\n" +
-			"  printf '<b>hello</b>' | pbjc -t public.html -p hello\n" +
-			"  pbjc -f report.pdf -f screenshot.png",
+			"Informational options must be requested alone. See docs/pbjcopy.md.",
+		Example: "  printf hello | pbjcopy\n" +
+			"  printf '<b>hello</b>' | pbjcopy -t public.html -p hello\n" +
+			"  pbjcopy -f report.pdf -f screenshot.png",
 		Args:               cobra.NoArgs,
 		SilenceErrors:      true,
 		SilenceUsage:       true,

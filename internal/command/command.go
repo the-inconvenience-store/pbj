@@ -1,4 +1,4 @@
-// Package command implements the pbjc and pbjp command-line interfaces.
+// Package command implements the pbjcopy and pbjpaste command-line interfaces.
 package command
 
 import (
@@ -129,7 +129,7 @@ func (cmd Command) prepareRepresentations(opts options) ([]pasteboard.Representa
 }
 
 func (cmd Command) report(code int, err error) int {
-	if _, writeErr := fmt.Fprintf(cmd.Stderr, "pbjc: %v\n", err); writeErr != nil {
+	if _, writeErr := fmt.Fprintf(cmd.Stderr, "pbjcopy: %v\n", err); writeErr != nil {
 		return 1
 	}
 	return code

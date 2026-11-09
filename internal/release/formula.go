@@ -104,13 +104,13 @@ const formulaTemplate = `class Pbj < Formula
     ENV["MACOSX_DEPLOYMENT_TARGET"] = "13.0"
     ENV.append "CGO_CFLAGS", "-mmacosx-version-min=13.0"
 
-    %%w[pbjc pbjp].each do |command|
+    %%w[pbjcopy pbjpaste].each do |command|
       system "go", "build", *std_go_args(output: bin/command, ldflags: "-X main.version=#{version}"), "./cmd/#{command}"
     end
   end
 
   test do
-    %%w[pbjc pbjp].each do |command|
+    %%w[pbjcopy pbjpaste].each do |command|
       assert_equal "#{command} #{version}\n", shell_output("#{bin}/#{command} --version")
       assert_empty shell_output("#{bin}/#{command} --invalid-release-test-option", 2)
     end

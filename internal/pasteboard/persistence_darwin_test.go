@@ -13,7 +13,7 @@ import (
 )
 
 func TestFileReferencesSurviveWriterExit(t *testing.T) {
-	if name := os.Getenv("PBJC_TEST_WRITE_BOARD"); name != "" {
+	if name := os.Getenv("PBJCOPY_TEST_WRITE_BOARD"); name != "" {
 		writeFileReferencesInChild(t, name)
 		return
 	}
@@ -42,7 +42,7 @@ func TestFileReferencesSurviveWriterExit(t *testing.T) {
 	}
 	// #nosec G204 -- The kernel supplies this test binary's path via os.Executable, not argv or user input.
 	writer := exec.Command(executable, "-test.run=^TestFileReferencesSurviveWriterExit$")
-	writer.Env = append(os.Environ(), "PBJC_TEST_WRITE_BOARD="+board.Name(), "PBJC_TEST_WRITE_FILES="+string(encoded))
+	writer.Env = append(os.Environ(), "PBJCOPY_TEST_WRITE_BOARD="+board.Name(), "PBJCOPY_TEST_WRITE_FILES="+string(encoded))
 	if output, err := writer.CombinedOutput(); err != nil {
 		t.Fatalf("writer failed: %v\n%s", err, output)
 	}
@@ -64,7 +64,7 @@ func TestFileReferencesSurviveWriterExit(t *testing.T) {
 func writeFileReferencesInChild(t *testing.T, name string) {
 	t.Helper()
 	var paths []string
-	if err := json.Unmarshal([]byte(os.Getenv("PBJC_TEST_WRITE_FILES")), &paths); err != nil {
+	if err := json.Unmarshal([]byte(os.Getenv("PBJCOPY_TEST_WRITE_FILES")), &paths); err != nil {
 		t.Fatal(err)
 	}
 	board, err := pasteboard.Open(name)

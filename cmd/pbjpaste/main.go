@@ -1,4 +1,4 @@
-// Command pbjp extracts enriched content from the macOS clipboard.
+// Command pbjpaste extracts enriched content from the macOS clipboard.
 package main
 
 import (

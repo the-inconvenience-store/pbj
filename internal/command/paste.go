@@ -47,7 +47,7 @@ func (cmd Command) Paste(args []string) int {
 			if version == "" {
 				version = "dev"
 			}
-			data = fmt.Appendf(nil, "pbjp %s\n", version)
+			data = fmt.Appendf(nil, "pbjpaste %s\n", version)
 		} else {
 			data, err = cmd.readPaste(opts)
 		}
@@ -78,7 +78,7 @@ func (cmd Command) Paste(args []string) int {
 	root.SetErr(cmd.Stderr)
 	executeError := root.Execute()
 	if err := errors.Join(executeError, helpError); err != nil {
-		if _, writeErr := fmt.Fprintf(cmd.Stderr, "pbjp: %v\n", err); writeErr != nil {
+		if _, writeErr := fmt.Fprintf(cmd.Stderr, "pbjpaste: %v\n", err); writeErr != nil {
 			return 1
 		}
 		return code
@@ -88,17 +88,17 @@ func (cmd Command) Paste(args []string) int {
 
 func newPasteRoot(opts *pasteOptions) *cobra.Command {
 	root := &cobra.Command{
-		Use:   "pbjp",
+		Use:   "pbjpaste",
 		Short: "Extract content from the macOS clipboard",
 		Long: "Extract content from the macOS clipboard without changing it.\n\n" +
 			"Default output prefers plain text, EPS, then RTF. Plain text uses\n" +
 			"LC_ALL, LC_CTYPE, LANG, or C encoding; exact types preserve raw bytes.\n" +
 			"Multiple items require --item for ordinary or exact extraction.\n" +
 			"Native -help, -pboard, and -Prefer spellings are accepted.\n" +
-			"Help and version must be requested alone. See docs/pbjp.md.",
-		Example: "  pbjp --list-types\n" +
-			"  pbjp -t public.png > image.png\n" +
-			"  pbjp --files --null",
+			"Help and version must be requested alone. See docs/pbjpaste.md.",
+		Example: "  pbjpaste --list-types\n" +
+			"  pbjpaste -t public.png > image.png\n" +
+			"  pbjpaste --files --null",
 		Args:               cobra.NoArgs,
 		SilenceErrors:      true,
 		SilenceUsage:       true,
