@@ -8,7 +8,7 @@ Peanut butter and jelly for the macOS clipboard: enriched `pbcopy` and
 
 ## Install with Homebrew
 
-After a stable release is published:
+Install the latest stable release:
 
 ```sh
 brew install the-inconvenience-store/tap/pbj

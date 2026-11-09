@@ -7,6 +7,10 @@ names, signatures, email addresses, and usernames from changelog entries.
 GoReleaser publishes GitHub releases and archives; it does not select versions
 or generate a second set of published release notes.
 
+Current stable release: [v0.1.0](https://github.com/the-inconvenience-store/pbj/releases/tag/v0.1.0).
+It is already published; use the automatic bump route for subsequent versions.
+Do not recreate or move the existing tag.
+
 ## Prepare publication
 
 Before the first release:

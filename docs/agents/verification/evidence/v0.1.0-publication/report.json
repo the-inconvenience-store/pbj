@@ -1,0 +1,288 @@
+{
+  "verdict": "VERIFIED",
+  "release_url": "https://github.com/the-inconvenience-store/pbj/releases/tag/v0.1.0",
+  "tag": "v0.1.0",
+  "published_at": "2026-11-09T08:56:52Z",
+  "workflow": {
+    "conclusion": "success",
+    "headSha": "6e28bdc9d800477a06e0c4e0826d3d0ed7b1bc49",
+    "jobs": [
+      {
+        "completedAt": "2026-11-09T08:56:56Z",
+        "conclusion": "success",
+        "databaseId": 129066986610,
+        "name": "Publish GitHub release",
+        "startedAt": "2026-11-09T08:54:56Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-09T08:54:57Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-09T08:54:56Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:55:00Z",
+            "conclusion": "success",
+            "name": "Check out complete release history",
+            "number": 2,
+            "startedAt": "2026-11-09T08:54:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:55:28Z",
+            "conclusion": "success",
+            "name": "Install pinned tools",
+            "number": 3,
+            "startedAt": "2026-11-09T08:55:00Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:55:30Z",
+            "conclusion": "success",
+            "name": "Validate stable release tag",
+            "number": 4,
+            "startedAt": "2026-11-09T08:55:28Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:56:25Z",
+            "conclusion": "success",
+            "name": "Run complete repository checks",
+            "number": 5,
+            "startedAt": "2026-11-09T08:55:30Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:56:30Z",
+            "conclusion": "success",
+            "name": "Check release configuration and tooling",
+            "number": 6,
+            "startedAt": "2026-11-09T08:56:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:56:30Z",
+            "conclusion": "success",
+            "name": "Select committed author-free notes for the exact tag",
+            "number": 7,
+            "startedAt": "2026-11-09T08:56:30Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:56:52Z",
+            "conclusion": "success",
+            "name": "Publish source and two-command macOS archives",
+            "number": 8,
+            "startedAt": "2026-11-09T08:56:30Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:56:53Z",
+            "conclusion": "success",
+            "name": "Post Install pinned tools",
+            "number": 15,
+            "startedAt": "2026-11-09T08:56:52Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:56:53Z",
+            "conclusion": "success",
+            "name": "Post Check out complete release history",
+            "number": 16,
+            "startedAt": "2026-11-09T08:56:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:56:53Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-09T08:56:53Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/the-inconvenience-store/pbj/actions/runs/42589385732/job/129066986610"
+      },
+      {
+        "completedAt": "2026-11-09T08:57:49Z",
+        "conclusion": "success",
+        "databaseId": 129067828848,
+        "name": "Publish Homebrew formula",
+        "startedAt": "2026-11-09T08:57:00Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-09T08:57:02Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-09T08:57:00Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:04Z",
+            "conclusion": "success",
+            "name": "Check out trusted tooling to validate the requested tag",
+            "number": 2,
+            "startedAt": "2026-11-09T08:57:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:16Z",
+            "conclusion": "success",
+            "name": "Install pinned Go for tag validation",
+            "number": 3,
+            "startedAt": "2026-11-09T08:57:04Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:39Z",
+            "conclusion": "success",
+            "name": "Validate stable release tag before checkout or download",
+            "number": 4,
+            "startedAt": "2026-11-09T08:57:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:41Z",
+            "conclusion": "success",
+            "name": "Check out the validated release tag with full history",
+            "number": 5,
+            "startedAt": "2026-11-09T08:57:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:41Z",
+            "conclusion": "success",
+            "name": "Install the release tag's pinned Go",
+            "number": 6,
+            "startedAt": "2026-11-09T08:57:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:42Z",
+            "conclusion": "success",
+            "name": "Download this published stable release's source asset",
+            "number": 7,
+            "startedAt": "2026-11-09T08:57:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:44Z",
+            "conclusion": "success",
+            "name": "Publish source-built formula to the tap",
+            "number": 8,
+            "startedAt": "2026-11-09T08:57:42Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:45Z",
+            "conclusion": "success",
+            "name": "Post Check out the validated release tag with full history",
+            "number": 14,
+            "startedAt": "2026-11-09T08:57:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:45Z",
+            "conclusion": "success",
+            "name": "Post Install pinned Go for tag validation",
+            "number": 15,
+            "startedAt": "2026-11-09T08:57:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:46Z",
+            "conclusion": "success",
+            "name": "Post Check out trusted tooling to validate the requested tag",
+            "number": 16,
+            "startedAt": "2026-11-09T08:57:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-09T08:57:47Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 17,
+            "startedAt": "2026-11-09T08:57:46Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/the-inconvenience-store/pbj/actions/runs/42589385732/job/129067828848"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/the-inconvenience-store/pbj/actions/runs/42589385732"
+  },
+  "release_body_matches_committed_notes": true,
+  "release_body_contains_no_personal_identity": true,
+  "checksums": {
+    "pbj_0.1.0_darwin_amd64.tar.gz": "af7337e0f565675ef9d78fcc394afa85ce25b6b8882cf61b5386ab86ada967ae",
+    "pbj_0.1.0_darwin_arm64.tar.gz": "f5f33a1c554a5c1da9130c72de6189ca79ccab1243206c822dce4cb3cf62de16",
+    "pbj_0.1.0_source.tar.gz": "f436db1cbd53352d761189c866455bccbdb0e0e3b3a18c80f2e13da8e7e6fd35"
+  },
+  "tap_blob_sha": "00c6113a56789f444c6e5e8090ab357a08039906",
+  "tap_commit": "fc25b3d93a87c4b7d7e6dc224d8b7daebded5f0f",
+  "tap_url": "https://github.com/the-inconvenience-store/homebrew-tap/commit/fc25b3d93a87c4b7d7e6dc224d8b7daebded5f0f",
+  "tap_formula_matches_actual_source_checksum_and_generator": true,
+  "tap_author_and_committer": "github-actions[bot]",
+  "retry_dispatch_and_no_op_not_exercised": true,
+  "published_binary_execution": [
+    {
+      "command": "pbjcopy",
+      "architecture": "arm64",
+      "execution": "native arm64",
+      "version_stdout": "pbjcopy 0.1.0\n",
+      "version_exit": 0,
+      "help_exit": 0,
+      "invalid_exit": 2,
+      "invalid_stderr": "pbjcopy: unknown flag: --published-invalid-option\n"
+    },
+    {
+      "command": "pbjpaste",
+      "architecture": "arm64",
+      "execution": "native arm64",
+      "version_stdout": "pbjpaste 0.1.0\n",
+      "version_exit": 0,
+      "help_exit": 0,
+      "invalid_exit": 2,
+      "invalid_stderr": "pbjpaste: unknown flag: --published-invalid-option\n"
+    },
+    {
+      "command": "pbjcopy",
+      "architecture": "amd64",
+      "execution": "x86_64 through Rosetta",
+      "version_stdout": "pbjcopy 0.1.0\n",
+      "version_exit": 0,
+      "help_exit": 0,
+      "invalid_exit": 2,
+      "invalid_stderr": "pbjcopy: unknown flag: --published-invalid-option\n"
+    },
+    {
+      "command": "pbjpaste",
+      "architecture": "amd64",
+      "execution": "x86_64 through Rosetta",
+      "version_stdout": "pbjpaste 0.1.0\n",
+      "version_exit": 0,
+      "help_exit": 0,
+      "invalid_exit": 2,
+      "invalid_stderr": "pbjpaste: unknown flag: --published-invalid-option\n"
+    }
+  ],
+  "source_prefix": "pbj_0.1.0/",
+  "published_source_entrypoints_verified": true,
+  "clipboard_untouched": true,
+  "owned_download_and_extraction_scratch_removed": true,
+  "release_body_sha256": "948bd25bb354e9a4d7c7237ad79b2b93c58901f38ca0fe7403944329d859e98d",
+  "source_commit": "6e28bdc9d800477a06e0c4e0826d3d0ed7b1bc49",
+  "published_formula_install_not_exercised": true,
+  "limits": [
+    "Homebrew source installation was proved using the prior local snapshot; published v0.1.0 recipe was verified but not installed locally",
+    "x86_64 executed through Rosetta, not Intel hardware",
+    "macOS 13 runtime not exercised",
+    "recovery dispatch and duplicate-publication no-op not exercised"
+  ]
+}

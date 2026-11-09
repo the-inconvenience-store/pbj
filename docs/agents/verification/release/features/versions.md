@@ -52,10 +52,8 @@ version proof.
 
 ## Gotchas
 
-**Installed snapshot versions VERIFIED:** [source install](../../evidence/rename-2026-11-09/report.json)
-and [archive execution](../../evidence/rename-2026-11-09/archives.json) report
-`pbjcopy 0.0.0` and `pbjpaste 0.0.0`. Cog bump and stable publication were not
-rerun for this name-only change. A Cog bump in the live
-checkout is a release action, not a harmless check. Do not move or recreate tags,
-create a snapshot release, or create tags from a GitHub-token workflow to chain
-another workflow. The intentional real bump/push remains release-operator owned.
+**Published v0.1.0 VERIFIED:** [real hosted publication and downloaded executable runs](../../evidence/v0.1.0-publication/report.json)
+connect the Cog-created stable tag to `pbjcopy 0.1.0` and `pbjpaste 0.1.0` on
+both architectures. Earlier local snapshot versions remain `0.0.0` intentionally.
+Never move or recreate the published tag. Subsequent release bumps/pushes remain
+intentional release-operator actions.

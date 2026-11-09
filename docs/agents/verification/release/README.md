@@ -12,8 +12,9 @@ covered by the separate CLI surfaces.
 **Rename outcome: VERIFIED.** [Source installation](../evidence/rename-2026-11-09/report.json)
 and [actual archive execution](../evidence/rename-2026-11-09/archives.json) confirm
 the renamed commands. Obsolete captures were retired, not relabelled as fresh proof.
-GitHub publication has not run. `HOMEBREW_TAP_TOKEN` is present in pbj secrets;
-its write authorization remains unexercised. The local driver never publishes.
+**v0.1.0 publication VERIFIED:** [hosted workflow, release body, downloads, and tap state](../evidence/v0.1.0-publication/report.json).
+The tap credential successfully wrote its default branch without exposing its value.
+The local source driver remains separate and never publishes.
 
 ## Launch
 

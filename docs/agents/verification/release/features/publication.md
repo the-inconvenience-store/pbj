@@ -11,8 +11,8 @@ identity.
 ## How to reach it
 
 Follow [release operations](../../../../releases.md). The public
-`the-inconvenience-store/homebrew-tap` exists and pbj secret metadata confirms
-`HOMEBREW_TAP_TOKEN` is present. Its authorization/default-branch write is unexercised.
+`the-inconvenience-store/homebrew-tap` exists. Its `v0.1.0` default-branch write
+through `HOMEBREW_TAP_TOKEN` was verified without retrieving the credential's value.
 The release job uses only its scoped automatic GitHub token; only the tap job
 receives the separate tap credential. Human provisioning/authorization is outside
 the local install proof and outside this driver's permissions.
@@ -58,12 +58,10 @@ extra commits, not credential/authentication headers or personal commit metadata
 
 ## Gotchas
 
-**Not run:** no production release/formula action was authorized or performed.
-The configured secret's value was never retrieved. First public release approval
-is required before pushing a version commit/tag or triggering publication.
-Secret presence cannot stand in for token authorization. Missing credentials or rejected writes must fail
-clearly, not silently pass. Read-only inspection and stateful `httptest` evidence
-must remain labeled as such. Snapshot source install consent does not authorize
-remote publication. A failed release job needs release-state inspection, not a
-tap-only retry; never move/recreate a released tag or use GitHub-token-created tags
-to chain workflows. An older-tag retry is rejected if the tap already offers a newer version.
+**v0.1.0 VERIFIED:** [successful hosted release and tap jobs, downloaded assets,
+and durable formula state](../../evidence/v0.1.0-publication/report.json).
+The formula matches the actual source checksum and uses a bot author/committer.
+The credential's value was never retrieved. Recovery dispatch and identical
+publication/no-op have not been exercised; first publication does not prove them.
+Never move/recreate the published tag. A failed release job needs release-state
+inspection, not a tap-only retry. Older-tag retries reject a newer tap version.

@@ -37,8 +37,8 @@ suite is supporting evidence, not a substitute for driving the compiled command.
 The [release feature map](release/features/README.md) separates local installation
 proof from release-note/version/asset inspection and authenticated publication.
 The renamed commands' source installation, executable identities, and information
-paths are **VERIFIED**. Authenticated GitHub release/tap publication has not run;
-a configured secret is not proof of its write authorization.
+paths are **VERIFIED**. Authenticated `v0.1.0` GitHub release/tap publication and
+downloaded asset/version checks are also **VERIFIED**, including the tap write.
 
 ## Evidence
 
@@ -47,6 +47,7 @@ a configured secret is not proof of its write authorization.
 - [Copy information](evidence/rename-2026-11-09/pbjcopy-information/report.json) and
   [paste information](evidence/rename-2026-11-09/pbjpaste-information/report.json), **VERIFIED**.
 - [Rename evidence and limits](evidence/rename-2026-11-09/README.md).
+- [Published v0.1.0 workflow, notes, assets, and tap proof](evidence/v0.1.0-publication/report.json), **VERIFIED**.
 - Obsolete command and release captures were retired rather than rewritten to
   imply that the renamed commands ran.
 - Actual TextEdit, Preview, and Finder paste proof is **UNEXERCISED AFTER RENAME**.
