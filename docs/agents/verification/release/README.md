@@ -52,6 +52,10 @@ owned `HOMEBREW_CACHE`, `HOMEBREW_LOGS`, and `HOMEBREW_TEMP` directories. Never
 repair permissions or run Homebrew as root. After a surprising result, rerun Doctor
 before another drive. Tool/provisioning failures are not installation proof.
 
+The driver also uses scratch-owned `XDG_CONFIG_HOME`. On Homebrew versions with
+explicit tap trust, it trusts only the generated local tap there; the user's
+trust configuration is unchanged and the temporary trust is removed with scratch.
+
 ## Drive
 
 Obtain consent for an actual source install and possible retained dependency

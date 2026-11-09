@@ -56,6 +56,7 @@ def environment(scratch):
         "HOMEBREW_CACHE": str(scratch / "cache"),
         "HOMEBREW_LOGS": str(scratch / "logs"),
         "HOMEBREW_TEMP": str(scratch / "temp"),
+        "XDG_CONFIG_HOME": str(scratch / "config"),
         "HOMEBREW_NO_AUTO_UPDATE": "1",
         "HOMEBREW_NO_INSTALL_CLEANUP": "1",
         "HOMEBREW_NO_ANALYTICS": "1",
@@ -72,7 +73,7 @@ def environment(scratch):
         "TMPDIR": str(scratch / "temp"),
         "LC_ALL": "en_US.UTF-8",
     })
-    for name in ("cache", "logs", "temp", "go-build", "rubocop"):
+    for name in ("cache", "logs", "temp", "go-build", "rubocop", "config"):
         (scratch / name).mkdir()
     return env
 
@@ -161,13 +162,17 @@ class Driver:
                 "Homebrew Cellar is not writable; do not change permissions")
         # Reading help detects isolation support without installing anything.
         help_output = self.brew_run("install", "--help")[1].decode()
+        trust_code, _, _ = self.brew_run("trust", "--help", check=False)
         return {"system": "macOS", "architecture": platform.machine(), "tools": versions,
                 "skip_link_supported": "--skip-link" in help_output,
+                "tap_trust_supported": trust_code == 0,
                 "helper": "help and stable snapshot-tag validation succeeded",
                 "scope": "readiness only; no formula/tap install, release, or clipboard access"}
 
     def inventory(self):
-        return set(self.brew_run("list", "--formula", "--versions")[1].decode().splitlines())
+        rows = set(self.brew_run("list", "--formula", "--versions")[1].decode().splitlines())
+        self.actions[-1]["stdout"] = str(len(rows)) + " installed formula entries; names omitted"
+        return rows
 
     def link_state(self):
         result = {}
@@ -244,6 +249,9 @@ class Driver:
         formula_dir.mkdir()
         formula_path = formula_dir / "pbj.rb"
         formula_path.write_text(generated)
+        if host["tap_trust_supported"]:
+            # Trust only this owned tap, in the scratch-owned XDG configuration.
+            self.brew_run("trust", "--tap", self.tap)
         loaded = self.formula_info()
         require(loaded["versions"]["stable"] == "0.0.0", "Homebrew loaded a different version")
         require(loaded["urls"]["stable"]["url"] == canonical,

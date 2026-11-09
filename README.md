@@ -16,6 +16,9 @@ pbjc --version
 pbjp --version
 ```
 
+If Homebrew refuses to load an untrusted tap, review its `Formula/pbj.rb`, run
+`brew trust --tap the-inconvenience-store/tap`, and retry the install.
+
 The formula builds both commands from the release's source archive on macOS
 13 or newer. It requires Apple Command Line Tools (`xcode-select --install`);
 Homebrew supplies Go as a build dependency. It is not a cask or a prebuilt bottle
