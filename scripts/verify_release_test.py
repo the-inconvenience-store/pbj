@@ -64,6 +64,23 @@ class ProcessOwnershipTest(unittest.TestCase):
                 cleanup = driver.cleanup()
                 self.assertEqual(cleanup["errors"], [])
 
+    def test_cleanup_removes_its_owned_readonly_module_cache(self):
+        with tempfile.TemporaryDirectory(prefix="pbj-cleanup-", dir="/tmp") as directory:
+            scratch = Path(directory) / "scratch"
+            scratch.mkdir()
+            driver = Driver(scratch)
+            cache = scratch / "module-cache"
+            cache.mkdir()
+            (cache / "source.go").write_text("package fixture\n")
+            cache.chmod(0o555)
+            try:
+                cleanup = driver.cleanup()
+                self.assertEqual(cleanup["errors"], [])
+                self.assertFalse(scratch.exists())
+            finally:
+                if cache.exists():
+                    cache.chmod(0o700)
+
 
 if __name__ == "__main__":
     unittest.main()

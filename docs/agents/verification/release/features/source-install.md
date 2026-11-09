@@ -37,7 +37,7 @@ executes both installed binaries with help/version/invalid arguments. It uses
 The generated canonical URL names the exact release tag/archive and its SHA256
 matches the actual source bytes. Comparing saved formulas shows only the URL
 changed; build/test/version/checksum logic remains identical. Homebrew loader/style
-succeed, `brew install --build-from-source` and `brew test` succeed, both installed
+succeed, `brew install --build-from-source` and `brew test --force` succeed, both installed
 versions are `0.0.0`, and the durable receipt says neither poured nor built as a
 bottle. Help succeeds, invalid usage exits 2, and no clipboard payload is read or
 written. Cleanup errors are empty, owned scratch/tap are gone, original command

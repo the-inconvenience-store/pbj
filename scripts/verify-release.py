@@ -78,6 +78,20 @@ def environment(scratch):
     return env
 
 
+def remove_scratch(scratch):
+    root = scratch.resolve()
+
+    def retry_owned_readonly(function, path, error):
+        parent = Path(path).parent.resolve()
+        if not isinstance(error[1], PermissionError) or not parent.is_relative_to(root):
+            raise error[1]
+        # Go module caches have read-only directories. Never chmod shared paths.
+        parent.chmod(parent.stat().st_mode | 0o700)
+        function(path)
+
+    shutil.rmtree(scratch, onerror=retry_owned_readonly)
+
+
 class Driver:
     def __init__(self, scratch, evidence=None):
         self.scratch = scratch
@@ -298,7 +312,7 @@ class Driver:
                 "installed receipt belongs to a different tap")
         (self.evidence / "install-receipt.json").write_text(
             redact(json.dumps(receipt, indent=2), self.scratch, self.evidence) + "\n")
-        self.brew_run("test", self.formula, timeout=180)
+        self.brew_run("test", "--force", self.formula, timeout=180)
         for name in ("pbjc", "pbjp"):
             executable = keg / "bin" / name
             require(executable.is_file() and os.access(executable, os.X_OK),
@@ -367,13 +381,13 @@ class Driver:
             except OSError as error:
                 errors.append("log evidence capture failed: " + redact(error, self.scratch, self.evidence))
         try:
-            shutil.rmtree(self.scratch)
+            remove_scratch(self.scratch)
         except OSError as error:
             errors.append(redact(error, self.scratch, self.evidence))
         return {"errors": errors, "scratch_removed": not self.scratch.exists(),
                 "tap_removed": self.tap_path is None or not self.tap_path.exists(),
                 "added_dependencies_retained": added,
-                "dependency_policy": "never uninstall dependencies; no upgrades/autoremove/analytics",
+                "dependency_policy": "retain dependency additions/updates; never uninstall or autoremove them",
                 "other_side_effects": "Homebrew style may install its own Ruby/bundler tooling",
                 "clipboard_untouched": True}
 

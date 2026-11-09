@@ -49,7 +49,7 @@ scratch/cache are permitted inside its owned temporary directory.
 
 Homebrew's usual cache may be root-owned. Every driver subprocess instead receives
 owned `HOMEBREW_CACHE`, `HOMEBREW_LOGS`, and `HOMEBREW_TEMP` directories. Never
-repair permissions or run Homebrew as root. After a surprising result, rerun Doctor
+repair shared cache permissions or run Homebrew as root. After a surprising result, rerun Doctor
 before another drive. Tool/provisioning failures are not installation proof.
 
 The driver also uses scratch-owned `XDG_CONFIG_HOME`. On Homebrew versions with
@@ -75,14 +75,15 @@ Git initialization or personal identity). It checks the generated formula with
 Homebrew's real loader and style command. It replaces **only the generated URL**
 with its owned loopback archive URL, retaining exact SHA256, version, build, and
 test logic; it loads/styles that formula too. It actually runs
-`brew install --build-from-source`, `brew test`, both installed commands' version
+`brew install --build-from-source`, `brew test --force`, both installed commands' version
 and help, and invalid-argument smoke checks. No current clipboard contents are
 read or written.
 
 `--skip-link` is preferred when available. A pre-existing `pbj` Cellar path always
 aborts, because taps share that path. Without skip-link support, existing
 Homebrew-prefix `pbjc`/`pbjp` files or links abort before installation. The driver
-does not replace unrelated executables elsewhere or use overwrite/force flags.
+does not replace unrelated executables or force installation/linking. The test-only
+`--force` permits testing the unlinked keg; it does not overwrite commands.
 The private installed paths in the helper are implementation details, not user
 command instructions. Installed users invoke `pbjc` and `pbjp` normally.
 
@@ -114,10 +115,13 @@ links remain unchanged. `scratch_removed` and `tap_removed` must be true and
 `cleanup.errors` empty for success. It will report rather than delete a keg whose
 ownership cannot be established after an interrupted/failed installation.
 
-New dependencies are reported in `added_dependencies_retained` and are never
-uninstalled. Homebrew style can also populate its own Ruby/bundler tooling.
-Auto-update, install-upgrade, dependent upgrades, automatic cleanup, and analytics
-are disabled; never run a global upgrade, cleanup, or autoremove as verification.
+Dependency additions and updates are reported in `added_dependencies_retained`
+and never uninstalled. Homebrew may update a build dependency even with automatic
+updates/install upgrades disabled; this is not a promise to freeze existing dependencies.
+Homebrew style can also populate its own Ruby/bundler tooling. Never run a global
+upgrade, cleanup, or autoremove as verification. Read-only directories inside the
+owned scratch are made writable only as needed to delete that scratch; shared
+cache permissions remain untouched.
 If cleanup reports an ownership ambiguity, inspect the receipt and the exact
 recorded tap before taking action; do not uninstall an unrelated user's `pbj`.
 
