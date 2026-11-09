@@ -1,0 +1,66 @@
+{
+  "verdict": "VERIFIED",
+  "scope": "actual local GoReleaser snapshot archives; not remote publication",
+  "source_commit": "1c93d9f2ed5bd714f8c07a164111b25dd7e10ff0",
+  "assets": [
+    {
+      "name": "pbj_0.0.0_darwin_amd64.tar.gz",
+      "sha256": "64146611884c139a177e4fb2e911c3f6036134b191ac069a6870a3837e3a352b",
+      "manifest_match": true
+    },
+    {
+      "name": "pbj_0.0.0_darwin_arm64.tar.gz",
+      "sha256": "fe7deeb5ef1182b186aa173c81274894fa95d49ad31e225a500628686bd4560c",
+      "manifest_match": true
+    },
+    {
+      "name": "pbj_0.0.0_source.tar.gz",
+      "sha256": "4d74616291fcfb82cb3f0ce20a4b80f53cc78494eccd5cb558b9b39904fe4d5c",
+      "manifest_match": true
+    }
+  ],
+  "binaries": [
+    {
+      "architecture": "arm64",
+      "command": "pbjc",
+      "file": "Mach-O 64-bit executable arm64",
+      "version": "pbjc 0.0.0",
+      "help_exit": 0,
+      "execution": "native arm64",
+      "signature": "ad-hoc",
+      "developer_id_authority_absent": true
+    },
+    {
+      "architecture": "arm64",
+      "command": "pbjp",
+      "file": "Mach-O 64-bit executable arm64",
+      "version": "pbjp 0.0.0",
+      "help_exit": 0,
+      "execution": "native arm64",
+      "signature": "ad-hoc",
+      "developer_id_authority_absent": true
+    },
+    {
+      "architecture": "amd64",
+      "command": "pbjc",
+      "file": "Mach-O 64-bit executable x86_64",
+      "version": "pbjc 0.0.0",
+      "help_exit": 0,
+      "execution": "x86_64 via Rosetta on arm64",
+      "signature": "unsigned",
+      "developer_id_authority_absent": true
+    },
+    {
+      "architecture": "amd64",
+      "command": "pbjp",
+      "file": "Mach-O 64-bit executable x86_64",
+      "version": "pbjp 0.0.0",
+      "help_exit": 0,
+      "execution": "x86_64 via Rosetta on arm64",
+      "signature": "unsigned",
+      "developer_id_authority_absent": true
+    }
+  ],
+  "owned_extraction_removed": true,
+  "host_macos_version": "26.5.1"
+}

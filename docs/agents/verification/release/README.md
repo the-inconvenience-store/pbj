@@ -9,10 +9,11 @@ source-built `the-inconvenience-store/tap/pbj` formula. `.goreleaser.yaml`,
 Developer ID/signing/notarization route. Existing clipboard runtime behavior is
 covered by the separate CLI surfaces.
 
-**Current outcome: pending parent orchestration; no live release proof recorded
-here.** The public tap repository has been created, but that alone does not prove
-its credential, GitHub release assets, or formula publication. The local driver
-never creates a remote repository, tag, secret, release, or commit.
+**Local outcome: VERIFIED.** Real Cog bumps and exact committed-note selection,
+GoReleaser source/binary archives, and a native Homebrew source install/test ran
+successfully. See [evidence and limits](../evidence/release-2026-11-09-verified/README.md).
+GitHub publication has not run. `HOMEBREW_TAP_TOKEN` is present in pbj secrets;
+its write authorization remains unexercised. The local driver never publishes.
 
 ## Launch
 

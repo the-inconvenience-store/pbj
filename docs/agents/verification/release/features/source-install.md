@@ -45,8 +45,8 @@ links are preserved, and retained new dependencies are explicitly reported.
 
 ## Gotchas
 
-Status is **pending** until the parent runs/inspects this driver. Local
-`VERIFIED` is not GitHub release/tap publication proof. Never publish the snapshot
+**VERIFIED:** [real source install, formula test, command smoke, and cleanup](../../evidence/release-2026-11-09-verified/report.json).
+This is not GitHub release/tap publication proof. Never publish the snapshot
 fixture. Existing `pbj` installation always aborts; without skip-link support,
 conflicting prefix command links also abort. Never fix root-owned global caches
 or uninstall shared Go: the driver uses owned temporary cache/log/temp locations.

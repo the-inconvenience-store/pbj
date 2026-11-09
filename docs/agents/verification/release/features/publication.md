@@ -11,8 +11,8 @@ identity.
 ## How to reach it
 
 Follow [release operations](../../../../releases.md). The public
-`the-inconvenience-store/homebrew-tap` repository has been created; that does not
-prove `HOMEBREW_TAP_TOKEN` exists, is authorized, or can write its default branch.
+`the-inconvenience-store/homebrew-tap` exists and pbj secret metadata confirms
+`HOMEBREW_TAP_TOKEN` is present. Its authorization/default-branch write is unexercised.
 The release job uses only its scoped automatic GitHub token; only the tap job
 receives the separate tap credential. Human provisioning/authorization is outside
 the local install proof and outside this driver's permissions.
@@ -46,7 +46,7 @@ failure deliberately, change secrets, or republish an old version as a test.
 
 ## Proof
 
-The release exists as stable, notes match exact-tag author-free Cog output, and
+The release exists as stable, notes match its committed exact-tag Cog section, and
 the named source asset is downloadable/checksummed. The tap formula's version,
 source URL, and SHA256 match that actual asset. Source installation is proved
 separately; the workflow does not publish bottles, casks, signed binaries, or
@@ -58,11 +58,12 @@ extra commits, not credential/authentication headers or personal commit metadata
 
 ## Gotchas
 
-Status is **pending / not live proof**. No production release/formula action was
-performed by this assignment or its driver. Repository existence cannot stand in
-for token authorization. Missing tap credentials or rejected writes must fail
+**Not run:** no production release/formula action was authorized or performed.
+The configured secret's value was never retrieved. First public release approval
+is required before pushing a version commit/tag or triggering publication.
+Secret presence cannot stand in for token authorization. Missing credentials or rejected writes must fail
 clearly, not silently pass. Read-only inspection and stateful `httptest` evidence
 must remain labeled as such. Snapshot source install consent does not authorize
 remote publication. A failed release job needs release-state inspection, not a
 tap-only retry; never move/recreate a released tag or use GitHub-token-created tags
-to chain workflows. An older-tag retry deliberately selects that older formula.
+to chain workflows. An older-tag retry is rejected if the tap already offers a newer version.

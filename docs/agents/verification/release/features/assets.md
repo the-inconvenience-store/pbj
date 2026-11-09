@@ -45,9 +45,9 @@ published release asset list/checksums before claiming remote delivery.
 
 ## Gotchas
 
-Status is **pending**. GoReleaser source archives use committed source; a snapshot
-binary built from a dirty tree is not proof that the source archive contains that
-change. Building Intel binaries does not prove running them; native arm64 proof
-must not imply Rosetta/Intel coverage. A macOS 13 deployment target is not evidence
-of a macOS 13 runtime run. Unsigned binary downloads can be blocked by macOS
-security policy; never bypass quarantine/Gatekeeper as a verification shortcut.
+**Snapshot VERIFIED:** [archive checksums and all four executable runs](../../evidence/release-2026-11-09-verified/assets-proof.json).
+arm64 ran natively and x86_64 via Rosetta; this is not Intel-hardware or macOS 13
+runtime proof. Source commit is recorded; later documentation edits are not claimed
+inside that archive. Published downloads have not run. The binaries have no
+Developer ID signature (Go's arm64 linker uses ad-hoc signing); never bypass
+quarantine/Gatekeeper to run a downloaded binary.

@@ -11,8 +11,8 @@ GoReleaser-selected version. A bump does not silently push anything.
 Use full Git history/tags and a clean disposable fixture for bump proof. Stable
 release tags are exactly `vMAJOR.MINOR.PATCH`; prereleases and metadata suffixes
 are outside the supported route. `cog.toml` owns bump/tag behavior;
-`scripts/release` owns validation/formula entry points. The snapshot uses the
-local-only fixed `0.0.0` version, never a release candidate.
+`scripts/release` owns validation, committed-note selection, and formula entry
+points. The snapshot uses the local-only fixed `0.0.0` version, never a release candidate.
 
 ## How to drive it
 
@@ -52,7 +52,10 @@ version proof.
 
 ## Gotchas
 
-Status is **pending** until the parent records outcomes. A Cog bump in the live
+**Local VERIFIED:** [Cog/helper proof](../../evidence/release-2026-11-09-verified/notes-proof.json),
+[tag validation](../../evidence/release-2026-11-09-verified/tag-validation.json), and
+[installed snapshot versions](../../evidence/release-2026-11-09-verified/report.json).
+A stable published version has not been exercised. A Cog bump in the live
 checkout is a release action, not a harmless check. Do not move or recreate tags,
 create a snapshot release, or create tags from a GitHub-token workflow to chain
 another workflow. The intentional real bump/push remains release-operator owned.

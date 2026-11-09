@@ -36,8 +36,9 @@ suite is supporting evidence, not a substitute for driving the compiled command.
 
 The [release feature map](release/features/README.md) separates local installation
 proof from release-note/version/asset inspection and authenticated publication.
-Release outcomes are **pending parent orchestration**; creating a public tap does
-not prove secret availability, an uploaded GitHub release, or a published formula.
+Local release-note selection, snapshot archives, and native source-built Homebrew
+installation are **VERIFIED**. Authenticated GitHub release/tap publication has
+not been run; a configured secret is not proof of its write authorization.
 
 ## Evidence
 
@@ -46,6 +47,8 @@ not prove secret availability, an uploaded GitHub release, or a published formul
 - [Historical bootstrap evidence](evidence/bootstrap.md), before commands existed.
 - [Current pbjp live run](evidence/pbjp-2026-11-09/report.json), **VERIFIED** on the general clipboard.
 - [pbjp implementation and verification notes](evidence/pbjp-2026-11-09/README.md).
+- [Current source-built Homebrew run](evidence/release-2026-11-09-verified/report.json), **VERIFIED**.
+- [Release proof, cleanup, and publication limits](evidence/release-2026-11-09-verified/README.md).
 
 Invoke verification with **Maintain** when flags, launch commands, native
 publication, supported targets, application drivers, or feature outcomes change.

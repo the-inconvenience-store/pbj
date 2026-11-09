@@ -35,14 +35,13 @@ ignores supplied notes.
 The real Cog output contains intended change subjects, but none of the fixture's
 author/co-author/signature markers. The helper selects the committed exact-tag
 section; earlier-tag notes contain neither newer changes nor Cog's later version
-bump commit. Publication uses that same author-free section. Keep sanitized evidence:
-that synthetic privacy markers were absent, not real identities. Local tests or
+bump commit. Publication uses that same author-free section. Record whether synthetic
+privacy markers were absent, never real identities. Local tests or
 snapshot notes do not establish the published body's contents.
 
 ## Gotchas
 
-Status is **pending** until the parent records the real CLI result. A template
-cannot sanitize a real name deliberately placed inside a commit subject. Review
-subjects as well as generated notes. Never capture raw signed Git logs or tokens
-in reports. A live GitHub release body is separately unavailable until an actual
-release exists and is explicitly authorized; local notes are not that proof.
+**Local VERIFIED:** [real Cog/helper proof](../../evidence/release-2026-11-09-verified/notes-proof.json).
+Published body inspection has not run. A template cannot sanitize a real name
+deliberately placed in a commit subject; review subjects too. Never capture raw
+signed Git logs or tokens. Local notes are not proof of a published release body.

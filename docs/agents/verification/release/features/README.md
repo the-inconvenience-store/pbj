@@ -1,23 +1,20 @@
 # Release feature map
 
-Live outcome: **pending parent orchestration** for every capability below. No
-GitHub publication or Homebrew installation is claimed by these instructions.
+Local Cog/helper notes, snapshot assets, and source installation are **VERIFIED**.
+Remote GitHub release/formula publication has not been authorized or exercised.
 Use the [surface](../README.md) for consent, launch, Doctor, evidence, and cleanup.
 
-| Capability | User outcome | Proof route |
-| --- | --- | --- |
-| [Author-free notes](notes.md) | Read exact-tag release notes without contributor identities or Git signatures | Cog real CLI + exact published body inspection |
-| [Version ownership](versions.md) | Get a deliberate stable Cog version/tag and matching installed command versions | Isolated Cog bump + helper validation + source driver |
-| [Release assets](assets.md) | Download versioned source and optional two-command macOS archives | Actual GoReleaser snapshot/archive inspection; published download separately |
-| [Source-built Homebrew installation](source-install.md) | Build/install/test both native commands from checksummed source without signing/quarantine workarounds | `scripts/verify-release.py` actual install |
-| [Publication and recovery boundaries](publication.md) | Publish the formula separately and retry it without recreating release assets | GitHub workflow/API operational evidence, explicitly authorized |
+| Capability | User outcome | Proof route | Outcome |
+| --- | --- | --- | --- |
+| [Author-free notes](notes.md) | Read exact-tag notes without contributor identities | Real Cog/helper CLI + published body inspection | Local VERIFIED; published body unrun |
+| [Version ownership](versions.md) | Deliberate Cog tag and explicit command versions | Isolated bump + validation + source driver | Local VERIFIED; stable publication unrun |
+| [Release assets](assets.md) | Source and two-command macOS archives | Actual GoReleaser archive/checksum/execution inspection | Snapshot VERIFIED; remote download unrun |
+| [Source-built installation](source-install.md) | Build/install/test both native commands from source | Actual `scripts/verify-release.py` install | VERIFIED on native arm64 |
+| [Publication/recovery](publication.md) | Publish/retry the formula separately | Authorized GitHub workflow/API evidence | Not run; first public release approval required |
 
 The source driver is intentionally not an all-features pass: its report lists the
 remaining notes, bump, remote publication, architecture, and OS coverage gaps.
-The public tap repository exists; secret availability and its authorization are
-not inferred from repository existence. Remote release/formula publication remains
-unproved until real authorized actions and durable results are captured.
-
-The parent orchestrator owns the complete checks, snapshot creation from intended
-committed source, actual installation, evidence inspection, and final verdicts.
-No live commands, builds, or tests were run while authoring this surface.
+The tap exists and secret metadata confirms `HOMEBREW_TAP_TOKEN` is configured.
+Neither fact proves token authorization or remote publication. The
+[current evidence](../../evidence/release-2026-11-09-verified/README.md) records
+the local proofs, native arm64 and Rosetta execution, cleanup, and exact limits.

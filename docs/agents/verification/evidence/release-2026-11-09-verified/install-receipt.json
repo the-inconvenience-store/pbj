@@ -1,0 +1,37 @@
+{
+  "homebrew_version": "7.0.12",
+  "used_options": [],
+  "unused_options": [],
+  "built_as_bottle": false,
+  "poured_from_bottle": false,
+  "loaded_from_api": false,
+  "loaded_from_internal_api": false,
+  "installed_on_request": true,
+  "changed_files": null,
+  "time": 1794212259,
+  "source_modified_time": 1794212217,
+  "compiler": "clang",
+  "aliases": [],
+  "runtime_dependencies": [],
+  "source": {
+    "tap": "pbj-local/release-98a0891c743d",
+    "tap_git_head": null,
+    "spec": "stable",
+    "path": "/opt/homebrew/Library/Taps/pbj-local/homebrew-release-98a0891c743d/Formula/pbj.rb",
+    "versions": {
+      "stable": "0.0.0",
+      "head": null,
+      "version_scheme": 0,
+      "compatibility_version": null
+    }
+  },
+  "arch": "arm64",
+  "built_on": {
+    "os": "Macintosh",
+    "os_version": "macOS 26.5",
+    "cpu_family": "arm_brava",
+    "xcode": "26.5",
+    "clt": "26.6.0.0.1781586589",
+    "preferred_perl": "5.34"
+  }
+}
