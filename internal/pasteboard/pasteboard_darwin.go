@@ -125,27 +125,21 @@ func (b *Board) Write(representations []Representation) error {
 
 // Read eagerly copies every available item and representation into Go ownership.
 func (b *Board) Read() ([]Item, error) {
-	b.mu.Lock()
-	defer b.mu.Unlock()
-	if b.handle == nil {
-		return nil, errors.New("pasteboard is closed")
+	snapshot, err := b.Capture()
+	if err != nil {
+		return nil, err
 	}
-	var nativeError *C.char
-	snapshot := C.pbj_board_read(b.handle, &nativeError)
-	if snapshot == nil {
-		return nil, nativeFailure(nativeError, "read pasteboard")
-	}
-	defer C.pbj_snapshot_free(snapshot)
-	nativeItems := unsafe.Slice(snapshot.items, int(snapshot.count))
-	items := make([]Item, len(nativeItems))
-	for i, item := range nativeItems {
-		representations := unsafe.Slice(item.representations, int(item.count))
-		items[i].Representations = make([]Representation, len(representations))
-		for j, representation := range representations {
-			items[i].Representations[j] = Representation{
-				Type: string(unsafe.Slice((*byte)(representation._type), int(representation.type_length))),
-				Data: append([]byte{}, unsafe.Slice((*byte)(representation.data), int(representation.data_length))...),
+	defer snapshot.Close()
+	types := snapshot.Types()
+	items := make([]Item, len(types))
+	for i, names := range types {
+		items[i].Representations = make([]Representation, len(names))
+		for j, name := range names {
+			data, err := snapshot.Data(i, name)
+			if err != nil {
+				return nil, err
 			}
+			items[i].Representations[j] = Representation{Type: name, Data: data}
 		}
 	}
 	return items, nil

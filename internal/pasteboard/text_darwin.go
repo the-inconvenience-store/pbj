@@ -22,6 +22,27 @@ import (
 // malformed input. Unknown or empty locales use C (ASCII). It never changes the
 // process locale. Valid UTF-8 and ASCII results may alias data.
 func DecodeText(data []byte, locale string) ([]byte, error) {
+	return convertText(data, locale, decodeToUTF8)
+}
+
+// EncodeText encodes UTF-8 to the supplied locale without substitutions.
+// Unknown or empty locales use C (ASCII). UTF-8 and ASCII may alias data.
+func EncodeText(data []byte, locale string) ([]byte, error) {
+	return convertText(data, locale, encodeFromUTF8)
+}
+
+type textDirection uint8
+
+const (
+	decodeToUTF8 textDirection = iota
+	encodeFromUTF8
+)
+
+func convertText(data []byte, locale string, direction textDirection) ([]byte, error) {
+	operation := "decode text"
+	if direction == encodeFromUTF8 {
+		operation = "encode text"
+	}
 	if locale == "" {
 		locale = "C"
 	}
@@ -40,28 +61,38 @@ func DecodeText(data []byte, locale string) ([]byte, error) {
 	switch strings.ToUpper(codeset) {
 	case "UTF-8", "UTF8":
 		if !utf8.Valid(data) {
-			return nil, fmt.Errorf("decode text in locale %q: malformed UTF-8", locale)
+			return nil, fmt.Errorf("%s in locale %q: malformed UTF-8", operation, locale)
 		}
 		return data, nil
 	case "US-ASCII", "ASCII", "ANSI_X3.4-1968", "ANSI_X3.4-1986":
-		for _, value := range data {
-			if value >= utf8.RuneSelf {
-				return nil, fmt.Errorf("decode text in locale %q: byte 0x%02x is not ASCII", locale, value)
-			}
-		}
-		return data, nil
+		return asciiText(data, operation, locale)
 	}
 	if len(data) == 0 {
 		return data, nil
 	}
 	var output unsafe.Pointer
 	var outputLength C.size_t
-	ok := C.pbj_text_convert(unsafe.Pointer(unsafe.SliceData(data)), C.size_t(len(data)), encoding,
-		&output, &outputLength, &nativeError)
+	var ok C.int
+	if direction == encodeFromUTF8 {
+		ok = C.pbj_text_encode(unsafe.Pointer(unsafe.SliceData(data)), C.size_t(len(data)), encoding,
+			&output, &outputLength, &nativeError)
+	} else {
+		ok = C.pbj_text_convert(unsafe.Pointer(unsafe.SliceData(data)), C.size_t(len(data)), encoding,
+			&output, &outputLength, &nativeError)
+	}
 	runtime.KeepAlive(data)
 	if ok == 0 {
-		return nil, nativeFailure(nativeError, "decode text")
+		return nil, nativeFailure(nativeError, operation)
 	}
 	defer C.free(output)
 	return append([]byte{}, unsafe.Slice((*byte)(output), int(outputLength))...), nil
+}
+
+func asciiText(data []byte, operation, locale string) ([]byte, error) {
+	for _, value := range data {
+		if value >= utf8.RuneSelf {
+			return nil, fmt.Errorf("%s in locale %q: byte 0x%02x is not ASCII", operation, locale, value)
+		}
+	}
+	return data, nil
 }

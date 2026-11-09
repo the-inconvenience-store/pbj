@@ -17,10 +17,10 @@ func TestLocaleTextDecoding(t *testing.T) {
 		want      []byte
 		wantError bool
 	}{
-		{name: "UTF-8", locale: "en_US.UTF-8", input: []byte("snowman ☃"), want: []byte("snowman ☃")},
+		{name: "UTF-8", locale: nativeUTF8Locale, input: []byte("snowman ☃"), want: []byte("snowman ☃")},
 		{name: "Latin-1 conversion", locale: "fr_FR.ISO8859-1", input: []byte{'c', 'a', 'f', 0xe9}, want: []byte("café")},
 		{name: "C rejects non-ASCII", locale: "C", input: []byte{0xff}, wantError: true},
-		{name: "malformed UTF-8", locale: "en_US.UTF-8", input: []byte{0xc3}, wantError: true},
+		{name: "malformed UTF-8", locale: nativeUTF8Locale, input: []byte{0xc3}, wantError: true},
 		{name: "unknown locale falls back to C", locale: "pbj_nonexistent_locale", input: []byte{0xff}, wantError: true},
 	}
 	for _, tc := range cases {

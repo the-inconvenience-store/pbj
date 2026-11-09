@@ -204,7 +204,7 @@ int pbj_files_write(void *board, void *files, char **error) {
     }
 }
 
-pbj_snapshot *pbj_board_read(void *board, char **error) {
+pbj_snapshot *pbj_board_capture(void *board, char **error) {
     @autoreleasepool {
         pbj_snapshot *snapshot = calloc(1, sizeof(*snapshot));
         if (snapshot == NULL) {
@@ -212,7 +212,11 @@ pbj_snapshot *pbj_board_read(void *board, char **error) {
             return NULL;
         }
         @try {
-            NSArray<NSPasteboardItem *> *items = [(__bridge NSPasteboard *)board pasteboardItems];
+            NSPasteboard *pasteboard = (__bridge NSPasteboard *)board;
+            snapshot->board = (void *)CFBridgingRetain(pasteboard);
+            snapshot->change_count = pasteboard.changeCount;
+            NSArray<NSPasteboardItem *> *items = pasteboard.pasteboardItems;
+            snapshot->source = (void *)CFBridgingRetain(items);
             NSMutableArray<NSData *> *owner = [[NSMutableArray alloc] init];
             snapshot->owner = (void *)CFBridgingRetain(owner);
             snapshot->count = items.count;
@@ -240,26 +244,57 @@ pbj_snapshot *pbj_board_read(void *board, char **error) {
                 for (NSUInteger j = 0; j < types.count; j++) {
                     NSString *type = types[j];
                     NSData *typeBytes = [type dataUsingEncoding:NSUTF8StringEncoding];
-                    NSData *data = [item dataForType:type];
-                    if (typeBytes == nil || data == nil) {
-                        pbj_error(error, [NSString stringWithFormat:@"could not read representation %@", type]);
+                    if (typeBytes == nil) {
+                        pbj_error(error, [NSString stringWithFormat:@"could not read type identifier %@", type]);
                         pbj_snapshot_free(snapshot);
                         return NULL;
                     }
                     [owner addObject:typeBytes];
-                    [owner addObject:data];
                     readItem->representations[j] = (pbj_read_representation){
                         .type = typeBytes.bytes,
                         .type_length = typeBytes.length,
-                        .data = data.bytes,
-                        .data_length = data.length,
                     };
                 }
+            }
+            if (pasteboard.changeCount != snapshot->change_count) {
+                pbj_error(error, @"pasteboard changed during inspection");
+                pbj_snapshot_free(snapshot);
+                return NULL;
             }
             return snapshot;
         } @catch (NSException *exception) {
             pbj_exception(error, exception);
             pbj_snapshot_free(snapshot);
+            return NULL;
+        }
+    }
+}
+
+void *pbj_snapshot_data(pbj_snapshot *snapshot, size_t item_index, size_t type_index,
+                        const void **bytes, size_t *length, char **error) {
+    @autoreleasepool {
+        @try {
+            NSPasteboard *board = (__bridge NSPasteboard *)snapshot->board;
+            if (board.changeCount != snapshot->change_count) {
+                pbj_error(error, @"pasteboard changed during extraction");
+                return NULL;
+            }
+            NSArray<NSPasteboardItem *> *items = (__bridge NSArray *)snapshot->source;
+            NSPasteboardItem *item = items[item_index];
+            NSData *data = [item dataForType:item.types[type_index]];
+            if (board.changeCount != snapshot->change_count) {
+                pbj_error(error, @"pasteboard changed during extraction");
+                return NULL;
+            }
+            if (data == nil) {
+                pbj_error(error, @"selected representation is unavailable");
+                return NULL;
+            }
+            *bytes = data.bytes;
+            *length = data.length;
+            return (void *)CFBridgingRetain(data);
+        } @catch (NSException *exception) {
+            pbj_exception(error, exception);
             return NULL;
         }
     }
@@ -277,6 +312,8 @@ void pbj_snapshot_free(pbj_snapshot *snapshot) {
         }
         free(snapshot->items);
         (void)CFBridgingRelease(snapshot->owner);
+        (void)CFBridgingRelease(snapshot->source);
+        (void)CFBridgingRelease(snapshot->board);
         free(snapshot);
     }
 }

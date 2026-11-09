@@ -6,8 +6,6 @@
 typedef struct {
     const void *type;
     size_t type_length;
-    const void *data;
-    size_t data_length;
 } pbj_read_representation;
 
 typedef struct {
@@ -19,6 +17,9 @@ typedef struct {
     pbj_read_item *items;
     size_t count;
     void *owner;
+    void *board;
+    void *source;
+    long change_count;
 } pbj_snapshot;
 
 /* Handles are retained Objective-C objects, released exactly once by their owner.
@@ -34,7 +35,9 @@ void *pbj_files_create(char **error);
 int pbj_files_add(void *files, const void *path, size_t length,
                   int directory, char **error);
 int pbj_files_write(void *board, void *files, char **error);
-pbj_snapshot *pbj_board_read(void *board, char **error);
+pbj_snapshot *pbj_board_capture(void *board, char **error);
+void *pbj_snapshot_data(pbj_snapshot *snapshot, size_t item, size_t representation,
+                        const void **data, size_t *length, char **error);
 void pbj_snapshot_free(pbj_snapshot *snapshot);
 int pbj_board_close(void *board, int unique, char **error);
 void pbj_release(void *object);
@@ -44,5 +47,7 @@ void pbj_release(void *object);
 char *pbj_text_encoding(const char *locale, char **error);
 int pbj_text_convert(const void *data, size_t length, const char *encoding,
                      void **output, size_t *output_length, char **error);
+int pbj_text_encode(const void *data, size_t length, const char *encoding,
+                    void **output, size_t *output_length, char **error);
 
 #endif

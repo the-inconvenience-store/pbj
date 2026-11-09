@@ -21,7 +21,7 @@ func TestPublishRepresentations(t *testing.T) {
 	})
 	if err := board.Write([]pasteboard.Representation{
 		{Type: "public.html", Data: []byte("<b>hello</b>")},
-		{Type: "public.utf8-plain-text", Data: []byte("hello")},
+		{Type: nativePlainType, Data: []byte("hello")},
 	}); err != nil {
 		t.Fatal(err)
 	}
@@ -33,8 +33,8 @@ func TestPublishRepresentations(t *testing.T) {
 		t.Fatalf("got %d pasteboard items, want one", len(items))
 	}
 	want := map[string][]byte{
-		"public.html":            []byte("<b>hello</b>"),
-		"public.utf8-plain-text": []byte("hello"),
+		"public.html":   []byte("<b>hello</b>"),
+		nativePlainType: []byte("hello"),
 	}
 	for _, rep := range items[0].Representations {
 		if data, ok := want[rep.Type]; ok {

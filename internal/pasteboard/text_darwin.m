@@ -39,9 +39,9 @@ char *pbj_text_encoding(const char *locale, char **error) {
     return result;
 }
 
-int pbj_text_convert(const void *data, size_t length, const char *encoding,
-                     void **output, size_t *output_length, char **error) {
-    iconv_t converter = iconv_open("UTF-8", encoding);
+static int pbj_convert_text(const void *data, size_t length, const char *from, const char *to,
+                            void **output, size_t *output_length, char **error) {
+    iconv_t converter = iconv_open(to, from);
     if (converter == (iconv_t)-1) {
         pbj_text_error(error, "open text converter");
         return 0;
@@ -98,4 +98,14 @@ int pbj_text_convert(const void *data, size_t length, const char *encoding,
     free(buffer);
     iconv_close(converter);
     return 0;
+}
+
+int pbj_text_convert(const void *data, size_t length, const char *encoding,
+                     void **output, size_t *output_length, char **error) {
+    return pbj_convert_text(data, length, encoding, "UTF-8", output, output_length, error);
+}
+
+int pbj_text_encode(const void *data, size_t length, const char *encoding,
+                    void **output, size_t *output_length, char **error) {
+    return pbj_convert_text(data, length, "UTF-8", encoding, output, output_length, error);
 }
