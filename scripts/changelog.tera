@@ -1,0 +1,6 @@
+## {% if version.tag %}{{ version.tag }}{% else %}Unreleased{% endif %} - {{ date }}
+{% for type_group in commits | group_by_type %}
+### {{ type_group.0 | upper_first }}
+{% for commit in type_group.1 %}
+- {% if commit.breaking_change %}**Breaking:** {% endif %}{% if commit.scope %}**{{ commit.scope }}:** {% endif %}{{ commit.summary }} ([{{ commit.id | truncate(length=7, end="") }}]({{ repository_url }}/commit/{{ commit.id }}))
+{% endfor %}{% endfor %}
