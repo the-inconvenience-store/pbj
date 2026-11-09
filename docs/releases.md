@@ -66,6 +66,8 @@ and the Python standard-library process-ownership regression test.
 and `darwin/amd64` on macOS, using cgo, the macOS 13 deployment target,
 read-only dependencies, `-trimpath`, and an explicit version linker value.
 It does not publish anything or create a version commit or tag.
+Before the first Cog bump there is no `CHANGELOG.md`; snapshots omit it.
+Once Cog creates it, binary archives include it through the standard changelog glob.
 
 The ignored `dist/` directory contains:
 
