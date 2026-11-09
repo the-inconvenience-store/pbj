@@ -48,7 +48,7 @@ run = "sh scripts/go-check.sh audit"
 
 [tasks.release-check]
 description = "Validate release configuration and test release tooling"
-run = ["goreleaser check", "actionlint .github/workflows/release.yml", "go test ./internal/release"]
+run = ["goreleaser check", "actionlint .github/workflows/release.yml", "go test ./internal/release", "python3 -B -m unittest discover -s scripts -p '*_test.py'"]
 
 [tasks.release-snapshot]
 description = "Build local-only source and macOS archives without publishing"

@@ -29,7 +29,7 @@ Before the first release:
 4. Use a repository-approved non-personal Git author and committer identity for
    version commits. Review commit subjects for personal information too: the
    template omits author metadata, not text deliberately placed in subjects.
-5. On macOS with Apple Command Line Tools installed, prepare the pinned tools:
+5. On macOS with Apple Command Line Tools and Python 3 installed, prepare the pinned tools:
 
    ```sh
    mise trust
@@ -59,7 +59,8 @@ mise run release-check
 mise run release-snapshot
 ```
 
-`release-check` runs `goreleaser check`, `actionlint`, and `go test ./internal/release`.
+`release-check` runs `goreleaser check`, `actionlint`, `go test ./internal/release`,
+and the Python standard-library process-ownership regression test.
 `release-snapshot` also runs that gate, then invokes GoReleaser with
 `--snapshot --skip=publish --clean`. It builds both commands for `darwin/arm64`
 and `darwin/amd64` on macOS, using cgo, the macOS 13 deployment target,

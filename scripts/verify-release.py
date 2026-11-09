@@ -2,6 +2,7 @@
 """Prove a GoReleaser snapshot through a real, isolated Homebrew source install."""
 
 import argparse
+import contextlib
 import functools
 import hashlib
 import http.server
@@ -104,18 +105,24 @@ class Driver:
                                    start_new_session=True)
         try:
             stdout, stderr = process.communicate(timeout=timeout)
-        except subprocess.TimeoutExpired:
-            os.killpg(process.pid, signal.SIGTERM)
+        except BaseException as error:
+            # A cancelled driver must stop its separate child group before cleanup.
+            with contextlib.suppress(ProcessLookupError):
+                os.killpg(process.pid, signal.SIGTERM)
             try:
                 stdout, stderr = process.communicate(timeout=5)
             except subprocess.TimeoutExpired:
-                os.killpg(process.pid, signal.SIGKILL)
+                with contextlib.suppress(ProcessLookupError):
+                    os.killpg(process.pid, signal.SIGKILL)
                 stdout, stderr = process.communicate(timeout=5)
-            action["timed_out"] = True
+            action["timed_out"] = isinstance(error, subprocess.TimeoutExpired)
             action["exit"] = process.returncode
             action["stdout"] = redact(stdout.decode(errors="replace"), self.scratch, self.evidence)
             action["stderr"] = redact(stderr.decode(errors="replace"), self.scratch, self.evidence)
-            raise RuntimeError("subprocess deadline exceeded: " + " ".join(action["command"]))
+            if action["timed_out"]:
+                raise RuntimeError("subprocess deadline exceeded: " + " ".join(action["command"])) from error
+            action["interrupted"] = True
+            raise
         action.update(exit=process.returncode,
                       stdout=redact(stdout.decode(errors="replace"), self.scratch, self.evidence),
                       stderr=redact(stderr.decode(errors="replace"), self.scratch, self.evidence))
