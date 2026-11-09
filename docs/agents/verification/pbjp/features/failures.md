@@ -3,7 +3,8 @@
 ## User outcome
 
 Successful requests exit 0; operational extraction failures exit 1; invalid CLI
-usage exits 2. Errors use stderr, never mixed or partial stdout. Every scalar or
+usage exits 2. Pre-output failures use stderr and emit no stdout; an output write
+failure can leave partial stdout. Every scalar or
 boolean option is nonrepeatable, operands are rejected, information is
 standalone, and incompatible modes are rejected. Success and failure leave the
 selected pasteboard unchanged.

@@ -32,8 +32,8 @@ suite is supporting evidence, not a substitute for driving the compiled command.
 - [Current pbjc live run](evidence/pbjc-2026-11-09/report.json).
 - [Implementation and verification notes](evidence/pbjc-2026-11-09/README.md).
 - [Historical bootstrap evidence](evidence/bootstrap.md), before commands existed.
-- pbjp live outcome is **pending** until `scripts/verify-pbjp.py` is actually run
-  and its new report is inspected; no pbjp run evidence is claimed here.
+- [Current pbjp live run](evidence/pbjp-2026-11-09/report.json), **VERIFIED** on the general clipboard.
+- [pbjp implementation and verification notes](evidence/pbjp-2026-11-09/README.md).
 
 Invoke verification with **Maintain** when flags, launch commands, native
 publication, supported targets, application drivers, or feature outcomes change.

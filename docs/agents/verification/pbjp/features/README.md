@@ -1,8 +1,10 @@
 # pbjp feature map
 
-All live outcomes are **pending** until the named driver group has run and its
-report has been inspected. Use [surface instructions](../README.md) for shared
-Launch, Doctor, Evidence, Cleanup, and Isolation rules.
+Live outcome: **VERIFIED** for all five mapped capabilities on the general
+clipboard, macOS 26.5.1 / arm64. The [124-action report](../../evidence/pbjp-2026-11-09/report.json)
+and [notes](../../evidence/pbjp-2026-11-09/README.md) record the exercised paths and
+limits. Use [surface instructions](../README.md) for Launch, Doctor, Evidence,
+Cleanup, and Isolation.
 
 | Capability | User outcome | Driver group |
 | --- | --- | --- |

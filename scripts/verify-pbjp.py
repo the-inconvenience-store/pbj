@@ -247,7 +247,23 @@ function run(args) {
         self.paste(["--prefer", "txt"], expected=b"pbjp EPS fallback")
         self.paste(["--prefer", "ascii"], expected=b"pbjp EPS fallback")
         self.seed(rtf, ["-t", RTF], {RTF: [rtf]})
-        self.paste(expected=rtf)
+        derived = inspect(self.board, self.state["count"], [PLAIN])["payloads"][PLAIN][0]
+        plain = b"pbjp generated rich"
+        advertised = PLAIN in self.state["types"][0]
+        if derived is not None:
+            require(derived == base64.b64encode(plain).decode(),
+                    "generated RTF-derived text differs from the known fixture")
+        self.record("native RTF-derived flavor availability",
+                    advertised=advertised, payload_available=derived is not None)
+        self.listing()  # Must succeed even when an advertised payload is unavailable.
+        if advertised and derived is not None:
+            self.paste(expected=plain, label="default uses readable advertised derived text")
+        else:
+            self.paste(["--type", PLAIN], status=1,
+                       label="exact unavailable or unadvertised derived text never falls back")
+            self.paste(expected=rtf,
+                       label="default skips unavailable derived text and reads stored RTF")
+        self.paste(["--type", RTF], expected=rtf)
         self.seed(eps, ["-t", EPS], {EPS: [eps]})
         self.paste(expected=eps)
         self.paste(["--prefer", "rtf"], expected=eps, label="missing RTF preference falls back to EPS")

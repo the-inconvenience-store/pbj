@@ -35,8 +35,10 @@ python3 scripts/verify-pbjp.py --allow-clipboard --feature representations \
 - HTML and separate plain fallback remain distinct and exact; default is plain.
 - Rich-plus-plain fixtures distinguish RTF/PS preference from default text;
   native `-Prefer`, `txt`, and `ascii` work, and unavailable preferences fall
-  back. RTF-only and EPS-only defaults preserve bytes. A shared EPS/RTF-label
-  fixture remains raw; see the limitation below.
+  back. An RTF-only fixture checks native derived-text availability: default uses
+  readable advertised text, or skips an unavailable promised flavor and returns
+  stored RTF. Exact unavailable text fails, and exact RTF preserves bytes.
+  EPS-only output preserves bytes. A shared EPS/RTF-label fixture remains raw.
 - `LC_ALL` overrides `LC_CTYPE` and `LANG`; unset/empty values fall through in
   that order, finally to C. Generated café becomes Latin-1 bytes where requested.
   Unrepresentable C-locale text fails without partial stdout. Exact UTF-8 bytes
@@ -55,7 +57,8 @@ completion message. The find/ruler/font boards remain **unexercised** and are
 neither read nor written under general-only consent. `pbjc` assigns identical bytes to all
 explicit raw type labels, so the shared EPS/RTF fixture cannot distinguish which
 rich label won; it must not be cited as independent live proof of EPS-before-RTF
-ranking with distinct payloads. Metadata laziness and generation-race rejection
-also need native/source test support; this serial driver proves preservation,
-not deliberate race injection. This command performs no conversion of HTML or
-rich content to text, OCR, clipboard history, or app rendering.
+ranking with distinct payloads. The unavailable-derived-text case proves metadata
+listing can succeed without fetching that unavailable payload. Generation-race
+rejection has native tests; this serial driver does not inject a race. `pbjp`
+itself performs no format conversion, OCR, clipboard history, or app rendering;
+macOS or a publishing application may advertise generated representations.

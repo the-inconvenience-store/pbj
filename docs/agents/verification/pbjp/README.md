@@ -1,7 +1,8 @@
 # pbjp verification
 
-Live outcome: **pending**. These instructions and the driver are not run evidence.
-Only an inspected live report can establish a result for a named host/build.
+Live outcome: **VERIFIED** on macOS 26.5.1 / arm64, general clipboard only.
+The [124-action report](../evidence/pbjp-2026-11-09/report.json) records each public
+action, exact output check, preservation observation, and successful cleanup.
 
 ## Surface
 
@@ -98,11 +99,15 @@ general. The driver neither reads nor writes their metadata or payloads and
 records this coverage gap in `unexercised`.
 
 The driver distinguishes text from preferred RTF/EPS using rich-plus-plain
-fixtures. `pbjc` publishes identical bytes when given multiple raw type labels;
-the shared EPS/RTF fixture therefore proves byte preservation, not an observable
-ranking between distinct EPS and RTF payloads. Source/native tests must support
-that ranking, payload-lazy metadata inspection, and generation-race detection;
-the serial live proof does not pretend to inject concurrent clipboard races.
+fixtures. It also observes an advertised-but-unavailable derived text flavor:
+metadata listing succeeds, exact extraction fails, and default selection falls
+back to stored RTF. macOS may instead supply readable derived text on another
+host; the fixture checks that against independently known text.
+
+`pbjc` publishes identical bytes when given multiple raw type labels; the shared
+EPS/RTF fixture proves byte preservation, not a ranking between distinct EPS
+and RTF payloads. Source inspection supports that priority order. Generation-race
+rejection has native test coverage; the serial live proof does not inject races.
 
 ## Cleanup
 

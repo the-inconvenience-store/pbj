@@ -38,11 +38,12 @@ and nonnumeric indexes are usage errors, exit 2. Both default and exact
 multi-item reads without `--item` fail instead of merging items; selected exact
 file URL bytes match the corresponding generated item.
 
-The native snapshot entry point documents metadata-only capture and selective
-payload access. The live observer enumerates native types without payload reads
-before comparing `pbjp` JSON. Source/native tests, not this eager fixture driver,
-must additionally demonstrate that `pbjp --list-types` does not itself fetch
-payloads and rejects generation changes during data access.
+The native snapshot entry point captures metadata and accesses selected payloads.
+For an RTF-only publication on the recorded host, an independent observer found
+advertised UTF-8 data unavailable after writer exit. `pbjp --list-types` still
+succeeded; exact UTF-8 failed; default reached readable RTF. This closes the
+unavailable-payload listing gap without relying on an eager all-data fixture.
+Native tests separately cover rejection when a writer replaces a capture.
 
 ## Gotchas
 
