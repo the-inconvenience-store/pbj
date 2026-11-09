@@ -1,4 +1,4 @@
-// Command release renders and publishes source-built Homebrew formulas.
+// Command release selects committed notes and publishes source-built formulas.
 package main
 
 import (
@@ -27,6 +27,24 @@ func newCommand() *cobra.Command {
 	validate := &cobra.Command{Use: "validate", Short: "Validate a stable vMAJOR.MINOR.PATCH release tag", Args: cobra.NoArgs, RunE: func(_ *cobra.Command, _ []string) error { return release.ValidateTag(validationTag) }}
 	validate.Flags().StringVar(&validationTag, "tag", "", "Stable release tag")
 	root.AddCommand(validate)
+	var notesTag string
+	notes := &cobra.Command{Use: "notes", Short: "Print the committed Cog changelog section for an exact tag", Args: cobra.NoArgs, RunE: func(command *cobra.Command, _ []string) error {
+		changelog, err := os.ReadFile("CHANGELOG.md")
+		if err != nil {
+			return err
+		}
+		selected, err := release.Notes(notesTag, changelog)
+		if err != nil {
+			return err
+		}
+		if _, err := command.OutOrStdout().Write(selected); err != nil {
+			return err
+		}
+		_, err = fmt.Fprintln(command.OutOrStdout())
+		return err
+	}}
+	notes.Flags().StringVar(&notesTag, "tag", "", "Stable release tag")
+	root.AddCommand(notes)
 	var tag, source, output string
 	formula := &cobra.Command{Use: "formula", Short: "Render a formula using the actual source archive checksum", Args: cobra.NoArgs, RunE: func(_ *cobra.Command, _ []string) error {
 		if output == "" {

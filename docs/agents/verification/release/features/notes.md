@@ -16,26 +16,26 @@ to test this capability. Synthetic fixture commit identities must be non-persona
 
 ## How to drive it
 
-The parent exercises the real Cog CLI against the isolated privacy fixture and
-then inspects notes at the intended existing release tag. For the first release:
+Exercise the real Cog CLI against an isolated privacy fixture, then run the actual
+release helper from that fixture to select the committed section for its tag:
 
 ```sh
-mise exec -- cog changelog --at v0.1.0
+mise exec -- go run ./scripts/release notes --tag v0.1.0
 ```
 
 Inspect `CHANGELOG.md` produced by the real bump too. For authorized publication,
-follow [release operations](../../../../releases.md): the workflow renders these
-exact-tag notes outside `dist/` and the worktree, then supplies GoReleaser's
+follow [release operations](../../../../releases.md): the workflow selects this
+exact-tag section outside `dist/` and the worktree, then supplies GoReleaser's
 `--release-notes`. Capture a sanitized comparison against the published release
 body after publication. Do not disable GoReleaser's changelog pipe; that also
 ignores supplied notes.
 
 ## Proof
 
-The real Cog output contains intended change subjects and the correct version
-range, but none of the fixture's author/co-author/signature markers. Earlier-tag
-notes do not accidentally contain newer commits. The changelog and published
-body follow the same author-free template. Keep only sanitized evidence: record
+The real Cog output contains intended change subjects, but none of the fixture's
+author/co-author/signature markers. The helper selects the committed exact-tag
+section; earlier-tag notes contain neither newer changes nor Cog's later version
+bump commit. Publication uses that same author-free section. Keep sanitized evidence:
 that synthetic privacy markers were absent, not real identities. Local tests or
 snapshot notes do not establish the published body's contents.
 

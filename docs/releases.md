@@ -144,7 +144,7 @@ For an intentional `v0.1.0` release, validate and inspect the exact notes:
 
 ```sh
 mise exec -- go run ./scripts/release validate --tag v0.1.0
-mise exec -- cog changelog --at v0.1.0
+mise exec -- go run ./scripts/release notes --tag v0.1.0
 ```
 
 Substitute the selected stable tag for later releases. Push the version commit
@@ -161,8 +161,9 @@ chain into this tag-triggered release workflow.
 ## What publication does
 
 The tag-triggered macOS job checks out full history and tags, validates the tag,
-runs `mise run check` and `mise run release-check`, and renders
-`cog changelog --at` for **that exact tag**. Notes are written under
+runs `mise run check` and `mise run release-check`, and selects **that exact tag's**
+section from committed `CHANGELOG.md`. It does not regenerate notes after Cog's
+version-bump commit, which would add that commit to the body. Notes are written under
 `RUNNER_TEMP`, outside the worktree and `dist/`, and passed to GoReleaser with
 `--release-notes`. Keep the changelog pipe enabled: disabling it also discards
 supplied notes. GitHub-generated notes are not used.
