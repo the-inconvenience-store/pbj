@@ -45,8 +45,9 @@ links are preserved, and retained new dependencies are explicitly reported.
 
 ## Gotchas
 
-**VERIFIED:** [real source install, formula test, command smoke, and cleanup](../../evidence/release-2026-11-09-verified/report.json).
-This is not GitHub release/tap publication proof. Never publish the snapshot
+**NOT RUN after rename:** fresh source-install/test/name/cleanup proof is reserved
+at `../../evidence/rename-2026-11-09/report.json`, pending the parent's actual run.
+This will not be GitHub release/tap publication proof. Never publish the snapshot
 fixture. Existing `pbj` installation always aborts; without skip-link support,
 conflicting prefix command links also abort. Never fix root-owned global caches
 or uninstall shared Go: the driver uses owned temporary cache/log/temp locations.

@@ -9,9 +9,9 @@ source-built `the-inconvenience-store/tap/pbj` formula. `.goreleaser.yaml`,
 Developer ID/signing/notarization route. Existing clipboard runtime behavior is
 covered by the separate CLI surfaces.
 
-**Local outcome: VERIFIED.** Real Cog bumps and exact committed-note selection,
-GoReleaser source/binary archives, and a native Homebrew source install/test ran
-successfully. See [evidence and limits](../evidence/release-2026-11-09-verified/README.md).
+**Rename outcome: NOT RUN.** Fresh source-install/name proof is reserved at
+`../evidence/rename-2026-11-09/report.json`, pending the parent's actual run.
+Obsolete command/release captures were retired, not relabelled as current proof.
 GitHub publication has not run. `HOMEBREW_TAP_TOKEN` is present in pbj secrets;
 its write authorization remains unexercised. The local driver never publishes.
 
@@ -82,11 +82,11 @@ read or written.
 
 `--skip-link` is preferred when available. A pre-existing `pbj` Cellar path always
 aborts, because taps share that path. Without skip-link support, existing
-Homebrew-prefix `pbjc`/`pbjp` files or links abort before installation. The driver
+Homebrew-prefix `pbjcopy`/`pbjpaste` files or links abort before installation. The driver
 does not replace unrelated executables or force installation/linking. The test-only
 `--force` permits testing the unlinked keg; it does not overwrite commands.
 The private installed paths in the helper are implementation details, not user
-command instructions. Installed users invoke `pbjc` and `pbjp` normally.
+command instructions. Installed users invoke `pbjcopy` and `pbjpaste` normally.
 
 ## Evidence
 

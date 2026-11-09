@@ -3,8 +3,8 @@
 Peanut butter and jelly for the macOS clipboard: enriched `pbcopy` and
 `pbpaste` commands written in Go.
 
-`pbjc` copies text, rich bytes, or file references to a macOS pasteboard.
-`pbjp` reads representations or file-reference paths from a pasteboard.
+`pbjcopy` copies text, rich bytes, or file references to a macOS pasteboard.
+`pbjpaste` reads representations or file-reference paths from a pasteboard.
 
 ## Install with Homebrew
 
@@ -12,8 +12,8 @@ After a stable release is published:
 
 ```sh
 brew install the-inconvenience-store/tap/pbj
-pbjc --version
-pbjp --version
+pbjcopy --version
+pbjpaste --version
 ```
 
 If Homebrew refuses to load an untrusted tap, review its `Formula/pbj.rb`, run
@@ -34,29 +34,29 @@ mise trust
 mise install
 mise run bootstrap
 mise run build
-printf 'Hello, clipboard!\n' | pbjc
-pbjp
+printf 'Hello, clipboard!\n' | pbjcopy
+pbjpaste
 ```
 
-The build produces `pbjc` and `pbjp`. Copy those executables to a
-directory on `PATH` to install them. Runtime requires macOS 13 or newer, with
-no Go installation, compiler, helper executable, or daemon. Supported targets are `darwin/arm64`
-and `darwin/amd64`; this is not a claim that both have been exercised.
+The build produces `pbjcopy` and `pbjpaste`. Runtime requires macOS 13 or newer,
+with no Go installation, compiler, helper executable, or daemon. Supported targets
+are `darwin/arm64` and `darwin/amd64`; this is not a claim that both have been
+exercised.
 
 ```sh
-pbjc < image.png
-printf '<strong>Hello</strong>' | pbjc --type public.html --plain 'Hello'
-pbjc --file ./report.pdf --file ./images
-pbjc --help
-pbjp --list-types
-pbjp --type public.html > clipboard.html
-pbjp --files --null
-pbjp --help
+pbjcopy < image.png
+printf '<strong>Hello</strong>' | pbjcopy --type public.html --plain 'Hello'
+pbjcopy --file ./report.pdf --file ./images
+pbjcopy --help
+pbjpaste --list-types
+pbjpaste --type public.html > clipboard.html
+pbjpaste --files --null
+pbjpaste --help
 ```
 
 Copying is silent on success; pasting writes the requested data to stdout.
-See the [copy command reference](docs/pbjc.md) and
-[paste command reference](docs/pbjp.md) for all flags, locale handling, file
+See the [copy command reference](docs/pbjcopy.md) and
+[paste command reference](docs/pbjpaste.md) for all flags, locale handling, file
 references, and failure semantics. The copy examples replace the general
 pasteboard's contents; paste operations leave it unchanged.
 
@@ -72,7 +72,7 @@ mise run check       # Complete local checks, including module verification
 mise run fmt         # Apply formatting and import cleanup
 mise run fmt-check   # Read-only formatting check
 mise run lint        # Validate lint config and analyze Go packages
-mise run build       # Build pbjc and pbjp
+mise run build       # Build pbjcopy and pbjpaste
 mise run test        # Race-enabled tests
 mise run audit       # Vulnerability scan; requires network access
 ```

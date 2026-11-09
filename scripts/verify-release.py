@@ -190,7 +190,7 @@ class Driver:
 
     def link_state(self):
         result = {}
-        for name in ("pbjc", "pbjp"):
+        for name in ("pbjcopy", "pbjpaste"):
             path = self.prefix / "bin" / name
             if path.is_symlink():
                 result[name] = {"kind": "symlink", "target": os.readlink(path)}
@@ -204,7 +204,7 @@ class Driver:
     def source(self, source):
         require(source.name == ARCHIVE and source.is_file(),
                 "provide the real GoReleaser snapshot archive " + ARCHIVE)
-        expected = {"go.mod", "go.sum", "cmd/pbjc/main.go", "cmd/pbjp/main.go"}
+        expected = {"go.mod", "go.sum", "cmd/pbjcopy/main.go", "cmd/pbjpaste/main.go"}
         with tarfile.open(source, "r:gz") as archive:
             names = set()
             for member in archive:
@@ -240,7 +240,7 @@ class Driver:
         self.links = self.link_state()
         if not host["skip_link_supported"]:
             require(all(row["kind"] == "absent" for row in self.links.values()),
-                    "brew lacks --skip-link and existing pbjc/pbjp links conflict; abort")
+                    "brew lacks --skip-link and existing pbjcopy/pbjpaste links conflict; abort")
         self.before = self.inventory()
         original = self.scratch / "generated" / "pbj.rb"
         original.parent.mkdir()
@@ -313,7 +313,7 @@ class Driver:
         (self.evidence / "install-receipt.json").write_text(
             redact(json.dumps(receipt, indent=2), self.scratch, self.evidence) + "\n")
         self.brew_run("test", "--force", self.formula, timeout=180)
-        for name in ("pbjc", "pbjp"):
+        for name in ("pbjcopy", "pbjpaste"):
             executable = keg / "bin" / name
             require(executable.is_file() and os.access(executable, os.X_OK),
                     "installed executable is missing")

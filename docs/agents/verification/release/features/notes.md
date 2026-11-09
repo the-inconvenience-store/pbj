@@ -41,7 +41,7 @@ snapshot notes do not establish the published body's contents.
 
 ## Gotchas
 
-**Local VERIFIED:** [real Cog/helper proof](../../evidence/release-2026-11-09-verified/notes-proof.json).
-Published body inspection has not run. A template cannot sanitize a real name
+The obsolete local Cog/helper capture was retired; no fresh local proof is claimed
+here. Published body inspection has not run. A template cannot sanitize a real name
 deliberately placed in a commit subject; review subjects too. Never capture raw
 signed Git logs or tokens. Local notes are not proof of a published release body.

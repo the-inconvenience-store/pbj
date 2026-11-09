@@ -38,16 +38,17 @@ and inspect those downloaded archives rather than reusing snapshot results.
 
 The exact source basename is `pbj_0.0.0_source.tar.gz`, with `pbj_0.0.0/` source
 prefix, `go.mod`, `go.sum`, and both command entry points. Both binary archives
-contain `pbjc` and `pbjp`; they target their stated Darwin architecture and embed
+contain `pbjcopy` and `pbjpaste`; they target their stated Darwin architecture and embed
 `0.0.0`. Real release names/prefixes/versions instead use the intentional release
 version, for example `pbj_0.1.0_source.tar.gz` under `pbj_0.1.0/`. Observe the actual
 published release asset list/checksums before claiming remote delivery.
 
 ## Gotchas
 
-**Snapshot VERIFIED:** [archive checksums and all four executable runs](../../evidence/release-2026-11-09-verified/assets-proof.json).
-arm64 ran natively and x86_64 via Rosetta; this is not Intel-hardware or macOS 13
-runtime proof. Source commit is recorded; later documentation edits are not claimed
-inside that archive. Published downloads have not run. The binaries have no
+**NOT RUN after rename:** fresh snapshot/source-install evidence is reserved at
+`../../evidence/rename-2026-11-09/report.json`. Retired archive/executable captures
+are not renamed as new results. Record each architecture's actual execution
+separately; native arm64 or Rosetta execution is not Intel-hardware or macOS 13
+runtime proof. Published downloads have not run. The binaries have no
 Developer ID signature (Go's arm64 linker uses ad-hoc signing); never bypass
 quarantine/Gatekeeper to run a downloaded binary.

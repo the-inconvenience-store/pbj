@@ -33,12 +33,12 @@ mise exec -- go run ./scripts/release validate --tag 0.1.0
 ```
 
 The latter two must fail. The source-install driver exercises `v0.0.0` and checks
-installed command output `pbjc 0.0.0` and `pbjp 0.0.0`. On an authorized installed
+installed command output `pbjcopy 0.0.0` and `pbjpaste 0.0.0`. On an authorized installed
 release, use bare public commands:
 
 ```sh
-pbjc --version
-pbjp --version
+pbjcopy --version
+pbjpaste --version
 ```
 
 ## Proof
@@ -52,10 +52,10 @@ version proof.
 
 ## Gotchas
 
-**Local VERIFIED:** [Cog/helper proof](../../evidence/release-2026-11-09-verified/notes-proof.json),
-[tag validation](../../evidence/release-2026-11-09-verified/tag-validation.json), and
-[installed snapshot versions](../../evidence/release-2026-11-09-verified/report.json).
-A stable published version has not been exercised. A Cog bump in the live
+**NOT RUN after rename:** fresh installed-command version proof is reserved at
+`../../evidence/rename-2026-11-09/report.json`. Obsolete local Cog/helper and
+installation captures were retired rather than rewritten. A stable published
+version has not been exercised. A Cog bump in the live
 checkout is a release action, not a harmless check. Do not move or recreate tags,
 create a snapshot release, or create tags from a GitHub-token workflow to chain
 another workflow. The intentional real bump/push remains release-operator owned.

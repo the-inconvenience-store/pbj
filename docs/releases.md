@@ -73,7 +73,7 @@ The ignored `dist/` directory contains:
 
 - `pbj_0.0.0_source.tar.gz`, with the source under `pbj_0.0.0/`;
 - `pbj_0.0.0_darwin_arm64.tar.gz` and
-  `pbj_0.0.0_darwin_amd64.tar.gz`, each containing **both** `pbjc` and `pbjp`;
+  `pbj_0.0.0_darwin_amd64.tar.gz`, each containing **both** `pbjcopy` and `pbjpaste`;
 - checksums and GoReleaser's local metadata.
 
 Snapshot version `0.0.0` is a deterministic **local-only verification fixture**,
@@ -95,6 +95,11 @@ must point the formula at that archive. Building a formula locally does not
 require Developer ID signing or notarization. See the
 [verification records](agents/verification/README.md) for exercised installation
 and runtime evidence rather than treating configuration as proof.
+
+The renamed command source-install/name proof is **NOT RUN**. Its reserved report
+path is `agents/verification/evidence/rename-2026-11-09/report.json`; obsolete
+captures were retired rather than relabelled as a fresh run. Application-paste
+outcomes remain **UNEXERCISED AFTER RENAME** and need separate clipboard consent.
 
 For an opt-in source-built Homebrew proof, use the repository driver:
 
@@ -190,8 +195,8 @@ After the formula is published, users can install it with:
 
 ```sh
 brew install the-inconvenience-store/tap/pbj
-pbjc --version
-pbjp --version
+pbjcopy --version
+pbjpaste --version
 ```
 
 ## Resume only Homebrew publication
