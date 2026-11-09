@@ -1,11 +1,25 @@
 # pbj
 
 Peanut butter and jelly for the macOS clipboard: enriched `pbcopy` and
-`pbpaste` commands written in Go, inspired by
-[pbrich](https://github.com/waynehoover/pbrich).
+`pbpaste` commands written in Go.
 
 `pbjc` copies text, rich bytes, or file references to a macOS pasteboard.
 `pbjp` reads representations or file-reference paths from a pasteboard.
+
+## Install with Homebrew
+
+After a stable release is published:
+
+```sh
+brew install the-inconvenience-store/tap/pbj
+pbjc --version
+pbjp --version
+```
+
+The formula builds both commands from the release's source archive on macOS
+13 or newer. It requires Apple Command Line Tools (`xcode-select --install`);
+Homebrew supplies Go as a build dependency. It is not a cask or a prebuilt bottle
+and does not require Developer ID signing or notarization.
 
 ## Build and install
 
@@ -65,7 +79,11 @@ read-only module resolution. Update them deliberately with Go module
 commands and commit both files when changed. Dependabot checks Go module
 updates weekly. Tool versions are pinned in `mise.toml` and updated manually.
 
-There is no CI workflow yet. Run the complete check locally before pushing.
+Release-only GitHub Actions automation runs the complete checks for pushed stable
+version tags, publishes GitHub release assets, then updates the Homebrew formula.
+Branch pushes and pull requests do not run CI; run the complete check locally
+before pushing. See [the release guide](docs/releases.md) for preparation, version
+bumps, local snapshots, and tap-publication retries.
 Agent configuration lives in [AGENTS.md](AGENTS.md).
 
 Verification records live in

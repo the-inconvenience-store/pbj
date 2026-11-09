@@ -1,0 +1,114 @@
+name: Release
+run-name: Release ${{ inputs.tag || github.ref_name }}
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing stable release tag to publish to Homebrew (vMAJOR.MINOR.PATCH)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+# The tap has a single formula; never race publication or cancel a running release.
+concurrency:
+  group: release-pbj
+  cancel-in-progress: false
+
+env:
+  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  release:
+    name: Publish GitHub release
+    if: github.event_name == 'push'
+    runs-on: macos-15
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - name: Check out complete release history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install pinned tools
+        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5
+        with:
+          cache: false
+          export_path: false
+          add_shims_to_path: false
+      - name: Validate stable release tag
+        run: mise exec -- go run ./scripts/release validate --tag "$RELEASE_TAG"
+      - name: Run complete repository checks
+        run: mise run check
+      - name: Check release configuration and tooling
+        run: mise run release-check
+      - name: Generate author-free notes at the exact tag
+        run: mise exec -- cog changelog --at "$RELEASE_TAG" > "$RUNNER_TEMP/pbj-release-notes.md"
+      - name: Publish source and two-command macOS archives
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: mise exec -- goreleaser release --clean --release-notes "$RUNNER_TEMP/pbj-release-notes.md"
+
+  homebrew:
+    name: Publish Homebrew formula
+    needs: release
+    if: ${{ !cancelled() && (github.event_name == 'workflow_dispatch' || needs.release.result == 'success') }}
+    runs-on: macos-15
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out trusted tooling to validate the requested tag
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.repository.default_branch || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install pinned Go for tag validation
+        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5
+        with:
+          install_args: go
+          cache: false
+          export_path: false
+          add_shims_to_path: false
+      - name: Validate stable release tag before checkout or download
+        run: mise exec -- go run ./scripts/release validate --tag "$RELEASE_TAG"
+      - name: Check out the validated release tag with full history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install the release tag's pinned Go
+        run: mise install go
+      - name: Download this published stable release's source asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          release_state=$(gh release view "$RELEASE_TAG" --repo the-inconvenience-store/pbj --json isDraft,isPrerelease --jq '.isDraft or .isPrerelease')
+          if [ "$release_state" != false ]; then
+            printf 'Expected an existing published stable GitHub release for %s.\n' "$RELEASE_TAG" >&2
+            exit 1
+          fi
+          asset="pbj_${RELEASE_TAG#v}_source.tar.gz"
+          gh release download "$RELEASE_TAG" --repo the-inconvenience-store/pbj --pattern "$asset" --output "$RUNNER_TEMP/$asset"
+      - name: Publish source-built formula to the tap
+        env:
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          if [ -z "$HOMEBREW_TAP_TOKEN" ]; then
+            printf 'HOMEBREW_TAP_TOKEN must grant Contents read/write on the-inconvenience-store/homebrew-tap.\n' >&2
+            exit 1
+          fi
+          mise exec -- go run ./scripts/release publish --tag "$RELEASE_TAG" --source "$RUNNER_TEMP/pbj_${RELEASE_TAG#v}_source.tar.gz"

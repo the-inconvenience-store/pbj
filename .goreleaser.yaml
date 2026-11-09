@@ -1,0 +1,63 @@
+version: 2
+
+project_name: pbj
+
+builds:
+  - id: pbjc
+    main: ./cmd/pbjc
+    binary: pbjc
+    goos: [darwin]
+    goarch: [arm64, amd64]
+    env:
+      - CGO_ENABLED=1
+      - MACOSX_DEPLOYMENT_TARGET=13.0
+      - CGO_CFLAGS=-O2 -g -mmacosx-version-min=13.0
+    flags: [-trimpath, -mod=readonly]
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+  - id: pbjp
+    main: ./cmd/pbjp
+    binary: pbjp
+    goos: [darwin]
+    goarch: [arm64, amd64]
+    env:
+      - CGO_ENABLED=1
+      - MACOSX_DEPLOYMENT_TARGET=13.0
+      - CGO_CFLAGS=-O2 -g -mmacosx-version-min=13.0
+    flags: [-trimpath, -mod=readonly]
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+
+archives:
+  - id: macos
+    ids: [pbjc, pbjp]
+    formats: [tar.gz]
+    name_template: "pbj_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+      - CHANGELOG.md
+      - docs/pbjc.md
+      - docs/pbjp.md
+
+source:
+  enabled: true
+  name_template: "pbj_{{ .Version }}_source"
+  format: tar.gz
+  prefix_template: "pbj_{{ .Version }}/"
+
+checksum:
+  name_template: "pbj_{{ .Version }}_checksums.txt"
+
+# Deterministic local verification fixture, never a published version.
+snapshot:
+  version_template: "0.0.0"
+
+release:
+  github:
+    owner: the-inconvenience-store
+    name: pbj
+  draft: false
+  prerelease: false
+  name_template: "{{ .Tag }}"
+  # Cog supplies the sole release notes through --release-notes.
+  # Do not disable the changelog pipe: that also discards supplied notes.

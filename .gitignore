@@ -1,4 +1,5 @@
 /bin/
+/dist/
 /.scratch/
 /mise.local.toml
 /lefthook-local.yml

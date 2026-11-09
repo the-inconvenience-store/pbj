@@ -6,6 +6,7 @@
 | --- | --- | --- |
 | pbjc CLI | Copying stdin, rich representations, file references, and CLI errors | [Launch, Doctor, Drive, Evidence, Cleanup, Isolation](pbjc/README.md) |
 | pbjp CLI | Extracting exact/default representations, item metadata, file paths, and read-only CLI failures | [Launch, Doctor, Drive, Evidence, Cleanup, Isolation](pbjp/README.md) |
+| Release / Homebrew | Author-free release notes, versioned source/assets, actual source-built installation, and publication boundaries | [Launch, Doctor, Drive, Evidence, Cleanup, Isolation](release/README.md) |
 
 
 ## Consent and evidence
@@ -23,9 +24,20 @@ checks read no clipboard payloads. Unexpected clipboard bytes are never included
 in failure reports. pbjc window captures target only generated TextEdit and Preview
 windows, never the desktop. Keep evidence outside cleanup-owned scratch.
 
+Release verification uses separate `--allow-install` consent, never clipboard
+consent. It installs an owned local-only formula from a real GoReleaser snapshot
+and removes only its own installation/tap. It may leave newly installed build
+dependencies; it never removes shared Go or changes cache permissions. Keep all
+other Homebrew operations idle during that driver.
+
 The [pbjc feature map](pbjc/features/README.md) and
 [pbjp feature map](pbjp/features/README.md) own coverage. A passing build or test
 suite is supporting evidence, not a substitute for driving the compiled command.
+
+The [release feature map](release/features/README.md) separates local installation
+proof from release-note/version/asset inspection and authenticated publication.
+Release outcomes are **pending parent orchestration**; creating a public tap does
+not prove secret availability, an uploaded GitHub release, or a published formula.
 
 ## Evidence
 
