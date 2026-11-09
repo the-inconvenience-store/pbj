@@ -24,18 +24,6 @@ hooks. Commit hooks check Go formatting and lint without changing or staging
 files. Commit messages must follow Conventional Commits, for example
 `feat: add HTML clipboard copying`.
 
-Use a public handle for Git's `user.name` and a GitHub noreply address for
-`user.email`. Cocogitto requires Git identity even when verifying a message.
-
-```sh
-git config --local user.name "the-inconvenience-store"
-git config --local user.email "6634981+the-inconvenience-store@users.noreply.github.com"
-```
-
-`mise exec -- cog changelog` uses the GitHub links configured in `cog.toml`.
-Keep private identity details out of committed configuration. Changing Git
-identity affects future commits, not existing history.
-
 ```sh
 mise run fmt         # Apply formatting and import cleanup
 mise run fmt-check   # Read-only formatting check
