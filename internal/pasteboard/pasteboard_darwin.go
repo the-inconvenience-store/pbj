@@ -7,7 +7,7 @@ package pasteboard
 
 /*
 #cgo CFLAGS: -x objective-c -fobjc-arc -mmacosx-version-min=13.0
-#cgo LDFLAGS: -framework Foundation -framework AppKit -mmacosx-version-min=13.0
+#cgo LDFLAGS: -framework Foundation -framework AppKit -framework ApplicationServices -mmacosx-version-min=13.0
 #include <stdlib.h>
 #include "pasteboard.h"
 */

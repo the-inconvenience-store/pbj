@@ -50,7 +50,7 @@ func (b *Board) WriteFiles(paths []string) error {
 		if info.IsDir() {
 			directory = 1
 		}
-		ok := C.pbj_files_add(files, b.handle, unsafe.Pointer(unsafe.StringData(path)), C.size_t(len(path)),
+		ok := C.pbj_files_add(files, unsafe.Pointer(unsafe.StringData(path)), C.size_t(len(path)),
 			directory, &nativeError)
 		runtime.KeepAlive(path)
 		if ok == 0 {

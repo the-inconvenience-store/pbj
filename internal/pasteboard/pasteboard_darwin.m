@@ -1,4 +1,5 @@
 #import <AppKit/AppKit.h>
+#import <ApplicationServices/ApplicationServices.h>
 #import <Foundation/Foundation.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -104,12 +105,30 @@ int pbj_item_set(void *item, const void *type, size_t type_length,
 }
 
 static int pbj_publish(NSPasteboard *board, NSArray<NSPasteboardItem *> *items, char **error) {
-    // All eager item preparation has finished before this point.
     [board clearContents];
     if (![board writeObjects:items]) {
         pbj_error(error, @"AppKit writeObjects returned false after clearing the pasteboard");
         return 0;
     }
+    // A fresh reader reference acknowledges the global resource, not AppKit's
+    // writer-side cache. Without this round trip a short-lived general-board
+    // writer can exit while subsequent file items are still being handed off.
+    PasteboardRef reader = NULL;
+    OSStatus status = PasteboardCreate((__bridge CFStringRef)board.name, &reader);
+    if (status != noErr || reader == NULL) {
+        pbj_error(error, [NSString stringWithFormat:@"open publication acknowledgment failed (%d)", (int)status]);
+        return 0;
+    }
+    PasteboardSynchronize(reader);
+    ItemCount count = 0;
+    status = PasteboardGetItemCount(reader, &count);
+    CFRelease(reader);
+    if (status != noErr) {
+        pbj_error(error, [NSString stringWithFormat:@"acknowledge publication failed (%d)", (int)status]);
+        return 0;
+    }
+    // Another application may already have replaced the contents. Do not assert
+    // a count or claim ownership: the successful write follows last-writer wins.
     return 1;
 }
 
@@ -141,7 +160,7 @@ void *pbj_files_create(char **error) {
     }
 }
 
-int pbj_files_add(void *files, void *board, const void *path, size_t length,
+int pbj_files_add(void *files, const void *path, size_t length,
                   int directory, char **error) {
     @autoreleasepool {
         @try {
@@ -155,31 +174,10 @@ int pbj_files_add(void *files, void *board, const void *path, size_t length,
             // symlink target. This does not open or read the referenced file.
             NSURL *url = [NSURL fileURLWithPath:filePath isDirectory:directory != 0];
             NSPasteboardItem *item = [[NSPasteboardItem alloc] init];
-            if (url == nil || item == nil) {
-                pbj_error(error, @"could not create file-reference item");
+            if (url == nil || item == nil ||
+                ![item setString:url.absoluteString forType:NSPasteboardTypeFileURL]) {
+                pbj_error(error, @"could not prepare file-reference representation");
                 return 0;
-            }
-            NSArray<NSPasteboardType> *types = [url writableTypesForPasteboard:(__bridge NSPasteboard *)board];
-            if (![types containsObject:NSPasteboardTypeFileURL]) {
-                pbj_error(error, @"AppKit file URL has no public.file-url representation");
-                return 0;
-            }
-            // Materialize every representation now instead of relying on a
-            // provider or on this process remaining alive after publication.
-            for (NSPasteboardType type in types) {
-                id propertyList = [url pasteboardPropertyListForType:type];
-                BOOL accepted = NO;
-                if ([propertyList isKindOfClass:[NSString class]]) {
-                    accepted = [item setString:propertyList forType:type];
-                } else if ([propertyList isKindOfClass:[NSData class]]) {
-                    accepted = [item setData:propertyList forType:type];
-                } else if (propertyList != nil) {
-                    accepted = [item setPropertyList:propertyList forType:type];
-                }
-                if (!accepted) {
-                    pbj_error(error, [NSString stringWithFormat:@"AppKit rejected file-reference representation %@", type]);
-                    return 0;
-                }
             }
             [(__bridge NSMutableArray<NSPasteboardItem *> *)files addObject:item];
             return 1;

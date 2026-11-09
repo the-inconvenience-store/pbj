@@ -31,7 +31,7 @@ int pbj_item_set(void *item, const void *type, size_t type_length,
                  const void *data, size_t data_length, char **error);
 int pbj_board_write(void *board, void *item, char **error);
 void *pbj_files_create(char **error);
-int pbj_files_add(void *files, void *board, const void *path, size_t length,
+int pbj_files_add(void *files, const void *path, size_t length,
                   int directory, char **error);
 int pbj_files_write(void *board, void *files, char **error);
 pbj_snapshot *pbj_board_read(void *board, char **error);
