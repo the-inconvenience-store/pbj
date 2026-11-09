@@ -177,6 +177,12 @@ linters:
     # Do not suppress errors, comments, tests, or other handwritten code by preset.
     presets: []
     warn-unused: true
+    rules:
+      # cgo's generated pointer checks map identical expressions to these calls.
+      # Keep all other gocritic diagnostics enabled in handwritten native code.
+      - path: 'internal/pasteboard/.*_darwin\.go'
+        linters: [gocritic]
+        text: 'dupSubExpr: suspicious identical LHS and RHS'
 
 formatters:
   enable:

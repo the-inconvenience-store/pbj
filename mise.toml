@@ -8,6 +8,8 @@ cocogitto = "7.0.0"
 [env]
 GOTOOLCHAIN = "local"
 GOFLAGS = "-mod=readonly"
+MACOSX_DEPLOYMENT_TARGET = "13.0"
+CGO_CFLAGS = "-O2 -g -mmacosx-version-min=13.0"
 
 [tasks.bootstrap]
 description = "Prepare module dependencies and install repository hooks"
