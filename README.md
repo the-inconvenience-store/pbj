@@ -92,3 +92,7 @@ Agent configuration lives in [AGENTS.md](AGENTS.md).
 Verification records live in
 [the verification index](docs/agents/verification/README.md); documentation
 and supported-target declarations are not evidence of exercised behavior.
+
+## License
+
+[MIT](LICENSE). Copyright (c) 2026 the-inconvenience-store.

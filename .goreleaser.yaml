@@ -35,6 +35,7 @@ archives:
     name_template: "pbj_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     files:
       - README.md
+      - LICENSE
       - CHANGELOG*
       - docs/pbjcopy.md
       - docs/pbjpaste.md
