@@ -9,36 +9,36 @@ Reading leaves the selected pasteboard unchanged, on success and failure.
 Paste plain text, or the next supported default representation:
 
 ```sh
-bin/pbjp
+pbjp
 ```
 
 Inspect the advertised types before choosing an exact representation:
 
 ```sh
-bin/pbjp --list-types
-bin/pbjp --type public.html > clipboard.html
-bin/pbjp --type public.png > clipboard.png
+pbjp --list-types
+pbjp --type public.html > clipboard.html
+pbjp --type public.png > clipboard.png
 ```
 
 Choose one item from a pasteboard containing several items:
 
 ```sh
-bin/pbjp --item 0
-bin/pbjp --item 1 --type public.utf8-plain-text
+pbjp --item 0
+pbjp --item 1 --type public.utf8-plain-text
 ```
 
 Read file-reference paths, not file contents:
 
 ```sh
-bin/pbjp --files
-bin/pbjp --files --null > paths.nul
+pbjp --files
+pbjp --files --null > paths.nul
 ```
 
 Prefer RTF or read the find pasteboard using native-style options:
 
 ```sh
-bin/pbjp -Prefer rtf > clipboard.rtf
-bin/pbjp -pboard find
+pbjp -Prefer rtf > clipboard.rtf
+pbjp -pboard find
 ```
 
 A preference can fall back to another supported representation; use `--type`
@@ -194,9 +194,9 @@ archives, background watchers, or a daemon.
 ## Build and runtime
 
 See the [repository README](../README.md) for setup and build commands.
-`mise run build` produces both `bin/pbjc` and `bin/pbjp`. Source builds require
+`mise run build` produces both `pbjc` and `pbjp`. Source builds require
 macOS, Apple Command Line Tools, and the Go toolchain managed by mise; the
-executables use cgo and Objective-C/AppKit. Copy `bin/pbjp` to a directory on
+executables use cgo and Objective-C/AppKit. Copy `pbjp` to a directory on
 `PATH` to install it.
 
 Runtime requires macOS 13 or newer, with no Go installation, compiler, helper

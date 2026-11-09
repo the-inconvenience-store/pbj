@@ -15,7 +15,7 @@ mise trust
 mise install
 mise run bootstrap
 mise run build
-bin/pbjc --version
+pbjc --version
 ```
 
 Readiness: build succeeds and version exits 0. Each invocation is short-lived;

@@ -18,7 +18,7 @@ Source entry points: `cmd/pbjp`; `internal/command.Command.Paste` for preference
 and extraction; `internal/pasteboard/snapshot_darwin.go` (`Capture`, `Types`,
 `Data`); `internal/pasteboard/text_darwin.go` (`EncodeText`); and
 `internal/pasteboard/text_darwin.m` for native encoding resolution/conversion.
-Fixture publication is the public `bin/pbjc` path.
+Fixture publication is the public `pbjc` path.
 
 ## How to drive it
 

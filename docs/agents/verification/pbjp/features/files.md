@@ -13,7 +13,7 @@ with guidance to use `--null`.
 
 Build, pass Doctor, and authorize clipboard replacement. The driver creates only
 its own files under one unique `/tmp/pbjp-verify-*` directory and publishes them
-using `bin/pbjc --file FIRST --file SECOND`.
+using `pbjc --file FIRST --file SECOND`.
 
 Source entry points: `cmd/pbjp`; `internal/command.Command.Paste` (file mode,
 URL decoding, item selection, and output buffering);

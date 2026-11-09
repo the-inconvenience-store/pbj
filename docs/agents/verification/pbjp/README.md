@@ -6,10 +6,10 @@ action, exact output check, preservation observation, and successful cleanup.
 
 ## Surface
 
-The public surface is `bin/pbjp`, launched from `cmd/pbjp` and implemented by
+The public surface is `pbjp`, launched from `cmd/pbjp` and implemented by
 `internal/command.Command.Paste`. `internal/pasteboard` owns native captures,
 exact representation access, and locale encoding; the command decodes file URL
-paths. Fixture publication uses the real `bin/pbjc`, not an internal Go setter. This is a CLI
+paths. Fixture publication uses the real `pbjc`, not an internal Go setter. This is a CLI
 extraction change: no TextEdit, Preview, Finder, screenshot, or GUI automation is
 needed to prove its output.
 
@@ -22,8 +22,8 @@ mise trust
 mise install
 mise run bootstrap
 mise run build
-bin/pbjc --version
-bin/pbjp --version
+pbjc --version
+pbjp --version
 ```
 
 Readiness: both built binaries report versions and exit 0. The verifier also needs
@@ -65,8 +65,8 @@ python3 scripts/verify-pbjp.py --feature information \
   --evidence ".scratch/pbjp-information-$(date +%Y%m%d-%H%M%S)"
 ```
 
-The driver publishes generated fixtures through `bin/pbjc` and consumes them
-through `bin/pbjp`, waiting for each process to exit. A verification-owned native
+The driver publishes generated fixtures through `pbjc` and consumes them
+through `pbjp`, waiting for each process to exit. A verification-owned native
 osascript observer checks only known generated payload types and metadata. It
 checks the seeded native change count before reading data and again afterward,
 and checks native bytes/metadata before and after each extraction or failure.
@@ -112,7 +112,7 @@ rejection has native test coverage; the serial live proof does not inject races.
 ## Cleanup
 
 The driver owns one unique `/tmp/pbjp-verify-*` directory containing generated
-files. Its `finally` cleanup writes `pbjp verification complete` through `bin/pbjc`
+files. Its `finally` cleanup writes `pbjp verification complete` through `pbjc`
 to the general pasteboard if touched, independently checks the generated
 completion text, and removes only that scratch directory. General clipboard state
 is not backed up. A read-only information run touches no clipboard. Reports remain

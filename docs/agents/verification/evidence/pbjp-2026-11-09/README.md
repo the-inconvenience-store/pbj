@@ -4,7 +4,7 @@
 
 The [report](report.json) records 124 public actions on macOS 26.5.1 / arm64.
 All five mapped capabilities received a live pass on the general clipboard.
-Fixture publication used built `bin/pbjc`; extraction used built `bin/pbjp` in
+Fixture publication used built `pbjc`; extraction used built `pbjp` in
 separate processes. An independent AppKit observer compared known generated
 payloads, advertised types, and native change count around reads and failures.
 

@@ -9,25 +9,25 @@ inspired by [pbrich](https://github.com/waynehoover/pbrich).
 Copy text from stdin:
 
 ```sh
-printf 'Hello, clipboard!\n' | bin/pbjc
+printf 'Hello, clipboard!\n' | pbjc
 ```
 
 Copy an image using signature detection (the filename is not consulted):
 
 ```sh
-bin/pbjc < image.png
+pbjc < image.png
 ```
 
 Offer HTML with a separate plain-text fallback:
 
 ```sh
-printf '<strong>Hello</strong>' | bin/pbjc --type public.html --plain 'Hello'
+printf '<strong>Hello</strong>' | pbjc --type public.html --plain 'Hello'
 ```
 
 Publish arbitrary bytes under explicit identifiers:
 
 ```sh
-bin/pbjc --type com.example.payload --type com.example.alternate < payload.bin
+pbjc --type com.example.payload --type com.example.alternate < payload.bin
 ```
 
 Both identifiers receive exactly the same input bytes. These options do not
@@ -36,13 +36,13 @@ convert one format into another.
 Copy file references rather than their contents:
 
 ```sh
-bin/pbjc --file ./report.pdf --file ./images --file ~/Documents/notes.txt
+pbjc --file ./report.pdf --file ./images --file ~/Documents/notes.txt
 ```
 
 Use a native `pbcopy` pasteboard selector:
 
 ```sh
-printf 'Search text' | bin/pbjc -pboard find
+printf 'Search text' | pbjc -pboard find
 ```
 
 These copy examples replace the selected pasteboard's contents. The default is
@@ -172,5 +172,5 @@ mise. The executable uses cgo and Objective-C/AppKit. The installed executable
 requires macOS 13 or newer, but no Go installation, compiler, helper executable,
 or daemon at runtime. The supported architecture targets are `darwin/arm64` and
 `darwin/amd64`; this statement is not a claim that both targets have been
-exercised. Copying `bin/pbjc` to a directory on `PATH` is sufficient to install
+exercised. Copying `pbjc` to a directory on `PATH` is sufficient to install
 the built executable.

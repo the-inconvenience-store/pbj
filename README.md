@@ -17,24 +17,24 @@ mise trust
 mise install
 mise run bootstrap
 mise run build
-printf 'Hello, clipboard!\n' | bin/pbjc
-bin/pbjp
+printf 'Hello, clipboard!\n' | pbjc
+pbjp
 ```
 
-The build produces `bin/pbjc` and `bin/pbjp`. Copy those executables to a
+The build produces `pbjc` and `pbjp`. Copy those executables to a
 directory on `PATH` to install them. Runtime requires macOS 13 or newer, with
 no Go installation, compiler, helper executable, or daemon. Supported targets are `darwin/arm64`
 and `darwin/amd64`; this is not a claim that both have been exercised.
 
 ```sh
-bin/pbjc < image.png
-printf '<strong>Hello</strong>' | bin/pbjc --type public.html --plain 'Hello'
-bin/pbjc --file ./report.pdf --file ./images
-bin/pbjc --help
-bin/pbjp --list-types
-bin/pbjp --type public.html > clipboard.html
-bin/pbjp --files --null
-bin/pbjp --help
+pbjc < image.png
+printf '<strong>Hello</strong>' | pbjc --type public.html --plain 'Hello'
+pbjc --file ./report.pdf --file ./images
+pbjc --help
+pbjp --list-types
+pbjp --type public.html > clipboard.html
+pbjp --files --null
+pbjp --help
 ```
 
 Copying is silent on success; pasting writes the requested data to stdout.
@@ -55,7 +55,7 @@ mise run check       # Complete local checks, including module verification
 mise run fmt         # Apply formatting and import cleanup
 mise run fmt-check   # Read-only formatting check
 mise run lint        # Validate lint config and analyze Go packages
-mise run build       # Build bin/pbjc and bin/pbjp
+mise run build       # Build pbjc and pbjp
 mise run test        # Race-enabled tests
 mise run audit       # Vulnerability scan; requires network access
 ```

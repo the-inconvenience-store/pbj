@@ -12,7 +12,7 @@ selected pasteboard unchanged.
 ## How to reach it
 
 Pass Doctor, authorize fixture writes, and seed only generated data with the real
-`bin/pbjc`. Source entry points: `cmd/pbjp`, `internal/command.Command.Paste`,
+`pbjc`. Source entry points: `cmd/pbjp`, `internal/command.Command.Paste`,
 Cobra validation in `internal/command`, and generation-aware snapshot access in
 `internal/pasteboard/snapshot_darwin.go` and `pasteboard_darwin.m`.
 
