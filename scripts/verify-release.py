@@ -189,8 +189,10 @@ class Driver:
         with tarfile.open(source, "r:gz") as archive:
             names = set()
             for member in archive:
-                require(member.name.startswith("pbj_0.0.0/"), "source archive prefix differs")
-                relative = Path(member.name).parts[1:]
+                parts = Path(member.name).parts
+                require(bool(parts) and parts[0] == "pbj_0.0.0", "source archive prefix differs")
+                relative = parts[1:]
+                require(bool(relative) or member.isdir(), "source archive root is not a directory")
                 require(".." not in relative, "source archive has unsafe path")
                 names.add("/".join(relative))
             require(expected <= names, "source archive lacks real Go entry points/modules")
