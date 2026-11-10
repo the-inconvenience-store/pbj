@@ -3,8 +3,10 @@ package command
 import (
 	"errors"
 	"fmt"
+	"slices"
 	"strconv"
 	"strings"
+	"unicode"
 	"unicode/utf8"
 
 	"github.com/spf13/cobra"
@@ -47,13 +49,14 @@ func (value *singleBool) String() string { return strconv.FormatBool(value.value
 func (*singleBool) Type() string         { return "bool" }
 
 type options struct {
-	types     []string
-	files     []string
-	plain     singleString
-	board     singleString
-	help      singleBool
-	version   singleBool
-	listTypes singleBool
+	types      []string
+	files      []string
+	plain      singleString
+	attachment singleString
+	board      singleString
+	help       singleBool
+	version    singleBool
+	listTypes  singleBool
 }
 
 const generalBoard = "general"
@@ -63,14 +66,16 @@ func newRoot(opts *options) *cobra.Command {
 		Use:   "pbjcopy",
 		Short: "Copy stdin or file references to the macOS clipboard",
 		Long: "Copy stdin or file references to the macOS clipboard.\n\n" +
-			"Automatically recognizes PNG, JPEG, TIFF, PDF, RTF, and EPS; other input\n" +
-			"is plain text decoded using LC_ALL, LC_CTYPE, LANG, or the C locale.\n" +
+			"Automatically recognizes PNG, JPEG, TIFF, PDF, RTF, EPS, and supported\n" +
+			"HTML, JSON, and XML documents; other input is locale-decoded plain text.\n" +
 			"Explicit types label unchanged bytes; they do not convert formats.\n" +
+			"Use --attachment NAME to retain stdin as a private cached file reference.\n" +
 			"Native pbcopy spellings -help and -pboard are also accepted.\n" +
 			"Informational options must be requested alone. See docs/pbjcopy.md.",
 		Example: "  printf hello | pbjcopy\n" +
 			"  printf '<b>hello</b>' | pbjcopy -t public.html -p hello\n" +
-			"  pbjcopy -f report.pdf -f screenshot.png",
+			"  pbjcopy -f report.pdf -f screenshot.png\n" +
+			"  pbjcopy --attachment report.pdf < report.pdf",
 		Args:               cobra.NoArgs,
 		SilenceErrors:      true,
 		SilenceUsage:       true,
@@ -81,6 +86,7 @@ func newRoot(opts *options) *cobra.Command {
 	flags.StringArrayVarP(&opts.types, "type", "t", nil, "Publish input under this pasteboard type (repeatable)")
 	flags.StringArrayVarP(&opts.files, "file", "f", nil, "Copy a file reference (repeatable; does not read stdin)")
 	flags.VarP(&opts.plain, "plain", "p", "Additional plain-text fallback")
+	flags.Var(&opts.attachment, "attachment", "Materialize stdin as a file attachment with this filename")
 	opts.board.value = generalBoard
 	flags.Var(&opts.board, "pboard", "Select general, ruler, find, or font pasteboard (native -pboard spelling accepted)")
 	flags.VarP(&opts.help, "help", "h", "Show help")
@@ -112,7 +118,7 @@ func (opts options) validate(root *cobra.Command) error {
 	if opts.plain.set && !utf8.ValidString(opts.plain.value) {
 		return errors.New("plain-text fallback must be valid UTF-8")
 	}
-	return nil
+	return opts.validateAttachment()
 }
 
 func (opts options) validateModes() error {
@@ -122,12 +128,27 @@ func (opts options) validateModes() error {
 			information++
 		}
 	}
-	copyOptions := len(opts.types) != 0 || len(opts.files) != 0 || opts.plain.set || opts.board.set
+	copyOptions := slices.Contains([]bool{len(opts.types) != 0, len(opts.files) != 0, opts.plain.set, opts.board.set, opts.attachment.set}, true)
 	if information > 1 || (information == 1 && copyOptions) {
 		return errors.New("help, version, and type listing must be requested alone")
 	}
 	if len(opts.files) != 0 && (len(opts.types) != 0 || opts.plain.set) {
 		return errors.New("file references cannot be combined with types or a plain-text fallback")
+	}
+	return nil
+}
+
+func (opts options) validateAttachment() error {
+	if !opts.attachment.set {
+		return nil
+	}
+	if len(opts.types) != 0 || len(opts.files) != 0 || opts.plain.set {
+		return errors.New("attachments cannot be combined with types, file references, or a plain-text fallback")
+	}
+	name := opts.attachment.value
+	if strings.TrimSpace(name) == "" || name == "." || name == ".." || !utf8.ValidString(name) ||
+		strings.ContainsAny(name, `/\:`) || strings.ContainsFunc(name, unicode.IsControl) {
+		return errors.New("attachment name must be a nonempty UTF-8 filename without path separators, colons, or control characters")
 	}
 	return nil
 }
@@ -150,7 +171,7 @@ func nativeArguments(args []string) []string {
 			normalized[index] = "--prefer" + strings.TrimPrefix(arg, "-Prefer")
 		}
 		switch arg {
-		case "-t", "--type", "-p", "--plain", "-f", "--file", "-pboard", "--pboard", "-Prefer", "--prefer", "--item":
+		case "-t", "--type", "-p", "--plain", "-f", "--file", "--attachment", "-pboard", "--pboard", "-Prefer", "--prefer", "--item":
 			index++
 		}
 	}

@@ -49,6 +49,17 @@ Copy file references rather than their contents:
 pbjcopy --file ./report.pdf --file ./images --file ~/Documents/notes.txt
 ```
 
+Copy piped bytes as a file attachment rather than an inline representation:
+
+```sh
+generate-report | pbjcopy --attachment report.pdf
+pbjcopy --attachment payload.bin < payload.bin
+pbjpaste --files
+```
+
+Paste into a receiving application such as Mail. The filename labels the
+attachment; it does not convert the input or validate its format.
+
 Use a native `pbcopy` pasteboard selector:
 
 ```sh
@@ -65,6 +76,7 @@ the general pasteboard.
 | `-t TYPE`, `--type TYPE` | Explicit pasteboard type identifier; repeatable. |
 | `-p TEXT`, `--plain TEXT` | Separate plain-text fallback; at most once. |
 | `-f PATH`, `--file PATH` | File reference; repeatable. Selects file mode. |
+| `--attachment NAME` | Materialize stdin as one file attachment named `NAME`; at most once. |
 | `-pboard BOARD` | Select `general`, `ruler`, `find`, or `font`; at most once. Default: `general`. |
 | `-h`, `--help`, `-help` | Print help without accessing a pasteboard. |
 | `-v`, `--version` | Print the version without accessing a pasteboard. |
@@ -80,13 +92,16 @@ Value options accept a separate value or an equals sign, for example
 for two options). `--` ends option parsing, but any following positional
 operands are still rejected.
 
-There are two copy modes:
+There are three copy modes:
 
 - **Stdin mode:** read stdin through EOF, then publish its representations.
   There is no arbitrary input-size limit. Memory and operating-system limits
   still apply. Empty stdin publishes empty plain text.
 - **File mode:** one or more `--file` options publish file references. Stdin is
   not read. File mode cannot be combined with `--type` or `--plain`.
+- **Attachment mode:** `--attachment NAME` streams all stdin bytes to a private
+  backing file, then publishes its native file reference. It cannot be combined
+  with `--file`, `--type`, or `--plain`. `-pboard` remains available.
 
 Help, version, and common-types listing are standalone operations: they neither
 read stdin nor read or mutate a pasteboard. Combining an informational option
@@ -178,6 +193,44 @@ preserving first-occurrence order. Symlinks are not resolved to their targets:
 the selected path is preserved. Two different symlink paths to the same target
 therefore remain distinct references. Lexical normalization, not filesystem
 identity, determines deduplication.
+
+## Stdin attachments and backing-file lifetime
+
+`--attachment NAME` is explicit opt-in. Without it, stdin still follows normal
+rich-format detection, explicit-type publication, or plain-text decoding.
+Attachment mode accepts any bytes, including unknown binary formats and empty
+input, without detection, decoding, extension inference, or conversion. It does
+not also publish an inline representation or plain-text fallback.
+
+`NAME` is required and used verbatim, including its extension. It must be a
+nonempty UTF-8 filename, not a path, `.` or `..`, or whitespace-only text.
+Slashes, backslashes, colons, NUL, and other control characters are rejected.
+Use `--attachment=-report.pdf` or `--attachment -report.pdf` for a leading dash.
+Filesystem filename-length and storage limits still apply; a failure leaves the
+previous clipboard unchanged.
+
+Backing files live at `~/Library/Caches/pbj-attachment-<random>/NAME` (the current
+user cache directory), with a private mode-`0700` directory and mode-`0600` file.
+Every invocation gets a different directory, so repeated filenames never
+overwrite an earlier attachment. Stdin is streamed through EOF and the file is
+closed before publication; there is no arbitrary input-size limit or need to
+buffer the complete attachment in memory.
+
+The file remains usable after `pbjcopy` exits and after the clipboard is replaced.
+There is **no automatic expiry or cleanup command**. Disk usage accumulates
+until you manually remove generated backing directories or macOS purges its
+cache. Use `pbjpaste --files` to find the currently referenced path before
+replacing the clipboard. Delete only a generated directory whose file you no
+longer need; never remove unrelated cache files. A reference becomes unusable
+if its backing file is deleted, moved, or purged. For durable storage, save the
+content yourself and use `--file` instead. Receiving applications may copy the
+bytes immediately or continue to depend on the backing file; `pbjcopy` cannot
+know when deletion is safe.
+
+Preparation and pasteboard-open failures remove only the new invocation's
+backing directory. Once native publication begins, the file is retained even if
+publication reports failure: a partial publication may already reference it.
+No background process or cleanup sweep deletes older attachments.
 
 ## Publication, lifetime, and failures
 

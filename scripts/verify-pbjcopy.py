@@ -243,6 +243,61 @@ class Proof:
         self.payload("public.png", image.read_bytes())
         self.record("Preview File → New from Clipboard", "generated 256×256 four-color image rendered; both generated windows closed")
 
+    def attachments(self):
+        home = self.scratch / "attachment-home"
+        home.mkdir()
+        environment = {**self.environment, "HOME": str(home)}
+        cache = home / "Library/Caches"
+        fixtures = [("same.bin", b"\x00\xff\x7f"), ("same.bin", fixture_png()),
+                    ("empty", b""), ("-help", b"literal filename"),
+                    ("pbjcopy-owned.bin", b"pbjcopy attachment\x00\xff\n")]
+        retained = []
+        for name, data in fixtures:
+            self.copy(["--attachment", name], data, environment=environment)
+            references = observe("public.file-url")
+            require(len(references) == 1 and references[0] is not None, "missing attachment reference")
+            location = urlparse(references[0].decode())
+            require(location.scheme == "file" and not location.netloc, "attachment is not a local file URL")
+            path = Path(unquote(location.path))
+            require(path.is_relative_to(cache) and path.name == name, "attachment path or filename differs")
+            require(path.read_bytes() == data, "backing bytes differ after pbjcopy exit")
+            require(path.stat().st_mode & 0o777 == 0o600, "attachment file is not private")
+            require(path.parent.stat().st_mode & 0o777 == 0o700, "attachment directory is not private")
+            require(all(path != previous for previous, _ in retained), "attachment reused a backing path")
+            extracted = invoke([str(self.binary.with_name("pbjpaste")), "--files", "--null"])
+            require(extracted.returncode == 0 and extracted.stdout == os.fsencode(path) + b"\0",
+                    "pbjpaste did not extract the exact attachment reference")
+            retained.append((path, data))
+            self.record("pbjcopy --attachment " + name + " then pbjpaste --files --null",
+                        {"filename": name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(),
+                         "file_mode": "0600", "directory_mode": "0700", "persisted_after_exit": True})
+        before = set(cache.iterdir())
+        descriptor = os.open(self.scratch, os.O_RDONLY)
+        try:
+            self.copy(["--attachment", "read-fails.bin"], expected=1, stdin=descriptor, environment=environment)
+        finally:
+            os.close(descriptor)
+        bad_home = self.scratch / "not-a-directory"
+        bad_home.write_bytes(b"owned preparation failure fixture")
+        self.copy(["--attachment", "cache-fails.bin"], b"not published", expected=1,
+                  environment={**environment, "HOME": str(bad_home)})
+        require(set(cache.iterdir()) == before, "failed preparation leaked attachment directories")
+        require(observe("public.file-url") == references, "failed preparation replaced the clipboard")
+        self.record("attachment read/cache preparation failures", "prior reference preserved; no leaked directories")
+        self.copy(data=b"generated clipboard reset before retention check")
+        for path, data in retained:
+            require(path.read_bytes() == data, "clipboard replacement removed an older attachment")
+        path, data = retained[-1]
+        self.copy(["--attachment", path.name], data, environment=environment)
+        references = observe("public.file-url")
+        app_path = Path(unquote(urlparse(references[0].decode()).path))
+        require(app_path.is_relative_to(cache) and app_path.read_bytes() == data, "app fixture differs")
+        outcome = native_script("paste-attachment-into-mail.applescript",
+                                self.scratch.name + "-attachment", path.name,
+                                self.evidence / "mail-attachment.png", SCRIPTS / "capture-verification-window.js")
+        self.record("Mail body Cmd+V after pbjcopy exit", outcome.strip())
+        self.record("attachment cleanup policy", "backing files retained across clipboard replacement; owned cache removed with scratch")
+
 
 def doctor(binary, graphical):
     result = invoke([str(binary), "--version"], data=b"")
@@ -260,17 +315,21 @@ def doctor(binary, graphical):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", type=Path, default=Path("bin/pbjcopy"))
-    parser.add_argument("--feature", choices=["all", "metadata", "representations", "failures", "files", "apps"], default="all")
+    parser.add_argument("--feature", choices=["all", "metadata", "representations", "failures", "files", "apps", "attachments"], default="all")
     parser.add_argument("--doctor", action="store_true")
     parser.add_argument("--allow-clipboard", action="store_true")
+    parser.add_argument("--allow-mail", action="store_true",
+                        help="Consent to paste into and discard a generated, unsent Mail compose window")
     parser.add_argument("--evidence", type=Path)
     args = parser.parse_args()
     binary = (ROOT / args.binary).resolve()
-    host = doctor(binary, args.feature in ("all", "files", "apps"))
+    host = doctor(binary, args.feature in ("all", "files", "apps", "attachments"))
     if args.doctor:
         print(json.dumps({"doctor": "ready", **host}, indent=2))
         return
     require(args.feature == "metadata" or args.allow_clipboard, "obtain consent, then pass --allow-clipboard")
+    require(args.feature not in ("all", "attachments") or args.allow_mail,
+            "obtain Mail compose-window consent, then pass --allow-mail")
     require(args.evidence is not None, "provide --evidence outside cleanup-owned scratch state")
     evidence = args.evidence.resolve()
     evidence.mkdir(parents=True, exist_ok=False)
@@ -278,7 +337,7 @@ def main():
     proof = Proof(binary, scratch, evidence)
     report = {"host": host, "feature": args.feature, "verdict": "NOT VERIFIED", "actions": proof.actions}
     try:
-        for feature in ("metadata", "representations", "failures", "files", "apps"):
+        for feature in ("metadata", "representations", "failures", "files", "apps", "attachments"):
             if args.feature in ("all", feature):
                 getattr(proof, feature)()
         report["verdict"] = "VERIFIED"

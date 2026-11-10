@@ -9,7 +9,7 @@ no historical GUI result is claimed as fresh.
 
 `cmd/pbjcopy` launches the public Cobra CLI. `internal/command` owns invocation and
 input preparation; `internal/pasteboard` owns native publication and ownership.
-The receiving applications are TextEdit, Preview, and Finder.
+The receiving applications are TextEdit, Preview, Finder, and Mail.
 
 ## Launch
 
@@ -45,25 +45,27 @@ are human-owned; do not silently bypass a failed check or substitute unit tests.
 
 ## Drive
 
-Obtain permission to replace the general clipboard and open generated windows.
+Obtain permission to replace the general clipboard and open generated windows,
+including a separate consent to paste into and discard an unsent Mail message.
 Then run:
 
 ```sh
-python3 scripts/verify-pbjcopy.py --allow-clipboard --feature all \
+python3 scripts/verify-pbjcopy.py --allow-clipboard --allow-mail --feature all \
   --evidence ".scratch/pbjcopy-proof-$(date +%Y%m%d-%H%M%S)"
 ```
 
 Each evidence directory must be new. Select one mapped feature with
-`--feature metadata|representations|failures|files|apps` when a focused proof is
-appropriate. Only `metadata` can run without `--allow-clipboard`.
+`--feature metadata|representations|failures|files|apps|attachments` when a focused
+proof is appropriate. Only `metadata` can run without `--allow-clipboard`.
+`attachments` and `all` also require `--allow-mail`; no message is sent.
 
 The driver invokes the real built executable, waits for it to exit, and observes
 payloads independently through `scripts/inspect-pasteboard.js` and AppKit. It
 never calls internal Go functions or synthesizes expected clipboard state.
 
 Application drivers are `scripts/paste-into-textedit.applescript`,
-`scripts/paste-into-preview.applescript`, and
-`scripts/paste-into-finder.applescript`. TextEdit fixtures open through Launch
+`scripts/paste-into-preview.applescript`, `scripts/paste-into-finder.applescript`,
+and `scripts/paste-attachment-into-mail.applescript`. TextEdit fixtures open through Launch
 Services to grant sandbox access. The driver pastes into generated documents;
 Preview uses New from Clipboard; Finder uses its enabled Edit → Paste action.
 `scripts/capture-verification-window.js` resolves actual WindowServer IDs rather
@@ -76,6 +78,11 @@ hashes, native type/readback results, saved application results, and cleanup.
 Successful app proof also captures `textedit-plain.png`, `textedit-rich.png`, and
 `preview-image.png`. Inspect these images; file existence alone is not visual
 proof. HTML must render bold, not merely appear as HTML source or fallback text.
+Attachment proof captures `mail-attachment.png` from the generated Mail window
+only, cropped to the message body so account headers and unrelated windows are
+excluded. Mail's compose scripting attachment collection does not expose these
+modern body attachments; the driver checks the named accessibility button and
+the screenshot instead. CLI readback separately proves exact backing bytes.
 
 Finder proof requires both actual destination files and exact generated contents.
 The file proof checks ordered references immediately after the writer exits;
@@ -91,6 +98,8 @@ The driver closes its own app documents/windows, removes its unique
 GUI applications are shared and are not quit. The JSON report and screenshots
 remain in the requested evidence directory. Confirm `scratch_removed` and
 `clipboard_reset` in the report; failed cleanup is not a complete pass.
+The attachment driver also discards its generated unsent Mail message and removes
+only its owned scratch cache, never real user attachment caches.
 
 If an application driver fails, its error handler closes its known generated
 window/document. Inspect any remaining fixture window before retrying; never

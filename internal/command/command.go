@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"os"
+	"path/filepath"
 	"slices"
 
 	"github.com/spf13/cobra"
@@ -66,9 +68,14 @@ func (cmd Command) copyInput(opts options) error {
 	var representations []pasteboard.Representation
 	var files []string
 	var err error
-	if len(opts.files) != 0 {
+	switch {
+	case opts.attachment.set:
+		var path string
+		path, err = cmd.prepareAttachment(opts.attachment.value)
+		files = []string{path}
+	case len(opts.files) != 0:
 		files, err = normalizeFiles(opts.files)
-	} else {
+	default:
 		representations, err = cmd.prepareRepresentations(opts)
 	}
 	if err != nil {
@@ -80,6 +87,9 @@ func (cmd Command) copyInput(opts options) error {
 	}
 	board, err := open(opts.board.value)
 	if err != nil {
+		if opts.attachment.set {
+			err = errors.Join(err, os.RemoveAll(filepath.Dir(files[0])))
+		}
 		return fmt.Errorf("open pasteboard: %w", err)
 	}
 	if len(files) != 0 {

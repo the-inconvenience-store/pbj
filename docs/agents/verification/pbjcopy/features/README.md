@@ -9,7 +9,7 @@ VERIFIED. Other clipboard/application-paste outcomes remain **UNEXERCISED AFTER 
 | [Command information](information.md) | Discover options, version, common types, and usage errors | metadata |
 | [Stdin representations](stdin-representations.md) | Copy text, detected rich formats, explicit raw types, and fallbacks | representations |
 | [Failure preservation](safe-failures.md) | Keep existing copied content when preparation fails | failures |
-| [File references](file-references.md) | Paste the selected files in Finder after pbjcopy exits | files |
+| [File references and attachments](file-references.md) | Paste selected files in Finder, or materialized stdin as a Mail attachment after pbjcopy exits | files, attachments |
 | [Receiving applications](application-paste.md) | Paste ordinary text, rendered HTML, and an image into native apps | apps |
 
 Follow the surface Launch and Doctor before each live pass. The `all` driver

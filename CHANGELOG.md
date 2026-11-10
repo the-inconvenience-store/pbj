@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file. See [conven
 - Automatically detect UTF-8 JSON containers, HTML document envelopes, and
   declared XML in `pbjcopy`; preserve explicit-type overrides and opt-in
   plain-text fallbacks. Scalars and ambiguous fragments remain plain text.
+- Add opt-in `pbjcopy --attachment NAME` to stream arbitrary stdin bytes into a
+  private cached backing file and publish a native file reference. Attachments
+  survive process exit and clipboard replacement; cleanup is manual or OS-owned.
 
 - - -
 ## v0.1.0 - 2026-11-09T08:51:01
