@@ -18,11 +18,14 @@ windows concurrently. Neither driver saves old clipboard data, and each leaves
 its own harmless completion message afterward.
 The pbjcopy app driver closes only generated documents/windows, not applications or
 pre-existing user documents. The pbjpaste driver needs no application windows.
+Mail compose-window proof requires separate `--allow-mail` consent. It creates
+an unsent message, pastes only generated attachments, and discards that message.
 
 Payload reads follow generated fixture writes. Doctor and standalone information
 checks read no clipboard payloads. Unexpected clipboard bytes are never included
-in failure reports. pbjcopy window captures target only generated TextEdit and Preview
-windows, never the desktop. Keep evidence outside cleanup-owned scratch.
+in failure reports. pbjcopy captures target generated TextEdit, Preview, and Mail
+windows by WindowServer ID, never a desktop region. Mail captures are cropped to
+the generated message body. Keep evidence outside cleanup-owned scratch.
 
 Release verification uses separate `--allow-install` consent, never clipboard
 consent. It installs an owned local-only formula from a real GoReleaser snapshot
@@ -42,6 +45,13 @@ downloaded asset/version checks are also **VERIFIED**, including the tap write.
 
 ## Evidence
 
+- [Stdin file attachments and Mail paste](evidence/issue-2-attachments/report.json),
+  **VERIFIED**: exact post-exit backing bytes, names, private permissions,
+  retention, failure preservation, and a named attachment in an unsent message.
+  [Body-only visual proof](evidence/issue-2-attachments/mail-attachment.png).
+- [Representation regressions](evidence/issue-2-representations/report.json) and
+  [safe failures](evidence/issue-2-safe-failures/report.json), **VERIFIED**.
+  All issue #2 runs reset the clipboard and removed owned scratch/cache files.
 - [Structured-input detection and exact CLI extraction](evidence/issue-3-structured-input/report.json),
   **VERIFIED**: JSON, HTML, XML, precedence, explicit overrides, fallback, and ambiguous input.
 - [Copy preparation failure preservation](evidence/issue-3-safe-failures/report.json),

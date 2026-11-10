@@ -2,7 +2,10 @@
 
 **Command information VERIFIED:** [fresh information proof](../../evidence/rename-2026-11-09/pbjcopy-information/report.json).
 [Source installation/name proof](../../evidence/rename-2026-11-09/report.json) is also
-VERIFIED. Other clipboard/application-paste outcomes remain **UNEXERCISED AFTER RENAME**.
+VERIFIED. [Stdin attachments and Mail paste](../../evidence/issue-2-attachments/report.json),
+[representations](../../evidence/issue-2-representations/report.json), and
+[safe failures](../../evidence/issue-2-safe-failures/report.json) are **VERIFIED**.
+TextEdit, Preview, and Finder application-paste outcomes remain **UNEXERCISED AFTER RENAME**.
 
 | Feature | User outcome | Driver feature |
 | --- | --- | --- |

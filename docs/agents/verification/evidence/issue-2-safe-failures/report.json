@@ -1,0 +1,52 @@
+{
+  "host": {
+    "version": "pbjcopy dev",
+    "architecture": "arm64",
+    "macOS": "26.5.1"
+  },
+  "feature": "failures",
+  "verdict": "VERIFIED",
+  "actions": [
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 35,
+        "sha256": "763e25716752f61bf96e38e4edb15ad874567c2aa74885096d1c7c739a66f6c8"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 35,
+        "sha256": "763e25716752f61bf96e38e4edb15ad874567c2aa74885096d1c7c739a66f6c8"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 35,
+        "sha256": "763e25716752f61bf96e38e4edb15ad874567c2aa74885096d1c7c739a66f6c8"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 35,
+        "sha256": "763e25716752f61bf96e38e4edb15ad874567c2aa74885096d1c7c739a66f6c8"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 35,
+        "sha256": "763e25716752f61bf96e38e4edb15ad874567c2aa74885096d1c7c739a66f6c8"
+      }
+    },
+    {
+      "action": "pre-publication failures",
+      "observed": "existing generated clipboard payload preserved"
+    }
+  ],
+  "clipboard_reset": true,
+  "scratch_removed": true
+}

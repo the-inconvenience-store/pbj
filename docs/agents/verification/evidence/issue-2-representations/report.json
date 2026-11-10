@@ -1,0 +1,373 @@
+{
+  "host": {
+    "version": "pbjcopy dev",
+    "architecture": "arm64",
+    "macOS": "26.5.1"
+  },
+  "feature": "representations",
+  "verdict": "VERIFIED",
+  "actions": [
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 17,
+        "sha256": "57e934588da814deab12b78a638d77dca788360cb2118e9549ace7a7249986d7"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 21,
+        "sha256": "14ec47262d2278a091e2dec7b930cf16372ce1d3973c59b139e3bcd96c5a58ef"
+      }
+    },
+    {
+      "action": "read public.html after pbjcopy exited",
+      "observed": {
+        "bytes": 19,
+        "sha256": "383274ae582914646294fce3dcca05c49ddf3fca6071651b5039d87cecb3dc0a"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 12,
+        "sha256": "832dec8e79ede710ae332827f31313789386606267f6321dd5c34d11325e00b4"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "action": "read com.example.raw after pbjcopy exited",
+      "observed": {
+        "bytes": 3,
+        "sha256": "36ef98b33b9466c6d1e56326f9df94a7e723676d2ad03e8ff2b632e58234f9ca"
+      }
+    },
+    {
+      "action": "read com.example.alternate after pbjcopy exited",
+      "observed": {
+        "bytes": 3,
+        "sha256": "36ef98b33b9466c6d1e56326f9df94a7e723676d2ad03e8ff2b632e58234f9ca"
+      }
+    },
+    {
+      "action": "read public.png after pbjcopy exited",
+      "observed": {
+        "bytes": 1291,
+        "sha256": "c9437d54b9d2e340394e26815848e040e77f87170521bb344083ce040cae1924"
+      }
+    },
+    {
+      "action": "read public.jpeg after pbjcopy exited",
+      "observed": {
+        "bytes": 3,
+        "sha256": "6e568e1f67fba258184c78181539e5e8fdee447e49bb706fc0ea34fbf12336a5"
+      }
+    },
+    {
+      "action": "read public.tiff after pbjcopy exited",
+      "observed": {
+        "bytes": 4,
+        "sha256": "75a2a13326b2a4a0b2265dbc2d0a91bfc7b540f0b10b5b9abd2a3fc9d7b83016"
+      }
+    },
+    {
+      "action": "read public.tiff after pbjcopy exited",
+      "observed": {
+        "bytes": 4,
+        "sha256": "ea50985d8479da131a150350cb5fc7a94f80a33df6ee4fd53e368624fdff64dd"
+      }
+    },
+    {
+      "action": "read com.adobe.pdf after pbjcopy exited",
+      "observed": {
+        "bytes": 9,
+        "sha256": "0716f9264c9fe19f5d7455276107f3ddcc1d3497f63d60689a73558ae8a1bf5e"
+      }
+    },
+    {
+      "action": "read public.rtf after pbjcopy exited",
+      "observed": {
+        "bytes": 13,
+        "sha256": "c93c5ccafde9729f5315509fe05a6fa6f7e2cb3f2cc9a59496fa20f8798b878b"
+      }
+    },
+    {
+      "action": "read com.adobe.encapsulated-postscript after pbjcopy exited",
+      "observed": {
+        "bytes": 24,
+        "sha256": "8d388b2e89fb96aebfa9df966ffb6d7b97e3fb13c368544e507a81d52ab03035"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 5,
+        "sha256": "850f7dc43910ff890f8879c0ed26fe697c93a067ad93a7d50f466a7028a9bf4e"
+      }
+    },
+    {
+      "action": "read public.json after pbjcopy exited",
+      "observed": {
+        "bytes": 13,
+        "sha256": "ecf59a2696ca44a417e20e2a7eabb1b26e82c779f8546bea354a2cc80e8e1eed"
+      }
+    },
+    {
+      "action": "pbjcopy  then pbjpaste --type public.json",
+      "observed": {
+        "types": [
+          "public.json"
+        ],
+        "exact_payload": true
+      }
+    },
+    {
+      "action": "read public.json after pbjcopy exited",
+      "observed": {
+        "bytes": 16,
+        "sha256": "08423299103c2fc24ca3a6b474f41c0085ab599945cf1a9f0d5899c58aee74e9"
+      }
+    },
+    {
+      "action": "pbjcopy  then pbjpaste --type public.json",
+      "observed": {
+        "types": [
+          "public.json"
+        ],
+        "exact_payload": true
+      }
+    },
+    {
+      "action": "read public.xml after pbjcopy exited",
+      "observed": {
+        "bytes": 28,
+        "sha256": "9620e37f967c36e4dd64a1e9c29ba0f8faabc4c6d9948049d3ce41a87b343e3e"
+      }
+    },
+    {
+      "action": "pbjcopy  then pbjpaste --type public.xml",
+      "observed": {
+        "types": [
+          "public.xml"
+        ],
+        "exact_payload": true
+      }
+    },
+    {
+      "action": "read public.html after pbjcopy exited",
+      "observed": {
+        "bytes": 50,
+        "sha256": "60bcdac6eb07adfda06f50b7c298ad6ad775fcbe3c1a38f0ff2ba1fa2060eb52"
+      }
+    },
+    {
+      "action": "pbjcopy  then pbjpaste --type public.html",
+      "observed": {
+        "types": [
+          "public.html"
+        ],
+        "exact_payload": true
+      }
+    },
+    {
+      "action": "read public.html after pbjcopy exited",
+      "observed": {
+        "bytes": 52,
+        "sha256": "87a0786bf56ec8cb0d4b757770c4b24dd901ddeaa6e0a6582ec610200c38a643"
+      }
+    },
+    {
+      "action": "pbjcopy  then pbjpaste --type public.html",
+      "observed": {
+        "types": [
+          "public.html"
+        ],
+        "exact_payload": true
+      }
+    },
+    {
+      "action": "read public.html after pbjcopy exited",
+      "observed": {
+        "bytes": 18,
+        "sha256": "2b200d8c3cd569d3017aba0bf0ab12b54786f0f89c55c41202d93d5a4971333e"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 5,
+        "sha256": "185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969"
+      }
+    },
+    {
+      "action": "pbjcopy --plain Hello then pbjpaste --type public.html",
+      "observed": {
+        "types": [
+          "public.html",
+          "public.utf8-plain-text"
+        ],
+        "exact_payload": true
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 13,
+        "sha256": "ecf59a2696ca44a417e20e2a7eabb1b26e82c779f8546bea354a2cc80e8e1eed"
+      }
+    },
+    {
+      "action": "pbjcopy --type public.utf8-plain-text then pbjpaste --type public.utf8-plain-text",
+      "observed": {
+        "types": [
+          "public.utf8-plain-text"
+        ],
+        "exact_payload": true
+      }
+    },
+    {
+      "action": "read com.example.raw after pbjcopy exited",
+      "observed": {
+        "bytes": 18,
+        "sha256": "2b200d8c3cd569d3017aba0bf0ab12b54786f0f89c55c41202d93d5a4971333e"
+      }
+    },
+    {
+      "action": "pbjcopy --type com.example.raw then pbjpaste --type com.example.raw",
+      "observed": {
+        "types": [
+          "com.example.raw"
+        ],
+        "exact_payload": true
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 4,
+        "sha256": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 2,
+        "sha256": "73475cb40a568e8da8a045ced110137e159f890ac4da883b6b17dc651b3a8049"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 7,
+        "sha256": "5aa762ae383fbb727af3c7a36d4940a5b8c40a989452d2304fc958ff3f354e7a"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 11,
+        "sha256": "0f80613450ca8072e84f700960a349f2a5d7de23b66f68993d80d08e37607c9a"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 11,
+        "sha256": "fa28a7bacd27a917eaf1a112f15b8e736ddb86c98e4d2bb4fbf6294a187ca002"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 7,
+        "sha256": "6238462c4873df4c50bc1a901ece576b2d166b0156802c88a05a85b1f5d511c7"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 16,
+        "sha256": "6bcb4332ef981b8deb02abbb7492349c711383a9ec36448ee151c81430c5f630"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 15,
+        "sha256": "2415e4297c5177dc4e54d8dc817d084ba255f2351dde0f235e65092f92603c12"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 21,
+        "sha256": "8b5f66f6a3d075c5ee0fcc63ce581cdb902967ccc4aa38a2d87634a87b5c1ccb"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 29,
+        "sha256": "ce21a8f46aa4586c3ccc7bf2f63f46ac4aeb821fcf538376dc40e1b0d9bb4712"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 38,
+        "sha256": "a286adb3b3176aab25a2940d9605e9c58328a1dfda5a96d17c831b75ad569308"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 44,
+        "sha256": "7843b96b1b81d13198fc20ffadff8b8e42382ec229a3560a79fe76d81d287900"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 55,
+        "sha256": "5c02dd650bb1147ea26ae0f45e3de3dc9e39a2be9ff4816b1a0fe6482f96492e"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 40,
+        "sha256": "fc657c241a4a2866e8e6381c9c6d84d22bbc88a8ebb87ca36b7d19d2a06aa76b"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 13,
+        "sha256": "cf7e0cb3799813c75eb1ec05482a20a640dd269ce5c6479dbda0a88a0a0a0e01"
+      }
+    },
+    {
+      "action": "read public.utf8-plain-text after pbjcopy exited",
+      "observed": {
+        "bytes": 37,
+        "sha256": "3ca8ddd70762b36dfb43a24914d42b563cd1a49f994579d322cdd078dd910a6b"
+      }
+    }
+  ],
+  "clipboard_reset": true,
+  "scratch_removed": true
+}

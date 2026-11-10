@@ -2,6 +2,8 @@
 
 Status: actual Finder paste is **UNEXERCISED AFTER RENAME**. Source-install/name
 proof does not exercise this clipboard or receiving-application outcome.
+[Stdin attachment CLI and Mail paste](../../evidence/issue-2-attachments/report.json)
+are **VERIFIED**; the body-only screenshot was inspected.
 
 ## User outcome
 

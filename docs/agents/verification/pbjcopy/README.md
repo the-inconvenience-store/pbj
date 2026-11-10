@@ -2,7 +2,10 @@
 
 **Rename/information VERIFIED:** [information and usage checks](../evidence/rename-2026-11-09/pbjcopy-information/report.json)
 and [source installation](../evidence/rename-2026-11-09/report.json).
-TextEdit, Preview, Finder, and clipboard-payload outcomes remain **UNEXERCISED AFTER RENAME**;
+[Attachment CLI and Mail paste](../evidence/issue-2-attachments/report.json),
+[representations](../evidence/issue-2-representations/report.json), and
+[safe failures](../evidence/issue-2-safe-failures/report.json) are **VERIFIED**.
+TextEdit, Preview, and Finder paste outcomes remain **UNEXERCISED AFTER RENAME**;
 no historical GUI result is claimed as fresh.
 
 ## Surface

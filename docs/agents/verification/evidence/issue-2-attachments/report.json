@@ -1,0 +1,80 @@
+{
+  "host": {
+    "version": "pbjcopy dev",
+    "architecture": "arm64",
+    "macOS": "26.5.1"
+  },
+  "feature": "attachments",
+  "verdict": "VERIFIED",
+  "actions": [
+    {
+      "action": "pbjcopy --attachment same.bin then pbjpaste --files --null",
+      "observed": {
+        "filename": "same.bin",
+        "bytes": 3,
+        "sha256": "cb6dc5bd1968e27d552fd0332443db15e05fe7517cb9db8b446a60a747d03818",
+        "file_mode": "0600",
+        "directory_mode": "0700",
+        "persisted_after_exit": true
+      }
+    },
+    {
+      "action": "pbjcopy --attachment same.bin then pbjpaste --files --null",
+      "observed": {
+        "filename": "same.bin",
+        "bytes": 1291,
+        "sha256": "c9437d54b9d2e340394e26815848e040e77f87170521bb344083ce040cae1924",
+        "file_mode": "0600",
+        "directory_mode": "0700",
+        "persisted_after_exit": true
+      }
+    },
+    {
+      "action": "pbjcopy --attachment empty then pbjpaste --files --null",
+      "observed": {
+        "filename": "empty",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "file_mode": "0600",
+        "directory_mode": "0700",
+        "persisted_after_exit": true
+      }
+    },
+    {
+      "action": "pbjcopy --attachment -help then pbjpaste --files --null",
+      "observed": {
+        "filename": "-help",
+        "bytes": 16,
+        "sha256": "303cd9356e405a54858cba0a7aaf0b533d46c4030b47ff4ff0a35ea4f074c605",
+        "file_mode": "0600",
+        "directory_mode": "0700",
+        "persisted_after_exit": true
+      }
+    },
+    {
+      "action": "pbjcopy --attachment pbjcopy-owned.bin then pbjpaste --files --null",
+      "observed": {
+        "filename": "pbjcopy-owned.bin",
+        "bytes": 21,
+        "sha256": "098dc2a22c8ad2fdddadd42f0a84ff22330487210534f66e4cd70019f2ac857e",
+        "file_mode": "0600",
+        "directory_mode": "0700",
+        "persisted_after_exit": true
+      }
+    },
+    {
+      "action": "attachment read/cache preparation failures",
+      "observed": "prior reference preserved; no leaked directories"
+    },
+    {
+      "action": "Mail body Cmd+V after pbjcopy exit",
+      "observed": "Mail displayed the named file attachment (AXButton); generated unsent message discarded"
+    },
+    {
+      "action": "attachment cleanup policy",
+      "observed": "backing files retained across clipboard replacement; owned cache removed with scratch"
+    }
+  ],
+  "clipboard_reset": true,
+  "scratch_removed": true
+}
