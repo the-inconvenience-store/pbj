@@ -24,6 +24,16 @@ Offer HTML with a separate plain-text fallback:
 printf '<strong>Hello</strong>' | pbjcopy --type public.html --plain 'Hello'
 ```
 
+Automatically detect structured documents:
+
+```sh
+printf '{"answer":42}' | pbjcopy
+printf '<?xml version="1.0"?><message>Hello</message>' | pbjcopy
+printf '<html><body>Hello</body></html>' | pbjcopy --plain 'Hello'
+pbjpaste --list-types
+pbjpaste --type public.html
+```
+
 Publish arbitrary bytes under explicit identifiers:
 
 ```sh
@@ -95,7 +105,38 @@ validation**: a recognized header does not prove that an image or document is
 well formed or that another application can open it. There is no conversion,
 rendering, or repair of rich content.
 
-If no rich signature matches, stdin is decoded as plain text using the first
+After signature detection, structured text is recognized in this order:
+
+| Format | Pasteboard type | Detection rule |
+| --- | --- | --- |
+| JSON | `public.json` | One complete JSON object or array, parsed through EOF. |
+| HTML | `public.html` | Case-insensitive `<html …>…</html>` document envelope; optionally preceded by a simple `<!DOCTYPE html>` and/or the XML declaration described below. |
+| XML | `public.xml` | XML 1.0 declaration followed by one well-formed root; only whitespace, comments, and processing instructions may surround the root. |
+
+These formats must contain valid UTF-8 bytes. Detection ignores surrounding
+whitespace but publishes the original bytes unchanged; it does not apply locale
+decoding or add a plain-text representation. HTML wins over XML for XHTML
+documents matching the HTML envelope.
+
+HTML detection is a document-envelope heuristic, **not HTML validation**. A
+matching wrapper can contain malformed markup; fragments such as `<b>Hello</b>`,
+an incomplete wrapper, and a doctype without an HTML wrapper are not detected.
+The simple doctype accepts no public/system identifier. Leading comments before
+the wrapper are not recognized.
+
+XML requires a declaration with `version="1.0"`, optional `encoding="UTF-8"`
+(case-insensitive encoding value), and optional `standalone="yes"` or `"no"`, in
+that order. Single quotes and XML whitespace around `=` are accepted. Other
+versions/encodings, declaration-free XML, and UTF-8/UTF-16 byte-order marks are
+not automatically recognized. XML parsing does not validate DTDs or schemas,
+resolve external entities, or guarantee namespace validity.
+
+JSON scalars (`true`, `42`, `"hello"`, `null`), incomplete/malformed JSON or XML,
+multiple JSON values or XML roots, and otherwise ambiguous input remain plain
+text rather than being repaired or rejected as structured data. Use `--type` to
+advertise an unsupported form deliberately.
+
+If no rich or structured format matches, stdin is decoded as plain text using the first
 nonempty locale setting in this order:
 
 1. `LC_ALL`
@@ -107,9 +148,9 @@ Malformed text for the selected locale is an error, not silently replaced with
 substitution characters. Select a UTF-8 locale when supplying UTF-8 text. The
 locale governs plain-text decoding; it is not a request to transcode rich data.
 
-HTML, JSON, XML, and URLs require explicit types; they are not inferred from
-markup, syntax, or a URL-looking string. For example, use `--type public.html`
-for HTML or `--type public.url` for a URL representation.
+URLs still require explicit types, for example `--type public.url`.
+To force structured-looking input to remain literal text, use
+`--type public.utf8-plain-text` (which, like every explicit type, bypasses decoding).
 
 Supplying any `--type` disables automatic detection and locale decoding for the
 stdin payload. Each distinct identifier receives the original bytes unchanged;

@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
+## Unreleased
+
+### Features
+
+- Automatically detect UTF-8 JSON containers, HTML document envelopes, and
+  declared XML in `pbjcopy`; preserve explicit-type overrides and opt-in
+  plain-text fallbacks. Scalars and ambiguous fragments remain plain text.
+
 - - -
 ## v0.1.0 - 2026-11-09T08:51:01
 

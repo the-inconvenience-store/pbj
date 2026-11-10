@@ -136,6 +136,41 @@ class Proof:
         latin = {**self.environment, "LC_ALL": "fr_FR.ISO8859-1", "LC_CTYPE": "C", "LANG": "C"}
         self.copy(data=b"caf\xe9", environment=latin)
         self.payload(PLAIN, "café".encode())
+        self.structured()
+
+    def structured(self):
+        fixtures = [
+            ("public.json", b'{"answer":42}', []),
+            ("public.json", ' \n[true, "☃"]\t'.encode(), []),
+            ("public.xml", b'<?xml version="1.0"?><root/>', []),
+            ("public.html", b'<!DOCTYPE html><html><body><br>Hello</body></html>', []),
+            ("public.html", b'<?xml version="1.0"?><html><body>Hello</body></html>', []),
+            ("public.html", b'<html>Hello</html>', ["--plain", "Hello"]),
+            (PLAIN, b'{"answer":42}', ["--type", PLAIN]),
+            ("com.example.raw", b'<html>Hello</html>', ["--type", "com.example.raw"]),
+        ]
+        for type_name, data, arguments in fixtures:
+            self.copy(arguments, data)
+            expected_types = [type_name] + ([PLAIN] if "--plain" in arguments else [])
+            require(observe("--types") == [expected_types], "structured type set differs")
+            self.payload(type_name, data)
+            if "--plain" in arguments:
+                self.payload(PLAIN, b"Hello")
+            extracted = invoke([str(ROOT / "bin/pbjpaste"), "--type", type_name])
+            require(extracted.returncode == 0 and extracted.stdout == data and not extracted.stderr,
+                    "pbjpaste exact structured payload differs")
+            self.record("pbjcopy " + " ".join(arguments) + " then pbjpaste --type " + type_name,
+                        {"types": expected_types, "exact_payload": True})
+        for data in [b"true", b"42", b'"hello"', b'{"broken":}', b"{} trailing",
+                     b"<root/>", b"<html>unfinished", b"<b>fragment</b>",
+                     b'<?xml broken?><root/>', b'<?xml version="1.0"?><a/><b/>',
+                     b"ordinary text"]:
+            self.copy(data=data)
+            require(observe("--types") == [[PLAIN]], "ambiguous input was mislabeled")
+            self.payload(PLAIN, data)
+        self.copy(data=b"generated structured failure sentinel")
+        self.copy(["--plain", "conflict"], b'{"broken":}', expected=1)
+        self.payload(PLAIN, b"generated structured failure sentinel")
 
     def failures(self):
         sentinel = b"pbjcopy keep this generated fixture"
