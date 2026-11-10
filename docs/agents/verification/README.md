@@ -42,6 +42,10 @@ downloaded asset/version checks are also **VERIFIED**, including the tap write.
 
 ## Evidence
 
+- [Structured-input detection and exact CLI extraction](evidence/issue-3-structured-input/report.json),
+  **VERIFIED**: JSON, HTML, XML, precedence, explicit overrides, fallback, and ambiguous input.
+- [Copy preparation failure preservation](evidence/issue-3-safe-failures/report.json),
+  **VERIFIED**. Both issue #3 runs reset the clipboard and removed owned scratch.
 - [Fresh rename/source-install proof](evidence/rename-2026-11-09/report.json), **VERIFIED**.
 - [Archive identities and both architecture runs](evidence/rename-2026-11-09/archives.json), **VERIFIED**.
 - [Copy information](evidence/rename-2026-11-09/pbjcopy-information/report.json) and
