@@ -127,9 +127,10 @@ the wrapper are not recognized.
 XML requires a declaration with `version="1.0"`, optional `encoding="UTF-8"`
 (case-insensitive encoding value), and optional `standalone="yes"` or `"no"`, in
 that order. Single quotes and XML whitespace around `=` are accepted. Other
-versions/encodings, declaration-free XML, and UTF-8/UTF-16 byte-order marks are
-not automatically recognized. XML parsing does not validate DTDs or schemas,
-resolve external entities, or guarantee namespace validity.
+versions/encodings, declaration-free XML, UTF-8/UTF-16 byte-order marks, and
+DTD/other `<!…>` directives (except comments and CDATA) are not automatically
+recognized. XML parsing rejects duplicate attributes but does not validate
+schemas, resolve external entities, or guarantee namespace validity.
 
 JSON scalars (`true`, `42`, `"hello"`, `null`), incomplete/malformed JSON or XML,
 multiple JSON values or XML roots, and otherwise ambiguous input remain plain

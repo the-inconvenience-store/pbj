@@ -88,6 +88,10 @@ func TestAmbiguousStructuredInputRemainsText(t *testing.T) {
 		"<b>hello</b>", "<root/>", "<htmlish>hello</htmlish>", "<html>unfinished",
 		"<?xml broken?><root/>", "<?xml version=\"1.0\"?><a/><b/>",
 		"<?xml version=\"1.0\"?><a></b>", "<?xml version=\"1.0\"?>outside<a/>",
+		"<?xml version=\"1.0\"?><root/><!garbage>",
+		"<?xml version=\"1.0\"?><root><!garbage></root>",
+		"<?xml version=\"1.0\"?><root><?xml version=\"1.0\"?></root>",
+		"<?xml version=\"1.0\"?><root a=\"1\" a=\"2\"/>",
 	} {
 		t.Run(input, func(t *testing.T) {
 			run := newInvocation(t, bytes.NewBufferString(input))

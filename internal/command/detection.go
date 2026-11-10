@@ -8,6 +8,8 @@ import (
 	"io"
 	"os"
 	"regexp"
+	"slices"
+	"strings"
 	"unicode/utf8"
 )
 
@@ -46,14 +48,14 @@ func detectedType(data []byte) string {
 	if htmlDocument.Match(text) {
 		return "public.html"
 	}
-	if xmlDeclaration.Match(text) && validXML(text) {
+	if declaration := xmlDeclaration.FindIndex(text); declaration != nil && validXML(text[declaration[1]:]) {
 		return "public.xml"
 	}
 	return plainTextType
 }
 
 // validXML requires one complete root and no character data outside it.
-// Token parsing does not resolve external entities or validate a DTD.
+// Token parsing rejects directives rather than resolving external entities or DTDs.
 func validXML(data []byte) bool {
 	decoder := xml.NewDecoder(bytes.NewReader(data))
 	depth, roots := 0, 0
@@ -62,10 +64,10 @@ func validXML(data []byte) bool {
 		if errors.Is(err, io.EOF) {
 			return roots == 1 && depth == 0
 		}
-		if err != nil {
+		if err != nil || !validXMLToken(token, depth) {
 			return false
 		}
-		switch value := token.(type) {
+		switch token.(type) {
 		case xml.StartElement:
 			if depth == 0 {
 				roots++
@@ -73,12 +75,33 @@ func validXML(data []byte) bool {
 			depth++
 		case xml.EndElement:
 			depth--
-		case xml.CharData:
-			if depth == 0 && len(bytes.TrimSpace(value)) != 0 {
+		}
+	}
+}
+
+func validXMLToken(token xml.Token, depth int) bool {
+	switch value := token.(type) {
+	case xml.StartElement:
+		// The token is consumed here; sorting its attributes needs no copy.
+		slices.SortFunc(value.Attr, func(a, b xml.Attr) int {
+			if order := strings.Compare(a.Name.Space, b.Name.Space); order != 0 {
+				return order
+			}
+			return strings.Compare(a.Name.Local, b.Name.Local)
+		})
+		for i := 1; i < len(value.Attr); i++ {
+			if value.Attr[i-1].Name == value.Attr[i].Name {
 				return false
 			}
 		}
+	case xml.Directive:
+		return false
+	case xml.ProcInst:
+		return !strings.EqualFold(value.Target, "xml")
+	case xml.CharData:
+		return depth != 0 || len(bytes.TrimSpace(value)) == 0
 	}
+	return true
 }
 
 func textLocale() string {

@@ -164,6 +164,10 @@ class Proof:
         for data in [b"true", b"42", b'"hello"', b'{"broken":}', b"{} trailing",
                      b"<root/>", b"<html>unfinished", b"<b>fragment</b>",
                      b'<?xml broken?><root/>', b'<?xml version="1.0"?><a/><b/>',
+                     b'<?xml version="1.0"?><root/><!garbage>',
+                     b'<?xml version="1.0"?><root><!garbage></root>',
+                     b'<?xml version="1.0"?><root><?xml version="1.0"?></root>',
+                     b'<?xml version="1.0"?><root a="1" a="2"/>',
                      b"ordinary text"]:
             self.copy(data=data)
             require(observe("--types") == [[PLAIN]], "ambiguous input was mislabeled")
