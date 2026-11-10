@@ -1,21 +1,40 @@
 # Changelog
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
-## Unreleased
+- - -
+## v0.2.0 - 2026-11-10T01:49:33
 
 ### Features
 
-- Automatically detect UTF-8 JSON containers, HTML document envelopes, and
-  declared XML in `pbjcopy`; preserve explicit-type overrides and opt-in
-  plain-text fallbacks. Scalars and ambiguous fragments remain plain text.
-- Add opt-in `pbjcopy --attachment NAME` to stream arbitrary stdin bytes into a
-  private cached backing file and publish a native file reference. Attachments
-  survive process exit and clipboard replacement; cleanup is manual or OS-owned.
-- Add `pbjpaste --to DIR` to copy file references into an existing directory,
-  preserving supported native metadata and symlinks without overwriting names.
-  Batches stop on the first failure and retain earlier successful copies.
+- **paste:** copy clipboard file references to disk ([ba74a5b](https://github.com/the-inconvenience-store/pbj/commit/ba74a5bee37b684f8c9e91928608d2810e9a07f2))
+
+- **copy:** materialize stdin as a file attachment ([be53684](https://github.com/the-inconvenience-store/pbj/commit/be53684f31d7ff1d9584ed821873377bf47fd6a8))
+
+- **copy:** detect HTML JSON and XML input ([06b823c](https://github.com/the-inconvenience-store/pbj/commit/06b823c193d4b48d8bb9ffeccdd99beaecb7a124))
+
+### Bug Fixes
+
+- **paste:** resolve symlink parents before traversal ([1205c27](https://github.com/the-inconvenience-store/pbj/commit/1205c27f83a46290f5f891fb0be2ac0eac69a5f6))
+
+- **copy:** reject malformed XML token structures ([4176a14](https://github.com/the-inconvenience-store/pbj/commit/4176a14c4798656e56c6e59c15afd26ee146fc0e))
+
+### Documentation
+
+- license pbj under MIT ([bb8b45a](https://github.com/the-inconvenience-store/pbj/commit/bb8b45ac559d91b113ddedff729c5e49c1a486ee))
+
+- record verified v0.1.0 release and Homebrew publication ([cb2ca93](https://github.com/the-inconvenience-store/pbj/commit/cb2ca93169b14a4527cf6b3b92f9df00882b740c))
+
+### Tests
+
+- **paste:** record filesystem and extraction CLI proof ([16da8d1](https://github.com/the-inconvenience-store/pbj/commit/16da8d10bac2c6b9876498790cce5f335e42b345))
+
+- **copy:** record attachment CLI and Mail verification ([920d256](https://github.com/the-inconvenience-store/pbj/commit/920d256dd29baa2a72c2b1f8b2a022c6520047cb))
+
+- **copy:** record structured input CLI verification ([717c0de](https://github.com/the-inconvenience-store/pbj/commit/717c0dee7e2961b81c8c4c0e4d3bb45f86fbf89a))
+
 
 - - -
+
 ## v0.1.0 - 2026-11-09T08:51:01
 
 ### Features
