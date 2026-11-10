@@ -15,6 +15,10 @@ the renamed commands. Obsolete captures were retired, not relabelled as fresh pr
 **v0.1.0 publication VERIFIED:** [hosted workflow, release body, downloads, and tap state](../evidence/v0.1.0-publication/report.json).
 The tap credential successfully wrote its default branch without exposing its value.
 The local source driver remains separate and never publishes.
+**v0.2.0 publication VERIFIED:** [hosted jobs, exact release notes, downloaded
+archive checksums, both architecture runs, and canonical tap formula](../evidence/v0.2.0-publication/report.json).
+arm64 commands ran natively; x86_64 commands ran through Rosetta. This does not
+claim a fresh Homebrew installation or macOS 13 runtime proof.
 
 ## Launch
 

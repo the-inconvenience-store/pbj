@@ -1,0 +1,67 @@
+{
+  "tag": "v0.2.0",
+  "commit": "fbd738a8269d0af15c608fee33646ec75947d8af",
+  "verdict": "VERIFIED",
+  "workflow": {
+    "url": "https://github.com/the-inconvenience-store/pbj/actions/runs/42738982333",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "Publish GitHub release",
+        "conclusion": "success"
+      },
+      {
+        "name": "Publish Homebrew formula",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "release_url": "https://github.com/the-inconvenience-store/pbj/releases/tag/v0.2.0",
+  "notes_match_committed_tag": true,
+  "asset_sha256": {
+    "pbj_0.2.0_darwin_amd64.tar.gz": "414d8a81a186eba2bf5d05355b104fa6b16d2c5dd19d5c0b4a6832c3a4dc86d0",
+    "pbj_0.2.0_darwin_arm64.tar.gz": "d7a779f4d742fa44706b1ac6a72a426fc1ccd63f33f2eefc8895307578ae96a9",
+    "pbj_0.2.0_source.tar.gz": "3afb913a1ee9fff02ad0746cbf83282d49cca6d3bd9798967a9190565dafe3c7"
+  },
+  "source_prefix": "pbj_0.2.0/",
+  "binaries": [
+    {
+      "command": "pbjcopy",
+      "architecture": "arm64",
+      "version": "pbjcopy 0.2.0",
+      "help_and_usage_smoke": true,
+      "execution": "native"
+    },
+    {
+      "command": "pbjpaste",
+      "architecture": "arm64",
+      "version": "pbjpaste 0.2.0",
+      "help_and_usage_smoke": true,
+      "execution": "native"
+    },
+    {
+      "command": "pbjcopy",
+      "architecture": "x86_64",
+      "version": "pbjcopy 0.2.0",
+      "help_and_usage_smoke": true,
+      "execution": "Rosetta"
+    },
+    {
+      "command": "pbjpaste",
+      "architecture": "x86_64",
+      "version": "pbjpaste 0.2.0",
+      "help_and_usage_smoke": true,
+      "execution": "Rosetta"
+    }
+  ],
+  "homebrew": {
+    "repository": "the-inconvenience-store/homebrew-tap",
+    "path": "Formula/pbj.rb",
+    "blob_sha": "5b91608e3ad1c7f27ff89e771f5bc15073a5d973",
+    "source_url": "https://github.com/the-inconvenience-store/pbj/releases/download/v0.2.0/pbj_0.2.0_source.tar.gz",
+    "source_sha256": "3afb913a1ee9fff02ad0746cbf83282d49cca6d3bd9798967a9190565dafe3c7",
+    "matches_canonical_generator": true
+  },
+  "remote_tag_commit_matches": true,
+  "scratch_removed": true
+}

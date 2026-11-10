@@ -45,6 +45,9 @@ downloaded asset/version checks are also **VERIFIED**, including the tap write.
 
 ## Evidence
 
+- [Published v0.2.0 release and Homebrew formula](evidence/v0.2.0-publication/report.json),
+  **VERIFIED**: both hosted jobs, exact-tag notes, downloaded checksums/source
+  layout, native arm64 and Rosetta x86_64 command smoke, and the canonical tap formula.
 - [Filesystem paste and full paste regression proof](evidence/issue-1-filesystem-paste/report.json),
   **VERIFIED**: 160 real CLI actions covering no-clobber copying, recursive contents,
   metadata/symlinks, physical parent traversal, partial success, and unchanged
