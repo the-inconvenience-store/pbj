@@ -14,4 +14,5 @@ const (
 	optionListTypes  = "--list-types"
 	optionItem       = "--item"
 	optionAttachment = "--attachment"
+	optionNull       = "--null"
 )

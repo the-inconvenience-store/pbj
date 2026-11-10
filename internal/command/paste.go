@@ -18,6 +18,7 @@ import (
 type pasteOptions struct {
 	typeName  singleString
 	board     singleString
+	to        singleString
 	prefer    singleString
 	item      singleString
 	index     int
@@ -31,6 +32,7 @@ type pasteOptions struct {
 // Paste reads the clipboard without modifying it. Like Run, it returns 0 for
 // success, 1 for operational failure, and 2 for an invalid invocation.
 // Stdin is never read. The caller supplies Stdout and Stderr.
+// --to copies file references to the filesystem instead of writing stdout.
 func (cmd Command) Paste(args []string) int {
 	code := 2
 	var opts pasteOptions
@@ -53,6 +55,9 @@ func (cmd Command) Paste(args []string) int {
 		}
 		if err != nil {
 			return err
+		}
+		if opts.to.set {
+			return nil
 		}
 		count, err := cmd.Stdout.Write(data)
 		if err == nil && count != len(data) {
@@ -94,11 +99,13 @@ func newPasteRoot(opts *pasteOptions) *cobra.Command {
 			"Default output prefers plain text, EPS, then RTF. Plain text uses\n" +
 			"LC_ALL, LC_CTYPE, LANG, or C encoding; exact types preserve raw bytes.\n" +
 			"Multiple items require --item for ordinary or exact extraction.\n" +
+			"Use --to DIR to copy file references without overwriting existing names.\n" +
 			"Native -help, -pboard, and -Prefer spellings are accepted.\n" +
 			"Help and version must be requested alone. See docs/pbjpaste.md.",
 		Example: "  pbjpaste --list-types\n" +
 			"  pbjpaste -t public.png > image.png\n" +
-			"  pbjpaste --files --null",
+			"  pbjpaste --files --null\n" +
+			"  pbjpaste --to .",
 		Args:               cobra.NoArgs,
 		SilenceErrors:      true,
 		SilenceUsage:       true,
@@ -113,6 +120,7 @@ func newPasteRoot(opts *pasteOptions) *cobra.Command {
 	root.Flags().Var(&opts.item, "item", "Select a zero-based clipboard item")
 	root.Flags().VarP(&opts.listTypes, "list-types", "l", "Inspect advertised types per item as JSON, without fetching data")
 	root.Flags().Var(&opts.files, "files", "Extract ordered local file-reference paths as UTF-8 records")
+	root.Flags().Var(&opts.to, "to", "Copy file references into this existing directory without overwriting")
 	root.Flags().Var(&opts.null, "null", "Terminate paths with NUL instead of newline (requires --files)")
 	root.Flags().VarP(&opts.help, "help", "h", "Show help")
 	root.Flags().VarP(&opts.version, "version", "v", "Show version")
@@ -151,19 +159,22 @@ func (opts *pasteOptions) validate(root *cobra.Command) error {
 
 func (opts *pasteOptions) validateExtraction() error {
 	modes := 0
-	for _, selected := range []bool{opts.listTypes.value, opts.files.value, opts.typeName.set, opts.prefer.set} {
+	for _, selected := range []bool{opts.listTypes.value, opts.files.value, opts.typeName.set, opts.prefer.set, opts.to.set} {
 		if selected {
 			modes++
 		}
 	}
 	if modes > 1 {
-		return errors.New("type inspection, exact type, files, and preference are mutually exclusive")
+		return errors.New("type inspection, exact type, files, preference, and filesystem paste are mutually exclusive")
 	}
 	if opts.null.value && !opts.files.value {
 		return errors.New("--null requires --files")
 	}
 	if opts.typeName.set && (opts.typeName.value == "" || !utf8.ValidString(opts.typeName.value) || strings.ContainsRune(opts.typeName.value, 0)) {
 		return errors.New("pasteboard type must be a nonempty UTF-8 identifier without NUL")
+	}
+	if opts.to.set && opts.to.value == "" {
+		return errors.New("--to requires a nonempty destination directory")
 	}
 	return nil
 }
@@ -183,12 +194,19 @@ func (cmd Command) readPaste(opts pasteOptions) (output []byte, err error) {
 		return nil, err
 	}
 	defer snapshot.Close()
+	return opts.readSnapshot(snapshot)
+}
+
+func (opts *pasteOptions) readSnapshot(snapshot *pasteboard.Snapshot) ([]byte, error) {
 	first, last, err := opts.itemRange(len(snapshot.Types()))
 	if err != nil {
 		return nil, err
 	}
 	if opts.listTypes.value {
 		return inspectTypes(snapshot.Types(), first, last)
+	}
+	if opts.to.set {
+		return nil, pasteFilesTo(snapshot, first, last, opts.to.value)
 	}
 	if opts.files.value {
 		separator := byte('\n')

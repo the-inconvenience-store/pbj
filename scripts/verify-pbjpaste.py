@@ -20,7 +20,7 @@ EPS = "com.adobe.encapsulated-postscript"
 RAW = "com.example.pbjpaste-verification.raw"
 FILE = "public.file-url"
 ENV = {**os.environ, "LC_ALL": "en_US.UTF-8"}
-FEATURES = ("information", "representations", "files", "failures")
+FEATURES = ("information", "representations", "files", "filesystem", "failures")
 
 # Metadata is safe before a fixture write. Payload observation is enabled only
 # for explicitly named generated representations and the seeded change count.
@@ -214,7 +214,7 @@ function run(args) {
                     "pbjpaste information failed")
             if "help" in flag or flag == "-h":
                 for option in (b"--type", b"--list-types", b"--item", b"--files",
-                               b"--null", b"--pboard", b"--prefer"):
+                               b"--null", b"--pboard", b"--prefer", b"--to"):
                     require(option in result.stdout, "generated help omitted a paste option")
             self.record("pbjpaste " + flag, exit=0, stdout=digest(result.stdout), clipboard_read=False)
 
@@ -332,6 +332,119 @@ function run(args) {
         self.paste(["--files", "--null"], expected=(str(first) + "\0" + str(newline) + "\0").encode(),
                    label="file reference extraction does not require target existence")
 
+
+    def filesystem(self):
+        source = self.scratch / "filesystem-sources"
+        source.mkdir()
+        binary = source / "space ☃\nfile.bin"
+        binary.write_bytes(bytes(range(256)))
+        empty = source / "empty"
+        empty.write_bytes(b"")
+        tree = source / "tree"
+        (tree / "nested").mkdir(parents=True)
+        payload = tree / "nested/payload"
+        payload.write_bytes(b"owned directory payload")
+        payload.chmod(0o751)
+        os.utime(payload, (1700000000, 1700000000))
+        metadata = invoke(["/usr/bin/xattr", "-w", "com.example.pbjpaste-verification", "owned metadata", payload])
+        require(metadata.returncode == 0, "could not prepare owned extended-attribute fixture")
+        (tree / "dangling").symlink_to("missing-target")
+        link = source / "tree-link"
+        link.symlink_to("tree")
+
+        def seed(paths):
+            arguments = [argument for path in paths for argument in ("--file", path)]
+            urls = [(path.as_uri() + ("/" if path.is_dir() else "")).encode() for path in paths]
+            self.seed(arguments=arguments, expected={FILE: urls})
+
+        destination = self.scratch / "filesystem-destination"
+        destination.mkdir()
+        seed([binary, empty, tree, link])
+        self.paste(["--to", destination], label="filesystem paste of multiple files, directory, and symlink")
+        require((destination / binary.name).read_bytes() == bytes(range(256)), "binary file copy differs")
+        require((destination / empty.name).read_bytes() == b"", "empty file copy differs")
+        copied = destination / "tree/nested/payload"
+        require(copied.read_bytes() == b"owned directory payload", "recursive file content differs")
+        require(copied.stat().st_mode & 0o777 == 0o751 and copied.stat().st_mtime_ns == 1700000000000000000,
+                "native file mode or timestamp was not preserved")
+        metadata = invoke(["/usr/bin/xattr", "-p", "com.example.pbjpaste-verification", copied])
+        require(metadata.returncode == 0 and metadata.stdout.rstrip(b"\n") == b"owned metadata",
+                "native extended attribute was not preserved")
+        require(os.readlink(destination / "tree/dangling") == "missing-target" and
+                os.readlink(destination / link.name) == "tree", "symlinks were dereferenced or changed")
+        require(set(path.name for path in destination.iterdir()) == {binary.name, empty.name, "tree", link.name},
+                "filesystem destination contains extra or missing objects")
+        self.record("inspect copied filesystem objects",
+                    binary=digest(bytes(range(256))), recursive=digest(b"owned directory payload"),
+                    empty=digest(b""), names_with_spaces_unicode_newlines=True,
+                    symlinks_preserved=True, mode_mtime_xattr_preserved=True)
+        self.paste(["--to", destination], status=1, label="repeat paste refuses existing names")
+        require((destination / binary.name).read_bytes() == bytes(range(256)), "repeat paste changed data")
+        selected = self.scratch / "filesystem-selected"
+        selected.mkdir()
+        self.paste(["--to", selected, "--item", "2"], label="filesystem item selection")
+        require(set(path.name for path in selected.iterdir()) == {"tree"} and
+                (selected / "tree/nested/payload").read_bytes() == b"owned directory payload",
+                "filesystem selection copied the wrong items")
+
+        seed([binary])
+        for kind in ("file", "directory", "symlink"):
+            collision = self.scratch / ("collision-" + kind)
+            collision.mkdir()
+            target = collision / binary.name
+            sentinel = self.scratch / ("keep-" + kind)
+            sentinel.write_bytes(b"keep existing bytes")
+            if kind == "file":
+                target.write_bytes(b"keep existing bytes")
+            elif kind == "directory":
+                target.mkdir()
+                (target / "keep").write_bytes(b"keep existing bytes")
+            else:
+                target.symlink_to(sentinel)
+            self.paste(["--to", collision], status=1, label="refuse existing " + kind + " destination")
+            require(set(path.name for path in collision.iterdir()) == {binary.name}, "collision leaked staging")
+            retained = target / "keep" if kind == "directory" else target
+            require(retained.read_bytes() == b"keep existing bytes", "collision changed existing bytes")
+            if kind == "symlink":
+                require(target.is_symlink() and os.readlink(target) == str(sentinel), "collision replaced symlink")
+
+        self.paste(["--to", self.scratch / "missing-destination"], status=1, label="reject missing destination")
+        self.paste(["--to", binary], status=1, label="reject nondirectory destination")
+        missing = source / "removed-after-copy"
+        missing.write_bytes(b"will be removed")
+        seed([binary, missing, empty])
+        missing.unlink()
+        partial = self.scratch / "partial-destination"
+        partial.mkdir()
+        self.paste(["--to", partial], status=1, label="missing source stops batch after earlier successful copy")
+        require(set(path.name for path in partial.iterdir()) == {binary.name} and
+                (partial / binary.name).read_bytes() == bytes(range(256)), "partial-success contract differs")
+
+        seed([tree])
+        alias = self.scratch / "recursive-alias"
+        alias.symlink_to(tree / "nested")
+        before = set((tree / "nested").iterdir())
+        self.paste(["--to", alias], status=1, label="reject destination inside source through symlink")
+        require(set((tree / "nested").iterdir()) == before, "recursive rejection changed source tree")
+        blocked = tree / "unreadable"
+        blocked.mkdir()
+        blocked.chmod(0)
+        failed = self.scratch / "failed-tree-destination"
+        failed.mkdir()
+        try:
+            self.paste(["--to", failed], status=1, label="unreadable subtree prevents top-level publication")
+        finally:
+            blocked.chmod(0o700)
+        require(not list(failed.iterdir()), "unreadable tree was published or staging leaked")
+        special = source / "special"
+        special.mkdir()
+        os.mkfifo(special / "pipe", 0o600)
+        seed([special])
+        self.paste(["--to", failed], status=1, label="unsupported FIFO fails without publication")
+        require(not list(failed.iterdir()), "special-file copy published data or staging leaked")
+        self.record("filesystem failure safety", no_overwrite=True, partial_success_documented=True,
+                    failed_object_not_published=True, clipboard_generation_and_bytes_preserved=True)
+
     def failures(self):
         self.seed(b"pbjpaste generated preservation sentinel")
         self.paste(["--type", RAW], status=1)
@@ -346,9 +459,13 @@ function run(args) {
             ["--list-types", "--null"], ["--help", "--version"],
             ["--help", "--item", "0"], ["--version", "--pboard", "general"],
             ["--help", "operand"], ["--version", "--list-types"],
+            ["--to"], ["--to", ""], ["--to", ".", "--files"],
+            ["--to", ".", "--null"], ["--to", ".", "--type", FILE],
+            ["--to", ".", "--list-types"], ["--to", ".", "--prefer", "txt"],
+            ["--to", ".", "--help"], ["--to", ".", "--version"],
         ]
         for name, value in (("--type", PLAIN), ("--item", "0"),
-                            ("--pboard", "general"), ("--prefer", "txt")):
+                            ("--pboard", "general"), ("--prefer", "txt"), ("--to", ".")):
             invalid.append([name, value, name, value])
         for name in ("--files", "--null", "--list-types", "--help", "--version"):
             invalid.append([name, name])

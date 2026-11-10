@@ -10,9 +10,9 @@ retired captures are not claimed as a new live run.
 The public surface is `pbjpaste`, launched from `cmd/pbjpaste` and implemented by
 `internal/command.Command.Paste`. `internal/pasteboard` owns native captures,
 exact representation access, and locale encoding; the command decodes file URL
-paths. Fixture publication uses the real `pbjcopy`, not an internal Go setter. This is a CLI
-extraction change: no TextEdit, Preview, Finder, screenshot, or GUI automation is
-needed to prove its output.
+paths. `--to DIR` copies referenced filesystem objects. Fixture publication uses
+the real `pbjcopy`, not an internal Go setter. No TextEdit, Preview, Finder,
+screenshot, or GUI automation is needed to prove CLI/filesystem output.
 
 ## Launch
 
@@ -58,7 +58,7 @@ python3 scripts/verify-pbjpaste.py --allow-clipboard --feature all \
 ```
 
 The evidence directory must be new and outside `/tmp/pbjpaste-verify-*` scratch.
-Select `--feature information|representations|files|failures` for a focused proof.
+Select `--feature information|representations|files|filesystem|failures` for a focused proof.
 Only `information` is read-only and may omit `--allow-clipboard`:
 
 ```sh
@@ -88,6 +88,10 @@ no prior clipboard payloads and never prints unexpected extraction bytes or
 native payloads. Repository, home, and scratch prefixes in exception messages are
 redacted. Generated file URL/path bytes are compared in memory, not saved as
 personal absolute paths in reports.
+Filesystem proof checks post-exit destination bytes and recursive contents,
+symlinks, mode/mtime/xattr metadata, no-clobber collisions, selected items,
+missing/unreadable sources, invalid/recursive destinations, and partial success.
+All destination writes and failure fixtures stay inside owned scratch.
 
 A result is `VERIFIED` only after every selected assertion and cleanup succeeds.
 A failed drive yields `NOT VERIFIED`; readiness/setup exceptions yield

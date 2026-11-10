@@ -11,6 +11,9 @@ All notable changes to this project will be documented in this file. See [conven
 - Add opt-in `pbjcopy --attachment NAME` to stream arbitrary stdin bytes into a
   private cached backing file and publish a native file reference. Attachments
   survive process exit and clipboard replacement; cleanup is manual or OS-owned.
+- Add `pbjpaste --to DIR` to copy file references into an existing directory,
+  preserving supported native metadata and symlinks without overwriting names.
+  Batches stop on the first failure and retain earlier successful copies.
 
 - - -
 ## v0.1.0 - 2026-11-09T08:51:01

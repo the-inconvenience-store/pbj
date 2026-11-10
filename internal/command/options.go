@@ -171,7 +171,7 @@ func nativeArguments(args []string) []string {
 			normalized[index] = "--prefer" + strings.TrimPrefix(arg, "-Prefer")
 		}
 		switch arg {
-		case "-t", "--type", "-p", "--plain", "-f", "--file", "--attachment", "-pboard", "--pboard", "-Prefer", "--prefer", "--item":
+		case "-t", "--type", "-p", "--plain", "-f", "--file", "--attachment", "--to", "-pboard", "--pboard", "-Prefer", "--prefer", "--item":
 			index++
 		}
 	}

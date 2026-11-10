@@ -1,8 +1,9 @@
 # pbjpaste command reference
 
 `pbjpaste` reads representations or file-reference paths from a macOS pasteboard
-and writes them to stdout. It is the paste companion to [`pbjcopy`](pbjcopy.md).
-Reading leaves the selected pasteboard unchanged, on success and failure.
+and writes them to stdout, or copies referenced files with `--to DIR`. It is the
+paste companion to [`pbjcopy`](pbjcopy.md). The selected pasteboard is unchanged
+on success and failure.
 
 ## Examples
 
@@ -34,6 +35,19 @@ pbjpaste --files
 pbjpaste --files --null > paths.nul
 ```
 
+Copy referenced files and directories into an existing destination directory:
+
+```sh
+pbjcopy --file ./report.pdf --file ./images
+mkdir ./pasted-files
+pbjpaste --to ./pasted-files
+```
+
+Filesystem paste is explicit, silent on success, and never overwrites an existing
+name. `--files` still prints paths; redirection still saves representation bytes.
+Use `--to .` to select the current directory, or add `--item N` to copy only one
+selected clipboard item.
+
 Prefer RTF or read the find pasteboard using native-style options:
 
 ```sh
@@ -53,6 +67,7 @@ truncate the destination before `pbjpaste` runs, including when the command fail
 | `--list-types` | List items and their advertised type identifiers as JSON. |
 | `--item N` | Select a zero-based pasteboard item. |
 | `--files` | Read ordered file-reference paths from all items, or the selected item. |
+| `--to DIR` | Copy referenced files/directories into an existing directory without overwriting. |
 | `--null` | Use NUL-delimited paths instead of newline-delimited paths; requires `--files`. |
 | `--pboard BOARD`, `-pboard BOARD` | Select `general`, `find`, `ruler`, or `font`. Default: `general`. |
 | `--prefer FORMAT`, `-Prefer FORMAT` | Prefer `txt`, `rtf`, or `ps`; `ascii` is an alias for `txt`. |
@@ -65,7 +80,7 @@ board names or preferences, invalid item indices, and incompatible modes are
 usage errors rather than requests to guess. Help and version are standalone:
 they cannot be combined with other options or each other.
 
-The extraction modes are mutually exclusive:
+The paste modes are mutually exclusive:
 
 - **Default:** choose a supported representation using the preference order
   below. `--prefer` only applies to this mode.
@@ -75,8 +90,11 @@ The extraction modes are mutually exclusive:
   It cannot be combined with `--type`, `--prefer`, or `--list-types`.
 - **Type listing:** `--list-types` can be combined with `--pboard` and `--item`,
   but not `--type`, `--files`, `--prefer`, or `--null`.
+- **Filesystem paste:** `--to DIR` copies referenced objects instead of writing
+  stdout. It cannot be combined with `--type`, `--files`, `--prefer`,
+  `--list-types`, or `--null`.
 
-`--pboard` and `--item` also apply to default, exact-type, and file extraction.
+`--pboard` and `--item` also apply to default, exact-type, file extraction, and filesystem paste.
 `--null` is invalid without `--files`.
 
 ## Items and type listing
@@ -106,7 +124,7 @@ An index outside the available items is an error.
 
 ## Default selection and locale
 
-Without `--type`, `--files`, or `--list-types`, the default order is:
+Without `--type`, `--files`, `--list-types`, or `--to`, the default order is:
 
 1. Plain text (`public.utf8-plain-text`).
 2. EPS/PostScript (`com.adobe.encapsulated-postscript`).
@@ -174,6 +192,61 @@ writing paths to stdout and recommends `--null`, avoiding ambiguous records.
 With `--null`, each path has a trailing NUL byte, including the last path.
 This mode preserves path boundaries even when paths contain newlines.
 
+## Filesystem paste
+
+`--to DIR` copies local file references from Finder, `pbjcopy --file`, or
+`pbjcopy --attachment` into an **existing directory**. `DIR` is required; use
+`--to .` explicitly for the current directory. Relative destinations are relative
+to the current working directory. Shell `~` expansion works as usual; quoted `~`
+is a literal path, not expanded by `pbjpaste`. A destination symlink to a directory
+is resolved before copying. Missing directories are not created.
+
+All clipboard items are processed in order unless `--item N` selects one.
+Every selected item must supply a valid local `public.file-url`, under the same
+URL rules as `--files`. Empty clipboards, non-file items, invalid URLs, missing or
+unreadable sources, invalid destinations, and copy failures return status 1 with
+stderr diagnostics. Newlines, spaces, and Unicode in filenames need no separator
+option: names are filesystem objects, not parsed stdout records.
+
+Each object is copied under its source basename. There is **no overwrite,
+directory merging, automatic renaming, or overwrite option**. Existing files,
+directories, and symlinks—including dangling destination symlinks—are collisions.
+Equal basenames from different source directories also collide. Repeating a paste
+fails at the first existing name rather than silently replacing earlier results.
+Copying a directory into itself or a descendant is rejected, including when a
+destination symlink would otherwise disguise that relationship.
+
+Regular files, directory trees, and symlinks are supported. Symlinks are copied
+as links, not followed; relative links keep their original target text and may
+therefore resolve differently after copying. Links may continue to point outside
+the copied tree. Special objects such as FIFOs, sockets, and devices are not
+supported. Native macOS `copyfile` requests data, POSIX metadata, ACLs, and extended
+attributes, including resource forks. Supported metadata is subject to filesystem
+and user permissions; ownership, set-id bits, hard-link relationships, and file
+identities are not guaranteed. Source files are not frozen while copying:
+concurrent source edits can affect the result.
+
+### Failure and partial success
+
+The operation stops at the first failure. **Earlier successfully copied objects
+remain**; later clipboard items are not attempted. There is no multi-object
+transaction, rollback, resume, retry, or restoration of destination contents.
+The clipboard itself is never modified.
+
+Each top-level object is first prepared in a private `.pbjpaste-*` staging
+directory inside the destination, then published using native exclusive rename.
+This prevents replacement even if a destination name appears during copying.
+An individual tree is not published under its final name before copying
+finishes. Owned staging is removed after normal completion/failure; cleanup
+errors are reported and can leave a staging directory behind. A crash or forced
+termination can also leave staging. Remove only staging known to belong to that
+interrupted invocation, never unrelated files.
+
+Publication does not guarantee crash durability or provide a filesystem
+snapshot. Concurrent changes to source/destination trees are not isolated.
+Filesystem paste does not convert images/rich text or extract embedded
+attachments; it only copies referenced filesystem objects.
+
 ## Read consistency and failures
 
 `pbjpaste` snapshots pasteboard metadata and fetches only the payloads needed for
@@ -187,8 +260,8 @@ archives, background watchers, or a daemon.
 
 | Exit status | Meaning |
 | --- | --- |
-| `0` | Successful extraction, type listing, help, or version; also empty default output. |
-| `1` | Operational failure, including missing exact data or file references, an unavailable item, locale encoding, native read, pasteboard change, or output failure. |
+| `0` | Successful extraction, filesystem paste, type listing, help, or version; also empty default output. |
+| `1` | Operational failure, including missing data/references, unavailable items, locale encoding, native reads, pasteboard changes, output errors, or filesystem copy/preparation/publication/cleanup failures. |
 | `2` | Invalid command-line usage. |
 
 ## Build and runtime

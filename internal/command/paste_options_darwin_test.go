@@ -16,7 +16,7 @@ func TestPasteRejectsAmbiguousAndRepeatedOptions(t *testing.T) {
 		{optionListTypes, optionFiles},
 		{optionListTypes, "--prefer", "txt"},
 		{optionFiles, "-t", typePlain},
-		{"--null"},
+		{optionNull},
 		{optionItem, "-1"},
 		{optionItem, "0", optionItem, "1"},
 		{"-t", typePlain, "--type", typeHTML},

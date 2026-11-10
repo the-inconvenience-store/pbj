@@ -15,7 +15,7 @@ func TestPasteFilesRejectsAmbiguousLinesAndSupportsNUL(t *testing.T) {
 		t.Fatalf("unsafe newline output exit=%d stdout=%q", code, &run.stdout)
 	}
 	run.stderr.Reset()
-	if code := run.command.Paste([]string{optionFiles, "--null"}); code != 0 {
+	if code := run.command.Paste([]string{optionFiles, optionNull}); code != 0 {
 		t.Fatalf("NUL extraction exit=%d stderr=%s", code, &run.stderr)
 	}
 	expected := []byte(paths[0] + "\x00" + paths[1] + "\x00")
