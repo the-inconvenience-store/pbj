@@ -24,7 +24,7 @@ func pasteFilesTo(snapshot *pasteboard.Snapshot, first, last int, destination st
 	if first == last {
 		return errors.New("clipboard has no file references")
 	}
-	directory, err := filepath.Abs(destination)
+	directory, err := resolvePhysicalPath(destination)
 	if err != nil {
 		return fmt.Errorf("resolve destination: %w", err)
 	}
@@ -35,10 +35,6 @@ func pasteFilesTo(snapshot *pasteboard.Snapshot, first, last int, destination st
 	if !info.IsDir() {
 		return fmt.Errorf("destination %q is not a directory", directory)
 	}
-	directory, err = filepath.EvalSymlinks(directory)
-	if err != nil {
-		return fmt.Errorf("resolve destination links: %w", err)
-	}
 	for i := first; i < last; i++ {
 		data, err := snapshot.Data(i, fileURLType)
 		if err != nil {
@@ -48,7 +44,7 @@ func pasteFilesTo(snapshot *pasteboard.Snapshot, first, last int, destination st
 		if err != nil {
 			return fmt.Errorf("file reference in item %d: %w", i, err)
 		}
-		if err := copyReferenceTo(filepath.Clean(source), directory); err != nil {
+		if err := copyReferenceTo(source, directory); err != nil {
 			return fmt.Errorf("copy item %d (%q): %w", i, source, err)
 		}
 	}
@@ -56,6 +52,10 @@ func pasteFilesTo(snapshot *pasteboard.Snapshot, first, last int, destination st
 }
 
 func copyReferenceTo(source, directory string) (err error) {
+	source, err = resolveCopySource(source)
+	if err != nil {
+		return err
+	}
 	if err := validateCopySource(source, directory); err != nil {
 		return err
 	}
@@ -97,11 +97,7 @@ func validateCopySource(source, directory string) error {
 	if !info.IsDir() {
 		return nil
 	}
-	realSource, err := filepath.EvalSymlinks(source)
-	if err != nil {
-		return err
-	}
-	relative, err := filepath.Rel(realSource, directory)
+	relative, err := filepath.Rel(source, directory)
 	if err != nil {
 		return err
 	}
@@ -109,4 +105,37 @@ func validateCopySource(source, directory string) error {
 		return errors.New("destination must not be inside the source directory")
 	}
 	return nil
+}
+
+// Resolve traversal before cleaning: link/.. refers to the symlink target's parent.
+func resolvePhysicalPath(path string) (string, error) {
+	if strings.ContainsRune(path, 0) {
+		return "", fmt.Errorf("path %q: %w", path, os.ErrInvalid)
+	}
+	nativePath := C.CString(path)
+	defer C.free(unsafe.Pointer(nativePath))
+	resolved, err := C.realpath(nativePath, nil)
+	if resolved == nil {
+		return "", fmt.Errorf("resolve %q: %w", path, err)
+	}
+	defer C.free(unsafe.Pointer(resolved))
+	return C.GoString(resolved), nil
+}
+
+// Resolve only source parents so the final symlink is copied, not dereferenced.
+func resolveCopySource(source string) (string, error) {
+	source = strings.TrimRight(source, string(os.PathSeparator))
+	if source == "" {
+		return string(os.PathSeparator), nil
+	}
+	split := strings.LastIndexByte(source, os.PathSeparator)
+	name := source[split+1:]
+	if name == "." || name == ".." {
+		return resolvePhysicalPath(source)
+	}
+	parent, err := resolvePhysicalPath(source[:split+1])
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(parent, name), nil
 }

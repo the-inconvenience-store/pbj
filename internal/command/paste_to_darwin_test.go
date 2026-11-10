@@ -4,11 +4,14 @@ package command_test
 
 import (
 	"bytes"
+	"net/url"
 	"os"
 	"path/filepath"
 	"syscall"
 	"testing"
 	"time"
+
+	"github.com/the-inconvenience-store/pbj/internal/pasteboard"
 )
 
 const optionTo = "--to"
@@ -220,5 +223,64 @@ func TestPasteToUnreadableSubdirectoryDoesNotPublishTree(t *testing.T) {
 	entries, err := os.ReadDir(destination)
 	if err != nil || len(entries) != 0 {
 		t.Fatalf("failed tree was published or staging leaked: %v err=%v", entries, err)
+	}
+}
+
+func symlinkParentFixture(t *testing.T) (string, string) {
+	t.Helper()
+	root := t.TempDir()
+	owned, other := filepath.Join(root, "owned"), filepath.Join(root, "other")
+	if err := os.Mkdir(owned, 0o700); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.MkdirAll(filepath.Join(other, "child"), 0o700); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink(filepath.Join(other, "child"), filepath.Join(owned, "link")); err != nil {
+		t.Fatal(err)
+	}
+	return owned, other
+}
+
+func TestPasteToResolvesDestinationSymlinksBeforeParentTraversal(t *testing.T) {
+	owned, other := symlinkParentFixture(t)
+	run, _ := filePaste(t, []string{firstPasteFile})
+	if code := run.command.Paste([]string{optionTo, owned + "/link/.."}); code != 0 {
+		t.Fatalf("exit=%d stderr=%s", code, &run.stderr)
+	}
+	assertPastedBytes(t, filepath.Join(other, firstPasteFile), []byte("fixture"))
+	if _, err := os.Lstat(filepath.Join(owned, firstPasteFile)); !os.IsNotExist(err) {
+		t.Fatalf("paste wrote into the lexical parent: %v", err)
+	}
+}
+
+func TestPasteToResolvesSourceParentsWithoutFollowingFinalSymlink(t *testing.T) {
+	owned, other := symlinkParentFixture(t)
+	if err := os.WriteFile(filepath.Join(owned, "payload"), []byte("wrong source"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(other, "payload"), []byte("referenced source"), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink("payload", filepath.Join(other, "final-link")); err != nil {
+		t.Fatal(err)
+	}
+	for _, name := range []string{"payload", "final-link"} {
+		t.Run(name, func(t *testing.T) {
+			run := newInvocation(t, nil)
+			location := &url.URL{Scheme: "file", Path: owned + "/link/../" + name}
+			if err := run.board.Write([]pasteboard.Representation{{Type: typeFileURL, Data: []byte(location.String())}}); err != nil {
+				t.Fatal(err)
+			}
+			destination := t.TempDir()
+			if code := run.command.Paste([]string{optionTo, destination}); code != 0 {
+				t.Fatalf("exit=%d stderr=%s", code, &run.stderr)
+			}
+			if name == "final-link" {
+				assertPastedSymlink(t, filepath.Join(destination, name), "payload")
+			} else {
+				assertPastedBytes(t, filepath.Join(destination, name), []byte("referenced source"))
+			}
+		})
 	}
 }

@@ -40,6 +40,9 @@ source after an earlier success, a destination inside its source through a
 symlink, an unreadable subtree, and a FIFO must fail. Prior successful objects
 remain after a later missing source; the failing tree is not published and
 normal cleanup leaves no staging directory.
+Destination and raw source URL paths containing `symlink/..` must select the
+filesystem-resolved parent, not the lexical parent. Resolving source parents
+must still preserve a final symlink rather than copy its target.
 
 ## Gotchas
 

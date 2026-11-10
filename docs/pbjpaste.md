@@ -200,6 +200,9 @@ This mode preserves path boundaries even when paths contain newlines.
 to the current working directory. Shell `~` expansion works as usual; quoted `~`
 is a literal path, not expanded by `pbjpaste`. A destination symlink to a directory
 is resolved before copying. Missing directories are not created.
+Symlink/`..` components follow filesystem traversal semantics, not lexical path
+cleaning. Source parent components are resolved while preserving the final
+source symlink as a link.
 
 All clipboard items are processed in order unless `--item N` selects one.
 Every selected item must supply a valid local `public.file-url`, under the same

@@ -445,6 +445,34 @@ function run(args) {
         self.record("filesystem failure safety", no_overwrite=True, partial_success_documented=True,
                     failed_object_not_published=True, clipboard_generation_and_bytes_preserved=True)
 
+        owned = self.scratch / "traversal-owned"
+        other = self.scratch / "traversal-other"
+        owned.mkdir()
+        (other / "child").mkdir(parents=True)
+        (owned / "link").symlink_to(other / "child")
+        seed([binary])
+        self.paste(["--to", str(owned) + "/link/.."],
+                   label="destination symlink followed before parent traversal")
+        require((other / binary.name).read_bytes() == bytes(range(256)) and
+                not (owned / binary.name).exists(), "destination traversal selected the lexical parent")
+        (owned / "payload").write_bytes(b"wrong source")
+        (other / "payload").write_bytes(b"referenced source")
+        (other / "final-link").symlink_to("payload")
+        for name in ("payload", "final-link"):
+            raw_url = (owned.as_uri() + "/link/../" + name).encode()
+            self.seed(raw_url, ["--type", FILE], {FILE: [raw_url]})
+            selected_source = self.scratch / ("resolved-source-" + name)
+            selected_source.mkdir()
+            self.paste(["--to", selected_source],
+                       label="source parents resolved without dereferencing final object: " + name)
+            copied = selected_source / name
+            if name == "final-link":
+                require(copied.is_symlink() and os.readlink(copied) == "payload", "final source link was dereferenced")
+            else:
+                require(copied.read_bytes() == b"referenced source", "source traversal copied the wrong file")
+        self.record("physical path traversal", destination_symlink_parent_resolved=True,
+                    raw_file_url_source_parent_resolved=True, final_source_symlink_preserved=True)
+
     def failures(self):
         self.seed(b"pbjpaste generated preservation sentinel")
         self.paste(["--type", RAW], status=1)
