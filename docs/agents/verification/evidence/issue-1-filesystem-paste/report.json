@@ -1,0 +1,2085 @@
+{
+  "host": {
+    "system": "macOS",
+    "macOS": "26.5.1",
+    "architecture": "arm64",
+    "binaries": {
+      "pbjcopy": "pbjcopy dev",
+      "pbjpaste": "pbjpaste dev"
+    }
+  },
+  "feature": "all",
+  "verdict": "VERIFIED",
+  "actions": [
+    {
+      "action": "pbjpaste --help",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 1369,
+          "sha256": "5f49f3b0c04f1c0d1dcd3a1814573cc48fd194adec703fed2c7453389ec8ed99"
+        },
+        "clipboard_read": false
+      }
+    },
+    {
+      "action": "pbjpaste -h",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 1369,
+          "sha256": "5f49f3b0c04f1c0d1dcd3a1814573cc48fd194adec703fed2c7453389ec8ed99"
+        },
+        "clipboard_read": false
+      }
+    },
+    {
+      "action": "pbjpaste -help",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 1369,
+          "sha256": "5f49f3b0c04f1c0d1dcd3a1814573cc48fd194adec703fed2c7453389ec8ed99"
+        },
+        "clipboard_read": false
+      }
+    },
+    {
+      "action": "pbjpaste --version",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 13,
+          "sha256": "96412db1f7af508ea3b914a2b2bcfa0ebbd184ef5f2d0e9e14c11b5bc4c78f39"
+        },
+        "clipboard_read": false
+      }
+    },
+    {
+      "action": "pbjpaste -v",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 13,
+          "sha256": "96412db1f7af508ea3b914a2b2bcfa0ebbd184ef5f2d0e9e14c11b5bc4c78f39"
+        },
+        "clipboard_read": false
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "com.example.pbjpaste-verification.raw": [
+            {
+              "bytes": 9,
+              "sha256": "59c6278b95c18c470667571d8c37faf12502375060eaf96cc881e9473895e17a"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "pbjpaste --list-types ",
+      "observed": {
+        "items": [
+          {
+            "item": 0,
+            "types": [
+              "com.example.pbjpaste-verification.raw"
+            ]
+          }
+        ],
+        "preserved": true
+      }
+    },
+    {
+      "action": "pbjpaste -t com.example.pbjpaste-verification.raw",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 9,
+          "sha256": "59c6278b95c18c470667571d8c37faf12502375060eaf96cc881e9473895e17a"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "exact type has no conformance fallback",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "unsupported default format is empty success",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.html": [
+            {
+              "bytes": 30,
+              "sha256": "2ebe55b32befb14564eef9673b500f6758f38c41238094a28fd8c377b1f14af9"
+            }
+          ],
+          "public.utf8-plain-text": [
+            {
+              "bytes": 23,
+              "sha256": "a22975d1549c65e952c6c34e2fa1edf9dc7e17d41604e5efcd294529578f992b"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "pbjpaste --list-types ",
+      "observed": {
+        "items": [
+          {
+            "item": 0,
+            "types": [
+              "public.html",
+              "public.utf8-plain-text"
+            ]
+          }
+        ],
+        "preserved": true
+      }
+    },
+    {
+      "action": "pbjpaste ",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 23,
+          "sha256": "a22975d1549c65e952c6c34e2fa1edf9dc7e17d41604e5efcd294529578f992b"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --type public.html",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 30,
+          "sha256": "2ebe55b32befb14564eef9673b500f6758f38c41238094a28fd8c377b1f14af9"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --type public.utf8-plain-text",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 23,
+          "sha256": "a22975d1549c65e952c6c34e2fa1edf9dc7e17d41604e5efcd294529578f992b"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "exact generic text type does not use advertised HTML or UTF8 text",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "missing preferred PS falls back to text",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 23,
+          "sha256": "a22975d1549c65e952c6c34e2fa1edf9dc7e17d41604e5efcd294529578f992b"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.rtf": [
+            {
+              "bytes": 36,
+              "sha256": "2c3b57473fffba7ea3378ff493f9927d4156ccc990ed8192b9fb0b1987a1ece8"
+            }
+          ],
+          "public.utf8-plain-text": [
+            {
+              "bytes": 22,
+              "sha256": "e6fe08be9e618b517a235d3d805d3bae9e8219dc5605fff85e1c2eea61a29bc0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "pbjpaste ",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 22,
+          "sha256": "e6fe08be9e618b517a235d3d805d3bae9e8219dc5605fff85e1c2eea61a29bc0"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --prefer rtf",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 36,
+          "sha256": "2c3b57473fffba7ea3378ff493f9927d4156ccc990ed8192b9fb0b1987a1ece8"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --prefer ps",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 22,
+          "sha256": "e6fe08be9e618b517a235d3d805d3bae9e8219dc5605fff85e1c2eea61a29bc0"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "com.adobe.encapsulated-postscript": [
+            {
+              "bytes": 52,
+              "sha256": "e5d0a10a23c6144cd0fb866fe69a458356b6cf0bc9320629ccd819ade9a25277"
+            }
+          ],
+          "public.utf8-plain-text": [
+            {
+              "bytes": 21,
+              "sha256": "2cb3762477357498ae08c3c124b17ee772823e565a6dd1c639260f4ce1a8b1b4"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "pbjpaste -Prefer ps",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 52,
+          "sha256": "e5d0a10a23c6144cd0fb866fe69a458356b6cf0bc9320629ccd819ade9a25277"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --prefer txt",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 21,
+          "sha256": "2cb3762477357498ae08c3c124b17ee772823e565a6dd1c639260f4ce1a8b1b4"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --prefer ascii",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 21,
+          "sha256": "2cb3762477357498ae08c3c124b17ee772823e565a6dd1c639260f4ce1a8b1b4"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.rtf": [
+            {
+              "bytes": 36,
+              "sha256": "2c3b57473fffba7ea3378ff493f9927d4156ccc990ed8192b9fb0b1987a1ece8"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "native RTF-derived flavor availability",
+      "observed": {
+        "advertised": true,
+        "payload_available": false
+      }
+    },
+    {
+      "action": "pbjpaste --list-types ",
+      "observed": {
+        "items": [
+          {
+            "item": 0,
+            "types": [
+              "public.rtf",
+              "public.utf16-external-plain-text",
+              "public.utf8-plain-text"
+            ]
+          }
+        ],
+        "preserved": true
+      }
+    },
+    {
+      "action": "exact unavailable or unadvertised derived text never falls back",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "default skips unavailable derived text and reads stored RTF",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 36,
+          "sha256": "2c3b57473fffba7ea3378ff493f9927d4156ccc990ed8192b9fb0b1987a1ece8"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --type public.rtf",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 36,
+          "sha256": "2c3b57473fffba7ea3378ff493f9927d4156ccc990ed8192b9fb0b1987a1ece8"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "com.adobe.encapsulated-postscript": [
+            {
+              "bytes": 52,
+              "sha256": "e5d0a10a23c6144cd0fb866fe69a458356b6cf0bc9320629ccd819ade9a25277"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "pbjpaste ",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 52,
+          "sha256": "e5d0a10a23c6144cd0fb866fe69a458356b6cf0bc9320629ccd819ade9a25277"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "missing RTF preference falls back to EPS",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 52,
+          "sha256": "e5d0a10a23c6144cd0fb866fe69a458356b6cf0bc9320629ccd819ade9a25277"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "com.adobe.encapsulated-postscript": [
+            {
+              "bytes": 52,
+              "sha256": "e5d0a10a23c6144cd0fb866fe69a458356b6cf0bc9320629ccd819ade9a25277"
+            }
+          ],
+          "public.rtf": [
+            {
+              "bytes": 52,
+              "sha256": "e5d0a10a23c6144cd0fb866fe69a458356b6cf0bc9320629ccd819ade9a25277"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "default preserves shared EPS and RTF representation bytes",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 52,
+          "sha256": "e5d0a10a23c6144cd0fb866fe69a458356b6cf0bc9320629ccd819ade9a25277"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "RTF preference preserves shared rich bytes",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 52,
+          "sha256": "e5d0a10a23c6144cd0fb866fe69a458356b6cf0bc9320629ccd819ade9a25277"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.utf8-plain-text": [
+            {
+              "bytes": 14,
+              "sha256": "9a5744195e076951c3719980f039bcbe46bbca8a3742310c171a1622c6d213ec"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "pbjpaste ",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 14,
+          "sha256": "9a5744195e076951c3719980f039bcbe46bbca8a3742310c171a1622c6d213ec"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "LC_ALL overrides LC_CTYPE and LANG",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 13,
+          "sha256": "99130b770045c57533709bfbbdf0b84645eeb97b6e5600d3e7821209719a3b81"
+        },
+        "preserved": true,
+        "environment": {
+          "LC_ALL": "fr_FR.ISO8859-1",
+          "LC_CTYPE": "C",
+          "LANG": "C"
+        }
+      }
+    },
+    {
+      "action": "LC_CTYPE overrides LANG",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 13,
+          "sha256": "99130b770045c57533709bfbbdf0b84645eeb97b6e5600d3e7821209719a3b81"
+        },
+        "preserved": true,
+        "environment": {
+          "LC_ALL": "",
+          "LC_CTYPE": "fr_FR.ISO8859-1",
+          "LANG": "C"
+        }
+      }
+    },
+    {
+      "action": "LANG locale fallback",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 13,
+          "sha256": "99130b770045c57533709bfbbdf0b84645eeb97b6e5600d3e7821209719a3b81"
+        },
+        "preserved": true,
+        "environment": {
+          "LC_ALL": "",
+          "LC_CTYPE": "",
+          "LANG": "fr_FR.ISO8859-1"
+        }
+      }
+    },
+    {
+      "action": "exact bytes bypass locale",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 14,
+          "sha256": "9a5744195e076951c3719980f039bcbe46bbca8a3742310c171a1622c6d213ec"
+        },
+        "preserved": true,
+        "environment": {
+          "LC_ALL": "fr_FR.ISO8859-1",
+          "LC_CTYPE": "C",
+          "LANG": "C"
+        }
+      }
+    },
+    {
+      "action": "unrepresentable locale text fails without partial output",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {
+          "LC_ALL": "C",
+          "LANG": "en_AU.UTF-8"
+        }
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.utf8-plain-text": [
+            {
+              "bytes": 14,
+              "sha256": "8bbe9284e847164f4013b2c924f98953d8d2e85498afb8add1af0a0a5c83afa3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "unset locale falls back to C",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 14,
+          "sha256": "8bbe9284e847164f4013b2c924f98953d8d2e85498afb8add1af0a0a5c83afa3"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.utf8-plain-text": [
+            {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "pbjpaste ",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --type public.utf8-plain-text",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --list-types ",
+      "observed": {
+        "items": [
+          {
+            "item": 0,
+            "types": [
+              "public.utf8-plain-text"
+            ]
+          }
+        ],
+        "preserved": true
+      }
+    },
+    {
+      "action": "native clearContents of generated fixture",
+      "observed": {
+        "items": 0
+      }
+    },
+    {
+      "action": "pbjpaste --list-types ",
+      "observed": {
+        "items": [],
+        "preserved": true
+      }
+    },
+    {
+      "action": "empty clipboard default is empty success",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --type public.utf8-plain-text",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --files",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --item 0",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.utf8-plain-text": [
+            {
+              "bytes": 26,
+              "sha256": "dd7402f11de97927469f8cb46df583de0f760c97f623ab1084cc045f020da51a"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "pbjpaste -pboard general",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 26,
+          "sha256": "dd7402f11de97927469f8cb46df583de0f760c97f623ab1084cc045f020da51a"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --pboard general --item 0",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 26,
+          "sha256": "dd7402f11de97927469f8cb46df583de0f760c97f623ab1084cc045f020da51a"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --list-types --pboard general --item 0",
+      "observed": {
+        "items": [
+          {
+            "item": 0,
+            "types": [
+              "public.utf8-plain-text"
+            ]
+          }
+        ],
+        "preserved": true
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 2,
+        "payloads": {
+          "public.file-url": [
+            {
+              "bytes": 61,
+              "sha256": "b800d5928d50d56ff9b214453a3a63394f6ab51b0f32660987a256a2726018b6"
+            },
+            {
+              "bytes": 57,
+              "sha256": "62333586bdd9e7fe2347179ad01a0bd45cf2482db189a3290ae231bcf288b65e"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "pbjpaste --list-types ",
+      "observed": {
+        "items": [
+          {
+            "item": 0,
+            "types": [
+              "public.file-url"
+            ]
+          },
+          {
+            "item": 1,
+            "types": [
+              "public.file-url"
+            ]
+          }
+        ],
+        "preserved": true
+      }
+    },
+    {
+      "action": "pbjpaste --list-types --item 1",
+      "observed": {
+        "items": [
+          {
+            "item": 1,
+            "types": [
+              "public.file-url"
+            ]
+          }
+        ],
+        "preserved": true
+      }
+    },
+    {
+      "action": "ordered multi-item file paths with spaces",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 102,
+          "sha256": "708afd6e96dece7a0573df58d02efaa5a7c2da555e76ee380d8e9f99f9006d1f"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "ordered file paths with trailing NUL",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 102,
+          "sha256": "e4429fbf1e1772aa1e7178a04ab43af21514c5fc08a1fd9e1490bbdcbde07ea6"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "file subset by item",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 51,
+          "sha256": "25e9f75d4f6902bbaae6059f46cb4c9c19d0afd459b4a70c9a09a5a5d0d5c018"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "NUL file subset by item",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 51,
+          "sha256": "98a202d5e9c8559f3ab57d57d4b851c5b1431fd831ce08fe61ae2f7cc4e2a273"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "ambiguous default multi-item extraction rejected",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "ambiguous exact multi-item extraction rejected",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "exact selected file URL bytes",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 57,
+          "sha256": "62333586bdd9e7fe2347179ad01a0bd45cf2482db189a3290ae231bcf288b65e"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "selected default without a supported format is empty success",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --item 2",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --list-types --item 2",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --files --item 2",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 2,
+        "payloads": {
+          "public.file-url": [
+            {
+              "bytes": 61,
+              "sha256": "b800d5928d50d56ff9b214453a3a63394f6ab51b0f32660987a256a2726018b6"
+            },
+            {
+              "bytes": 59,
+              "sha256": "8c21fac25c77dec3cf602a3b542fab896923a0db23fc6bd71b8bded0fd714d0c"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "newline path rejected before any stdout",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "newline path preserved by NUL separation",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 102,
+          "sha256": "c61cd102ef8d9782cb14236ffa4a5a32acffbd3457b8a47ce17bcfa49c9a6116"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "selected safe path ignores other newline path",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 51,
+          "sha256": "b36f80e7f8acc8bf0e03a97566e764adb31d40110e786918bd22c0227a1aafde"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "file reference extraction does not require target existence",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 102,
+          "sha256": "c61cd102ef8d9782cb14236ffa4a5a32acffbd3457b8a47ce17bcfa49c9a6116"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 4,
+        "payloads": {
+          "public.file-url": [
+            {
+              "bytes": 84,
+              "sha256": "7deea0a842a441e56dbdff00794fefc984db5d11d75e4c7c5ec706a43dc07aeb"
+            },
+            {
+              "bytes": 61,
+              "sha256": "98a8e7221b6e83ec9a5fc8970a6c5c03f11916b5d84381e4c34c3739871e4325"
+            },
+            {
+              "bytes": 61,
+              "sha256": "5895399e5efe5eeac7d7d7764e0c58b3021147dd4d7caa00dc9ea427c6fe2259"
+            },
+            {
+              "bytes": 66,
+              "sha256": "fa966f9b7d2ee5e25f1e3180259b3726685cb72287df45f4c8af8325da8f1128"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "filesystem paste of multiple files, directory, and symlink",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "inspect copied filesystem objects",
+      "observed": {
+        "binary": {
+          "bytes": 256,
+          "sha256": "40aff2e9d2d8922e47afd4648e6967497158785fbd1da870e7110266bf944880"
+        },
+        "recursive": {
+          "bytes": 23,
+          "sha256": "60d90242892d12980dc5cf34e5e5ad9ee3f2605c3a2499766077d0e10bd20a1e"
+        },
+        "empty": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "names_with_spaces_unicode_newlines": true,
+        "symlinks_preserved": true,
+        "mode_mtime_xattr_preserved": true
+      }
+    },
+    {
+      "action": "repeat paste refuses existing names",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "filesystem item selection",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.file-url": [
+            {
+              "bytes": 84,
+              "sha256": "7deea0a842a441e56dbdff00794fefc984db5d11d75e4c7c5ec706a43dc07aeb"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "refuse existing file destination",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "refuse existing directory destination",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "refuse existing symlink destination",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "reject missing destination",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "reject nondirectory destination",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 3,
+        "payloads": {
+          "public.file-url": [
+            {
+              "bytes": 84,
+              "sha256": "7deea0a842a441e56dbdff00794fefc984db5d11d75e4c7c5ec706a43dc07aeb"
+            },
+            {
+              "bytes": 74,
+              "sha256": "a9d9d26b86ea9cd140ead4af5bd32a528bac713e7a72bf44c0872aadfbcf1c21"
+            },
+            {
+              "bytes": 61,
+              "sha256": "98a8e7221b6e83ec9a5fc8970a6c5c03f11916b5d84381e4c34c3739871e4325"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "missing source stops batch after earlier successful copy",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.file-url": [
+            {
+              "bytes": 61,
+              "sha256": "5895399e5efe5eeac7d7d7764e0c58b3021147dd4d7caa00dc9ea427c6fe2259"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "reject destination inside source through symlink",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "unreadable subtree prevents top-level publication",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.file-url": [
+            {
+              "bytes": 64,
+              "sha256": "c2fbcdf320364c4d1c667989d2353356d39f22701d41a793f2bf21bb5e3b3a10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "unsupported FIFO fails without publication",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "filesystem failure safety",
+      "observed": {
+        "no_overwrite": true,
+        "partial_success_documented": true,
+        "failed_object_not_published": true,
+        "clipboard_generation_and_bytes_preserved": true
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.file-url": [
+            {
+              "bytes": 84,
+              "sha256": "7deea0a842a441e56dbdff00794fefc984db5d11d75e4c7c5ec706a43dc07aeb"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "destination symlink followed before parent traversal",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.file-url": [
+            {
+              "bytes": 68,
+              "sha256": "4591bb569f86373baa09b93296a04bb959cd90f51db474b22003ca90fecb4fe6"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "source parents resolved without dereferencing final object: payload",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.file-url": [
+            {
+              "bytes": 71,
+              "sha256": "2f9fba178c5c40ba28738651a89e650335eb25ece65212338648b3674cf740a2"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "source parents resolved without dereferencing final object: final-link",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "physical path traversal",
+      "observed": {
+        "destination_symlink_parent_resolved": true,
+        "raw_file_url_source_parent_resolved": true,
+        "final_source_symlink_preserved": true
+      }
+    },
+    {
+      "action": "pbjcopy seed",
+      "observed": {
+        "board": "general",
+        "items": 1,
+        "payloads": {
+          "public.utf8-plain-text": [
+            {
+              "bytes": 40,
+              "sha256": "0c7dacbc3eeb5c3196ee5a2e9c27a40799c9c7d0fb737568198310df21438487"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "action": "pbjpaste --type com.example.pbjpaste-verification.raw",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --files",
+      "observed": {
+        "exit": 1,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --type ",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --type",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --item -1",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --item no",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --pboard unknown",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --prefer html",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --null",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste operand",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste -- operand",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --unknown",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --type public.utf8-plain-text --files",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --type public.utf8-plain-text --prefer txt",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --files --prefer txt",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --list-types --type public.utf8-plain-text",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --list-types --files",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --list-types --prefer txt",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --list-types --null",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --help --version",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --help --item 0",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --version --pboard general",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --help operand",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --version --list-types",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --to",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --to ",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --to . --files",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --to . --null",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --to . --type public.file-url",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --to . --list-types",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --to . --prefer txt",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --to . --help",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --to . --version",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --type public.utf8-plain-text --type public.utf8-plain-text",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --item 0 --item 0",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --pboard general --pboard general",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --prefer txt --prefer txt",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --to . --to .",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --files --files",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --files=false",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --null --null",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --null=false",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --list-types --list-types",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --list-types=false",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --help --help",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --help=false",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --version --version",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste --version=false",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste -t public.utf8-plain-text --type public.utf8-plain-text",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste -h --help",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste -v --version",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste -pboard general --pboard general",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste -Prefer txt --prefer txt",
+      "observed": {
+        "exit": 2,
+        "stdout": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    },
+    {
+      "action": "pbjpaste ",
+      "observed": {
+        "exit": 0,
+        "stdout": {
+          "bytes": 40,
+          "sha256": "0c7dacbc3eeb5c3196ee5a2e9c27a40799c9c7d0fb737568198310df21438487"
+        },
+        "preserved": true,
+        "environment": {}
+      }
+    }
+  ],
+  "unexercised": [
+    "find, ruler, and font pasteboards: general-only clipboard consent"
+  ],
+  "clipboard_reset": true,
+  "clipboard_reset_boards": [
+    "general"
+  ],
+  "clipboard_untouched": false,
+  "scratch_removed": true,
+  "errors": []
+}

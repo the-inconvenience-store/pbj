@@ -5,7 +5,7 @@
 | Surface | Choose it for | Route |
 | --- | --- | --- |
 | pbjcopy CLI | Copying stdin, rich representations, file references, and CLI errors | [Launch, Doctor, Drive, Evidence, Cleanup, Isolation](pbjcopy/README.md) |
-| pbjpaste CLI | Extracting exact/default representations, item metadata, file paths, and read-only CLI failures | [Launch, Doctor, Drive, Evidence, Cleanup, Isolation](pbjpaste/README.md) |
+| pbjpaste CLI | Extracting representations/metadata/paths, copying references to disk, and failure safety | [Launch, Doctor, Drive, Evidence, Cleanup, Isolation](pbjpaste/README.md) |
 | Release / Homebrew | Author-free release notes, versioned source/assets, actual source-built installation, and publication boundaries | [Launch, Doctor, Drive, Evidence, Cleanup, Isolation](release/README.md) |
 
 
@@ -45,6 +45,10 @@ downloaded asset/version checks are also **VERIFIED**, including the tap write.
 
 ## Evidence
 
+- [Filesystem paste and full paste regression proof](evidence/issue-1-filesystem-paste/report.json),
+  **VERIFIED**: 160 real CLI actions covering no-clobber copying, recursive contents,
+  metadata/symlinks, physical parent traversal, partial success, and unchanged
+  clipboard generations/payloads. General clipboard reset and scratch cleanup succeeded.
 - [Stdin file attachments and Mail paste](evidence/issue-2-attachments/report.json),
   **VERIFIED**: exact post-exit backing bytes, names, private permissions,
   retention, failure preservation, and a named attachment in an unsent message.

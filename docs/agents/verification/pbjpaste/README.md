@@ -2,8 +2,9 @@
 
 **Rename/information VERIFIED:** [read-only information checks](../evidence/rename-2026-11-09/pbjpaste-information/report.json)
 and [source installation](../evidence/rename-2026-11-09/report.json).
-Clipboard extraction and preservation remain **UNEXERCISED AFTER RENAME**;
-retired captures are not claimed as a new live run.
+[Filesystem paste and all extraction/preservation groups](../evidence/issue-1-filesystem-paste/report.json)
+are **VERIFIED** on macOS/arm64, including symlink-parent traversal regressions.
+Find/ruler/font remain unexercised under general-only consent.
 
 ## Surface
 

@@ -2,7 +2,8 @@
 
 **Information VERIFIED:** [fresh read-only proof](../../evidence/rename-2026-11-09/pbjpaste-information/report.json).
 [Source installation/name proof](../../evidence/rename-2026-11-09/report.json) is also
-VERIFIED. Clipboard outcomes remain **UNEXERCISED AFTER RENAME**.
+VERIFIED. [Filesystem paste and all clipboard extraction/preservation groups](../../evidence/issue-1-filesystem-paste/report.json)
+are **VERIFIED** on macOS/arm64 for the general pasteboard.
 Use [surface instructions](../README.md) for Launch, Doctor, Evidence, Cleanup,
 and Isolation.
 

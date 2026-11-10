@@ -1,5 +1,8 @@
 # Paste referenced filesystem objects
 
+**VERIFIED:** [full real-CLI proof](../../evidence/issue-1-filesystem-paste/report.json)
+on macOS/arm64, including physical parent traversal and clipboard preservation.
+
 ## User outcome
 
 `pbjpaste --to DIR` copies selected local file references into an existing
